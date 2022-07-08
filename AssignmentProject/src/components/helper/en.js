@@ -1,0 +1,17 @@
+export default {
+  loginTitle: 'Login',
+  regTitle: 'Register',
+  login: 'login',
+  reg: 'register',
+  emailPlaceholder: 'Email....',
+  nextBtn: 'Next',
+  pwdPlaceholder: 'Password....',
+  confirmPwdPlaceholder: 'Confirm Password....',
+  toRegister: "You don't have any account please ",
+  toLogin: 'Already account please ',
+  copyRight: 'Developed by',
+  securityTitle: 'Security',
+  secReg: 'Register',
+  secLogin: 'Login',
+  secBack: 'Back',
+};

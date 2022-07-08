@@ -1,0 +1,17 @@
+export default {
+  loginTitle: 'အကောင့်ဝင်ရန်',
+  regTitle: 'အကောင့်ဖွင့်ရန်',
+  login: 'အကောင့်ဝင်ရန် နှိပ်ပါ',
+  reg: 'အကောင့်ဖွင့်ရန် နှိပ်ပါ',
+  emailPlaceholder: 'အီးမေးလ်....',
+  nextBtn: 'ဆက်ရန်',
+  pwdPlaceholder: 'စကားဝှက်....',
+  confirmPwdPlaceholder: 'စကားဝှက်....',
+  toRegister: 'အကောင့်မရှိပါက ',
+  toLogin: 'အကောင့်ရှိလျှင် ',
+  copyRight: 'ဖန်တီးသူ',
+  securityTitle: 'လုံခြုံရေး',
+  secReg: 'အကောင့်ဖွင့်ရန်',
+  secLogin: 'အကောင့်ဝင်ရန်',
+  secBack: 'နောက်သို့',
+};
