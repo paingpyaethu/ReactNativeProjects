@@ -43,7 +43,7 @@ const productList = props => {
           </View>
           <TouchableOpacity
             style={styles.addtoCartBtn}
-            onPress={props.addToCartAction}>
+            onPress={() => props.addToCartAction(item)}>
             <Cart width={wp(4)} height={hp(2)} />
             <Text style={styles.addtoCart}>{props.addToCartTitle}</Text>
           </TouchableOpacity>

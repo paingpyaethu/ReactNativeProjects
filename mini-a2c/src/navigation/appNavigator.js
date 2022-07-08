@@ -6,10 +6,10 @@ import {NavigationContainer} from '@react-navigation/native';
 
 // Stack
 import AuthStack from './stack/AuthStack';
-import DashboardStack from './stack/DashboardStack';
 import {appStorage} from '../utils';
 import {Provider} from 'react-redux';
 import store from '../store';
+import TabNavigator from './tabs/TabNavigator';
 
 const appNavigator = () => {
   const [lang, setLang] = useState('en');
@@ -66,7 +66,7 @@ const appNavigator = () => {
       <Provider store={store}>
         <AuthContext.Provider value={context}>
           <NavigationContainer>
-            <DashboardStack />
+            <TabNavigator />
           </NavigationContainer>
         </AuthContext.Provider>
       </Provider>

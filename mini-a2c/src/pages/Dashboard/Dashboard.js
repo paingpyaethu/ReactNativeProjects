@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity, ToastAndroid} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // Components
 import styles from './Style';
 import {AuthContext} from '@context/context';
@@ -20,10 +20,12 @@ const Dashboard = ({navigation}) => {
 
   const local = useLocal();
   const dispatch = useDispatch();
+  const products = useSelector(state => state.productList.products);
 
   useEffect(() => {
     getData();
-  }, []);
+    dispatch(ActionProducts.addProducts(Products));
+  }, [dispatch, products]);
 
   const getData = () => {
     try {
@@ -43,7 +45,8 @@ const Dashboard = ({navigation}) => {
     }
   };
 
-  const addToCartHandler = () => {
+  const addToCartHandler = value => {
+    dispatch(ActionProducts.orderProducts(value));
     ToastAndroid.show(local.successAdded, ToastAndroid.SHORT);
   };
   const detailHandler = value => {
@@ -61,7 +64,7 @@ const Dashboard = ({navigation}) => {
       />
       {/* product list */}
       <ProductList
-        data={Products}
+        data={products}
         priceTitle={local.price}
         addToCartTitle={local.addToCart}
         addToCartAction={addToCartHandler}

@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 // Components
 import {useLocal} from '../../hook';
@@ -15,11 +15,15 @@ import Cart from '@assets/icons/cart';
 // Style
 import styles from './style';
 
+//From Redux Action
+import {orderProducts} from '../../store/action/Product';
+
 const ProductDetailScreen = ({route}) => {
   const {data} = route.params;
   const local = useLocal();
   const [photos, setPhotos] = useState([]);
 
+  const dispatch = useDispatch();
   const products = useSelector(state => state.productList.products);
 
   useEffect(() => {
@@ -71,7 +75,9 @@ const ProductDetailScreen = ({route}) => {
   //   console.log('response data ::', response);
   // };
 
-  const addToCart = () => {
+  const addToCart = value => {
+    dispatch(orderProducts(value));
+    console.log('ProductDetailId :::: ', value);
     ToastAndroid.show(local.successAdded, ToastAndroid.SHORT);
   };
 
@@ -88,7 +94,9 @@ const ProductDetailScreen = ({route}) => {
             {local.price} - {data.price} {data.currency}
           </Text>
         </View>
-        <TouchableOpacity style={styles.btnContainer} onPress={addToCart}>
+        <TouchableOpacity
+          style={styles.btnContainer}
+          onPress={() => addToCart(data)}>
           <Cart width={wp(5)} height={hp(3)} />
           <Text style={styles.addToCartTitle}>{local.addToCart}</Text>
         </TouchableOpacity>
