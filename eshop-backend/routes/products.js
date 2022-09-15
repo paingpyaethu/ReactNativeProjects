@@ -5,7 +5,11 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find();
+  let filter = {};
+  if (req.query.categories) {
+    filter = { category: req.query.categories.split(",") };
+  }
+  const productList = await Product.find(filter).populate("category");
   if (!productList) {
     res.status(500).json({ success: false, message: "Product not found" });
   }
