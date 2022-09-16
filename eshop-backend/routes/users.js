@@ -42,7 +42,38 @@ router.post("/", async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "User cannot be created" });
-  res.send(user);
+  res.status(200).send({
+    success: true,
+    message: "User created successfully!",
+    data: user,
+  });
+});
+
+router.post("/register", async (req, res) => {
+  let user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    passwordHash: bcrypt.hashSync(req.body.password, 10),
+    phone: req.body.phone,
+    isAdmin: req.body.isAdmin,
+    street: req.body.street,
+    apartment: req.body.apartment,
+    zip: req.body.zip,
+    city: req.body.city,
+    country: req.body.country,
+  });
+
+  user = await user.save();
+
+  if (!user)
+    return res
+      .status(400)
+      .json({ success: false, message: "User cannot be created" });
+  res.status(200).send({
+    success: true,
+    message: "User created successfully!",
+    data: user,
+  });
 });
 
 router.post("/login", async (req, res) => {
