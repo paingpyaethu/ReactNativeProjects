@@ -11,7 +11,7 @@ import {getPopularMovies, getUpcomingMovies} from '../services/services';
 import {SliderBox} from 'react-native-image-slider-box';
 import List from '../components/List';
 
-const Home = () => {
+const HomeScreen = () => {
   const [moviesImages, setMoviesImages] = useState('');
   const [popularMovies, setPopularMovies] = useState('');
   const [error, setError] = useState(false);
@@ -50,7 +50,7 @@ const Home = () => {
         />
       </View>
       <View style={styles.carousel}>
-        <List title="Populer Movies" content={popularMovies} />
+        <List title="Popular Movies" content={popularMovies} />
       </View>
     </ScrollView>
   );
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeScreen;

@@ -1,7 +1,12 @@
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import React from 'react';
+import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
 
+const propTypes = {
+  item: PropTypes.object,
+};
 const Card = props => {
+  // console.log(props.item);
   const placeholderImage = require('../../assets/images/placeholder.png');
   return (
     <View>
@@ -45,5 +50,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+Card.propTypes = propTypes;
 
 export default Card;
