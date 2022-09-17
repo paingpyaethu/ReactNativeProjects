@@ -20,7 +20,6 @@ const propTypes = {
 // }
 
 const List = props => {
-  console.log('Title', props.title);
   return (
     <View style={styles.listContainer}>
       <View>
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingBottom: 5,
+    marginLeft: 5,
   },
 });
 
