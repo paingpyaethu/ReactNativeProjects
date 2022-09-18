@@ -15,6 +15,7 @@ import {
 } from '../services/services';
 import {SliderBox} from 'react-native-image-slider-box';
 import List from '../components/List';
+import Error from '../components/Error';
 
 const HomeScreen = () => {
   const [moviesImages, setMoviesImages] = useState();
@@ -58,8 +59,8 @@ const HomeScreen = () => {
           setCrimeMovies(crimeMoviesData);
         },
       )
-      .catch(err => {
-        setError(err);
+      .catch(() => {
+        setError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -67,7 +68,7 @@ const HomeScreen = () => {
   }, []);
   return (
     <>
-      {!loading ? (
+      {!loading && !error && (
         <ScrollView style={styles.container}>
           {/* Upcoming Movies */}
           {moviesImages && (
@@ -110,9 +111,9 @@ const HomeScreen = () => {
             </View>
           )}
         </ScrollView>
-      ) : (
-        <ActivityIndicator size="large" />
       )}
+      {loading && <ActivityIndicator size="large" />}
+      {error && <Error />}
     </>
   );
 };
