@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   Dimensions,
   ScrollView,
-  SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import {
   getCrimeMovies,
@@ -24,6 +23,7 @@ const HomeScreen = () => {
   const [familyMovies, setFamilyMovies] = useState();
   const [crimeMovies, setCrimeMovies] = useState();
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dimension = Dimensions.get('screen');
 
   const getData = () => {
@@ -60,52 +60,59 @@ const HomeScreen = () => {
       )
       .catch(err => {
         setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
   return (
     <>
-      <ScrollView style={styles.container}>
-        {/* Upcoming Movies */}
-        {moviesImages && (
-          <View style={styles.sliderContainer}>
-            <SliderBox
-              images={moviesImages}
-              autoplay={true}
-              circleLoop={true}
-              sliderBoxHeight={dimension.height / 1.5}
-              dotStyle={styles.dotStyle}
-            />
-          </View>
-        )}
+      {!loading ? (
+        <ScrollView style={styles.container}>
+          {/* Upcoming Movies */}
+          {moviesImages && (
+            <View style={styles.sliderContainer}>
+              <SliderBox
+                images={moviesImages}
+                autoplay={true}
+                circleLoop={true}
+                sliderBoxHeight={dimension.height / 1.3}
+                dotStyle={styles.dotStyle}
+              />
+            </View>
+          )}
 
-        {/* Popular Movies */}
-        {popularMovies && (
-          <View style={styles.carousel}>
-            <List title="Popular Movies" content={popularMovies} />
-          </View>
-        )}
+          {/* Popular Movies */}
+          {popularMovies && (
+            <View style={styles.carousel}>
+              <List title="Popular Movies" content={popularMovies} />
+            </View>
+          )}
 
-        {/* Popular TV Shows */}
-        {popularTv && (
-          <View style={styles.carousel}>
-            <List title="Popular TV Shows" content={popularTv} />
-          </View>
-        )}
+          {/* Popular TV Shows */}
+          {popularTv && (
+            <View style={styles.carousel}>
+              <List title="Popular TV Shows" content={popularTv} />
+            </View>
+          )}
 
-        {/* Family Movies */}
-        {familyMovies && (
-          <View style={styles.carousel}>
-            <List title="Family Movies" content={familyMovies} />
-          </View>
-        )}
+          {/* Family Movies */}
+          {familyMovies && (
+            <View style={styles.carousel}>
+              <List title="Family Movies" content={familyMovies} />
+            </View>
+          )}
 
-        {/* Crime Movies */}
-        {crimeMovies && (
-          <View style={styles.carousel}>
-            <List title="Crime Movies" content={crimeMovies} />
-          </View>
-        )}
-      </ScrollView>
+          {/* Crime Movies */}
+          {crimeMovies && (
+            <View style={styles.carousel}>
+              <List title="Crime Movies" content={crimeMovies} />
+            </View>
+          )}
+        </ScrollView>
+      ) : (
+        <ActivityIndicator size="large" />
+      )}
     </>
   );
 };
