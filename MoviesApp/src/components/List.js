@@ -28,7 +28,9 @@ const List = props => {
       <View>
         <FlatList
           data={props.content}
-          renderItem={({item}) => <Card item={item} />}
+          renderItem={({item}) => (
+            <Card item={item} navigation={props.navigation} />
+          )}
           horizontal={true}
         />
       </View>

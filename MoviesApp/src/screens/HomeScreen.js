@@ -17,7 +17,7 @@ import {SliderBox} from 'react-native-image-slider-box';
 import List from '../components/List';
 import Error from '../components/Error';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [moviesImages, setMoviesImages] = useState();
   const [popularMovies, setPopularMovies] = useState();
   const [popularTv, setPopularTv] = useState();
@@ -86,28 +86,44 @@ const HomeScreen = () => {
           {/* Popular Movies */}
           {popularMovies && (
             <View style={styles.carousel}>
-              <List title="Popular Movies" content={popularMovies} />
+              <List
+                navigation={navigation}
+                title="Popular Movies"
+                content={popularMovies}
+              />
             </View>
           )}
 
           {/* Popular TV Shows */}
           {popularTv && (
             <View style={styles.carousel}>
-              <List title="Popular TV Shows" content={popularTv} />
+              <List
+                navigation={navigation}
+                title="Popular TV Shows"
+                content={popularTv}
+              />
             </View>
           )}
 
           {/* Family Movies */}
           {familyMovies && (
             <View style={styles.carousel}>
-              <List title="Family Movies" content={familyMovies} />
+              <List
+                navigation={navigation}
+                title="Family Movies"
+                content={familyMovies}
+              />
             </View>
           )}
 
           {/* Crime Movies */}
           {crimeMovies && (
             <View style={styles.carousel}>
-              <List title="Crime Movies" content={crimeMovies} />
+              <List
+                navigation={navigation}
+                title="Crime Movies"
+                content={crimeMovies}
+              />
             </View>
           )}
         </ScrollView>

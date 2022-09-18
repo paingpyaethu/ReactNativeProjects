@@ -36,3 +36,8 @@ export const getCrimeMovies = async () => {
   );
   return res.data.results;
 };
+
+export const getMovies = async id => {
+  const res = await axios.get(`${apiUrl}/movie/${id}?${apiKey}`);
+  return res.data;
+};
