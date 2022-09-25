@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
   View,
+  Text,
   StyleSheet,
   Dimensions,
   ScrollView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {
   getCrimeMovies,

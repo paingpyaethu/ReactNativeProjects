@@ -41,3 +41,11 @@ export const getMovies = async id => {
   const res = await axios.get(`${apiUrl}/movie/${id}?${apiKey}`);
   return res.data;
 };
+
+//Search Movies & Tv
+export const searchMovieTv = async (query, type) => {
+  const res = await axios.get(
+    `${apiUrl}/search/${type}?${apiKey}&query=${query}`,
+  );
+  return res.data.results;
+};
