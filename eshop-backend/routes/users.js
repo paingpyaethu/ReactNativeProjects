@@ -78,7 +78,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  const secret = process.env.USER_SECRET;
+  const secret = process.env.JWT_SECRET;
 
   if (!user)
     return res.status(400).json({ success: false, message: "User Not Found" });
@@ -124,7 +124,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get(`/get/count`, async (req, res) => {
-  const userCount = await User.countDocuments((count) => count);
+  const userCount = await User.countDocuments();
 
   if (!userCount) {
     return res.status(500).json({
