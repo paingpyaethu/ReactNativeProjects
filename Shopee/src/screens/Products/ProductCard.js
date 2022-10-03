@@ -7,12 +7,14 @@ import {
   Button,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 
 var {width} = Dimensions.get('window');
 const ProductCard = props => {
   const {name, price, image, countInStock} = props;
+
   return (
     <TouchableOpacity style={styles.container}>
       <Image
@@ -21,9 +23,10 @@ const ProductCard = props => {
         source={{
           uri: image
             ? image
-            : 'https://o.remove.bg/downloads/e375c48c-e956-4e7b-97d7-57cd5915f9e2/Flint-and-Tinder-bone-button-Western-shirt-removebg-preview.png',
+            : 'https://www.pngkey.com/png/full/110-1102882_black-box-outline-open-card-white-cartoon-empty.png',
         }}
       />
+
       <View style={styles.card} />
       {/* <Text>{-width / 26}</Text> */}
       <Text style={styles.title}>

@@ -5,7 +5,7 @@
         } ,
         "name": "product one",
         "description": "product one description",
-        "image": "https://o.remove.bg/downloads/51a0d1d6-5b3e-42df-9c0a-9de62f300569/oqxtef1626145496326-removebg-preview.png",
+        "image": "https://ae01.alicdn.com/kf/He5bade0787054b5c8a5629c9181aedfb6/2020-Fashion-Print-Men-Long-Sleeve-Shirt-Spring-Causal-Pocket-Design-Male-Shirt-Men-Dress-Slim.png_.webp",
         "brand": "product one brand",
         "price": 300,
         "category": {
@@ -24,7 +24,7 @@
         },
         "name": "product two",
         "description": "product two description",
-        "image": "https://o.remove.bg/downloads/eacc6a6b-1db2-41fd-be3a-204800c08d65/MedRognir-Bog-Oak202109100258272201-removebg-preview.png",
+        "image": "https://jasper-pimstorage-skullcandy.s3.us-west-1.amazonaws.com/e038b48fe119bdba8c355b6839d308cb6a80f4a21bcec270f5c650a11434b35e.png",
         "brand": "product two brand",
         "price": 100,
         "category": {
@@ -43,13 +43,13 @@
         },
         "name": "product three",
         "description": "product three description",
-        "image": "https://o.remove.bg/downloads/3133d300-ec6b-49f5-9d91-189f0817d77b/istockphoto-1343896968-612x612-removebg-preview.png",
+        "image": "https://assets.theplace.com/image/upload/t_plp_img_m,f_auto,q_auto/v1/ecom/assets/products/tcp/3035363/3035363_1128.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
             "$oid": "632349408e961992df8971ed"
         },
-        "countInStock": 0,
+        "countInStock": 5,
         "rating": 5,
         "numReviews": 52,
         "isFeatured": true,
@@ -68,7 +68,7 @@
         "category": {
             "$oid": "632349408e961992df8971ed"
         },
-        "countInStock": 10,
+        "countInStock": 0,
         "rating": 5,
         "numReviews": 52,
         "isFeatured": true,
@@ -81,7 +81,7 @@
         },
         "name": "product 9",
         "description": "product three description",
-        "image": "https://o.remove.bg/downloads/1b5ae65c-1d36-44d5-bb00-e6f71830bbd4/Gear-Feature-Apple_new-iphone-se-white_04152020-removebg-preview.png",
+        "image": "https://caviar.global/_images/27958/1649125873.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
@@ -100,7 +100,7 @@
         },
         "name": "product 10",
         "description": "product three description",
-        "image": "https://o.remove.bg/downloads/5be7a1dd-1b78-42e7-bbca-685875f0f691/Laptop_Table_Dark_Charcoal_SPC_ta23-i2-removebg-preview.png",
+        "image": "https://northio.se/wp-content/uploads/hero-laptop.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
