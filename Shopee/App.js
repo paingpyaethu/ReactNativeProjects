@@ -1,13 +1,13 @@
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import {SafeAreaView, View, StyleSheet} from 'react-native';
 import React from 'react';
-import ProductContainer from './src/screens/Products/ProductContainer';
-import Header from './src/shared/Header';
+import ProductScreen from './src/screens/Products/ProductScreen';
+import LogoHeader from './src/components/atoms/LogoHeader';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Header />
-      <ProductContainer />
+      <LogoHeader />
+      <ProductScreen />
     </View>
   );
 };

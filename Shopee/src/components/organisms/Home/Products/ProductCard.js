@@ -7,7 +7,6 @@ import {
   Button,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 

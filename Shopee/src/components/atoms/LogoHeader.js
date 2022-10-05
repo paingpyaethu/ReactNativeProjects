@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Image, Platform, StyleSheet} from 'react-native';
 
-const Header = () => {
+const LogoHeader = () => {
   return (
     <View style={styles.headerContainer}>
       <Image
@@ -16,13 +16,10 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    // flex: 1,
-    width: '100%',
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'center',
-    paddingTop: 30,
-    // backgroundColor: 'red',
+    paddingTop: Platform.OS === 'ios' ? 0 : 0,
   },
 });
-export default Header;
+export default LogoHeader;
