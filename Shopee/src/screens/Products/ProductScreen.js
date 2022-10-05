@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import {ScrollView, View, FlatList, StyleSheet} from 'react-native';
 import CustomSearchBar from '../../components/molecules/CustomSearchBar';
 import Banner from '../../components/organisms/Home/Banner';
 import ProductList from '../../components/organisms/Home/Products/ProductList';
