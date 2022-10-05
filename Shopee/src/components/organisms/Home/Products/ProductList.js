@@ -6,10 +6,8 @@ import ProductCard from './ProductCard';
 const ProductList = props => {
   const {item} = props;
   return (
-    <View style={{flex: 1}}>
-      <View style={{backgroundColor: 'gainsboro'}}>
-        <ProductCard {...item} />
-      </View>
+    <View>
+      <ProductCard {...item} />
     </View>
   );
 };

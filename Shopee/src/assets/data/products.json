@@ -1,15 +1,13 @@
 [
     {
-        "_id":{
-            "$oid": "63232eacac79a5d8264cd36f"
-        } ,
+        "_id": "63232eacac79a5d8264cd36f",
         "name": "Long Sleeve Shirt",
         "description": "Fashion Print Men Long Sleeve Shirt Spring Causal Pocket Design Male Shirt Men Dress Slim Fit Shirts 100% Polyester SH001Shirt Men Dress Slim Fit Shirts 100% Polyester SH001",
         "image": "https://ae01.alicdn.com/kf/He5bade0787054b5c8a5629c9181aedfb6/2020-Fashion-Print-Men-Long-Sleeve-Shirt-Spring-Causal-Pocket-Design-Male-Shirt-Men-Dress-Slim.png_.webp",
         "brand": "product one brand",
         "price": 300,
         "category": {
-            "$oid": "632349408e961992df8971ed"
+            "_id": "633d5327c9707ab8b81b7cd7"
         },
         "countInStock": 10,
         "rating": 4,
@@ -19,16 +17,48 @@
         "__v": 0
     },
     {
-        "_id": {
-            "$oid":  "632345a2811fb4a13a72ca2d"
+        "_id": "63232eacac79a5d8264cd36",
+        "name": "Long Sleeve Shirt",
+        "description": "Fashion Print Men Long Sleeve Shirt Spring Causal Pocket Design Male Shirt Men Dress Slim Fit Shirts 100% Polyester SH001Shirt Men Dress Slim Fit Shirts 100% Polyester SH001",
+        "image": "https://ae01.alicdn.com/kf/He5bade0787054b5c8a5629c9181aedfb6/2020-Fashion-Print-Men-Long-Sleeve-Shirt-Spring-Causal-Pocket-Design-Male-Shirt-Men-Dress-Slim.png_.webp",
+        "brand": "product one brand",
+        "price": 300,
+        "category": {
+            "_id": "633d5327c9707ab8b81b7cd7"
         },
+        "countInStock": 10,
+        "rating": 4,
+        "numReviews": 22,
+        "isFeatured": true,
+        "dateCreated": "2022-09-15T13:54:52.450Z",
+        "__v": 0
+    },
+    {
+        "_id": "63232eacac79a5d8264cd3",
+        "name": "Long Sleeve Shirt",
+        "description": "Fashion Print Men Long Sleeve Shirt Spring Causal Pocket Design Male Shirt Men Dress Slim Fit Shirts 100% Polyester SH001Shirt Men Dress Slim Fit Shirts 100% Polyester SH001",
+        "image": "https://ae01.alicdn.com/kf/He5bade0787054b5c8a5629c9181aedfb6/2020-Fashion-Print-Men-Long-Sleeve-Shirt-Spring-Causal-Pocket-Design-Male-Shirt-Men-Dress-Slim.png_.webp",
+        "brand": "product one brand",
+        "price": 300,
+        "category": {
+            "_id": "633d5327c9707ab8b81b7cd7"
+        },
+        "countInStock": 10,
+        "rating": 4,
+        "numReviews": 22,
+        "isFeatured": true,
+        "dateCreated": "2022-09-15T13:54:52.450Z",
+        "__v": 0
+    },
+    {
+        "_id": "632345a2811fb4a13a72ca2d",
         "name": "Wireless Gaming Headset",
         "description": "PLYR uses 50mm dynamic drivers that have been selected and expertly tuned to deliver a super-wide frequency range and rich, detailed sound for games, music or media. Plus, Enhanced Sound Perception tunes the audio to your unique hearing — you'll pick up every footstep, every distant gunshot and every audio detail.",
         "image": "https://jasper-pimstorage-skullcandy.s3.us-west-1.amazonaws.com/e038b48fe119bdba8c355b6839d308cb6a80f4a21bcec270f5c650a11434b35e.png",
         "brand": "product two brand",
         "price": 100,
         "category": {
-            "$oid": "6323118ba7d9b655dfd168b0"
+            "_id": "6323118ba7d9b655dfd168b0"
         },
         "countInStock": 10,
         "rating": 5,
@@ -38,16 +68,14 @@
         "__v": 0
     },
     {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f1"
-        },
+        "_id": "632349cc8e961992df8971f1",
         "name": "Girl Shirt",
         "description": "Spring Autumn Children Baby Girl Shirt Cute Lotus Leaf Long Sleeves Floral Printing Baby 2022 Children Girl Shirt Clothes",
         "image": "https://assets.theplace.com/image/upload/t_plp_img_m,f_auto,q_auto/v1/ecom/assets/products/tcp/3035363/3035363_1128.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
-            "$oid": "632349408e961992df8971ed"
+            "_id": "633d5327c9707ab8b81b7cd7"
         },
         "countInStock": 5,
         "rating": 5,
@@ -57,16 +85,14 @@
         "__v": 0
     },
     {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f0"
-        },
+        "_id": "63249119b4e4a95c4e65aaa7",
         "name": "Empty Box",
         "description": "...",
         "image": "",
         "brand": "product three brand",
         "price": 50000,
         "category": {
-            "$oid": "632349408e961992df8971ed"
+            "_id": "633d53e09fbb9d95ec8d7a9d"
         },
         "countInStock": 0,
         "rating": 5,
@@ -76,16 +102,14 @@
         "__v": 0
     },
     {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f2"
-        },
+        "_id": "632498742f230ebb1df44136",
         "name": "IPhone 14 Pro Max",
         "description": "Splashed in earthy tones of greens and blues, hold the ocean in your hand.",
         "image": "https://caviar.global/_images/27958/1649125873.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
-            "$oid": "632349408e961992df8971ed"
+            "_id": "6323118ba7d9b655dfd168b0"
         },
         "countInStock": 10,
         "rating": 5,
@@ -95,54 +119,14 @@
         "__v": 0
     },
     {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f3"
-        },
+        "_id": "633860dac70b16d5c64e3824",
         "name": "Hero Laptop",
         "description": "Extra Wide Adjustable Laptop Stand Desk with Cooling Fan & Mouse Pad for 17 Inch Computer, Portable Ergonomic Lap Desk for Bed Sofa Couch Office",
         "image": "https://northio.se/wp-content/uploads/hero-laptop.png",
         "brand": "product three brand",
         "price": 50000,
         "category": {
-            "$oid": "632349408e961992df8971ed"
-        },
-        "countInStock": 10,
-        "rating": 5,
-        "numReviews": 52,
-        "isFeatured": true,
-        "dateCreated": "2022-09-15T15:50:36.629Z",
-        "__v": 0
-    },
-    {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f99"
-        },
-        "name": "Hero",
-        "description": "Extra Wide Adjustable Laptop Stand Desk with Cooling Fan & Mouse Pad for 17 Inch Computer, Portable Ergonomic Lap Desk for Bed Sofa Couch Office",
-        "image": "https://northio.se/wp-content/uploads/hero-laptop.png",
-        "brand": "product three brand",
-        "price": 50000,
-        "category": {
-            "$oid": "632349408e961992df8971ed"
-        },
-        "countInStock": 10,
-        "rating": 5,
-        "numReviews": 52,
-        "isFeatured": true,
-        "dateCreated": "2022-09-15T15:50:36.629Z",
-        "__v": 0
-    },
-    {
-        "_id": {
-            "$oid":"632349cc8e961992df8971f37"
-        },
-        "name": "Laptop",
-        "description": "Extra Wide Adjustable Laptop Stand Desk with Cooling Fan & Mouse Pad for 17 Inch Computer, Portable Ergonomic Lap Desk for Bed Sofa Couch Office",
-        "image": "https://northio.se/wp-content/uploads/hero-laptop.png",
-        "brand": "product three brand",
-        "price": 50000,
-        "category": {
-            "$oid": "632349408e961992df8971ed"
+            "_id": "632311fba7d9b655dfd168b3"
         },
         "countInStock": 10,
         "rating": 5,

@@ -1,0 +1,37 @@
+[
+    {
+        "_id": "6323118ba7d9b655dfd168b0",
+        "name": "Electronics",
+        "color": "#050505",
+        "icon": "icon-health",
+        "__v": 0
+    },
+    {
+        "_id": "632311fba7d9b655dfd168b3",
+        "name": "Computers",
+        "color": "#444",
+        "icon": "icon-computer",
+        "__v": 0
+    },
+    {
+        "_id": "632349408e961992df8971ed",
+        "name": "Beauty",
+        "color": "#059849",
+        "icon": "icon-tv",
+        "__v": 0
+    },
+    {
+        "_id": "633d5327c9707ab8b81b7cd7",
+        "name": "Fashion",
+        "color": "#ddd",
+        "icon": "icon-fashion",
+        "__v": 0
+    },
+    {
+        "_id": "633d53e09fbb9d95ec8d7a9d",
+        "name": "Sports",
+        "color": "#ddd",
+        "icon": "icon-sport",
+        "__v": 0
+    }
+]

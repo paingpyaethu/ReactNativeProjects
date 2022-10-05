@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Image, StyleSheet} from 'react-native';
+import {ScrollView, View, StyleSheet} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
 import {useOrientation} from '../../../hooks/useOrientation';
@@ -47,7 +47,6 @@ const responsiveStyle = orientation =>
     imageComponentStyle: {
       borderRadius: 15,
       width: orientation.width * 0.95,
-      height: orientation.width / 2,
       marginTop: 10,
     },
   });

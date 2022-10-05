@@ -14,7 +14,7 @@ const CustomSearchBar = props => {
   const styles = responsiveStyle(orientation);
 
   return (
-    <SafeAreaView>
+    <View>
       <View style={styles.searchContainer}>
         <Icon name={'search'} size={20} style={styles.searchIcon} />
         <TextInput
@@ -23,6 +23,7 @@ const CustomSearchBar = props => {
           placeholderTextColor={'#343434'}
           onFocus={props.onFocus}
           onChangeText={props.onChangeText}
+          keyboardAppearance={'dark'}
         />
         {props.focus === true ? (
           <Icon
@@ -33,7 +34,7 @@ const CustomSearchBar = props => {
           />
         ) : null}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
