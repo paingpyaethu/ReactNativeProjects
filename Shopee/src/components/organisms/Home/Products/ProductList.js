@@ -1,14 +1,17 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import ProductCard from './ProductCard';
 
 const ProductList = props => {
   const {item} = props;
+
+  const _productDetailHandler = () => {
+    props.navigation.navigate('ProductDetail', {productData: item});
+  };
   return (
-    <View>
+    <TouchableOpacity onPress={_productDetailHandler}>
       <ProductCard {...item} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

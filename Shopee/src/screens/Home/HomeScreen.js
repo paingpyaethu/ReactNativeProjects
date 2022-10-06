@@ -1,17 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text, FlatList, StyleSheet} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import CustomSearchBar from '../../components/molecules/CustomSearchBar';
 import Banner from '../../components/organisms/Home/Banner';
 import CategoryFilter from '../../components/organisms/Home/Categories/CategoryFilter';
 import ProductList from '../../components/organisms/Home/Products/ProductList';
+import SearchedProducts from './SearchedProducts';
+
 import {useOrientation} from '../../hooks/useOrientation';
+import {FlashList} from '@shopify/flash-list';
 
 const data = require('../../assets/data/products.json');
 const categoriesData = require('../../assets/data/categories.json');
-import SearchedProducts from './SearchedProducts';
 
-const HomeScreen = () => {
+const HomeScreen = props => {
   const orientation = useOrientation();
   const styles = responsiveStyle(orientation);
 
@@ -40,6 +42,7 @@ const HomeScreen = () => {
       setFocus();
 
       setCategories([]);
+      setProductsCat([]);
       setActive();
       setInitialState([]);
     };
@@ -68,6 +71,56 @@ const HomeScreen = () => {
           ),
         ];
   };
+
+  const renderItem = ({item}) => {
+    return (
+      <View>
+        <ProductList item={item} navigation={props.navigation} />
+      </View>
+    );
+  };
+
+  const ListHeaderComponent = () => {
+    return (
+      <>
+        <View>
+          <Banner />
+        </View>
+        <View>
+          <CategoryFilter
+            catData={categories}
+            categoryFilter={changeCategories}
+            productsCat={productsCat}
+            active={active}
+            setActive={setActive}
+          />
+        </View>
+      </>
+    );
+  };
+
+  const ListEmptyComponent = () => {
+    return (
+      <View
+        style={{
+          margin: 15,
+          backgroundColor: '#F35162',
+          padding: 10,
+          borderRadius: 5,
+        }}>
+        <Text
+          style={{
+            color: '#F8FCFF',
+            textAlign: 'center',
+          }}>
+          {'No Products Found!'}
+        </Text>
+      </View>
+    );
+  };
+
+  const _keyExtractor = item => item._id;
+
   return (
     <View style={styles.container}>
       <CustomSearchBar
@@ -79,39 +132,17 @@ const HomeScreen = () => {
       {focus === true ? (
         <SearchedProducts productFiltered={productFiltered} />
       ) : (
-        <ScrollView>
-          <View>
-            <Banner />
-          </View>
-          <View>
-            <CategoryFilter
-              catData={categories}
-              categoryFilter={changeCategories}
-              productsCat={productsCat}
-              active={active}
-              setActive={setActive}
-            />
-          </View>
-          {productsCat && productsCat.length > 0 ? (
-            <View style={styles.productContainer}>
-              {productsCat.map(item => {
-                return <ProductList key={item._id} item={item} />;
-              })}
-            </View>
-          ) : (
-            <View
-              style={{
-                margin: 15,
-                backgroundColor: '#F35162',
-                padding: 10,
-                borderRadius: 5,
-              }}>
-              <Text style={{color: '#F8FCFF', textAlign: 'center'}}>
-                {'No Products Found!'}
-              </Text>
-            </View>
-          )}
-        </ScrollView>
+        <View style={styles.productContainer}>
+          <FlashList
+            estimatedItemSize={277}
+            numColumns={2}
+            data={productsCat}
+            renderItem={renderItem}
+            ListHeaderComponent={ListHeaderComponent}
+            ListEmptyComponent={ListEmptyComponent}
+            keyExtractor={_keyExtractor}
+          />
+        </View>
       )}
     </View>
   );
@@ -121,16 +152,10 @@ const responsiveStyle = orientation =>
   StyleSheet.create({
     container: {
       flex: 1,
-      marginTop:
-        orientation.isPortrait === true
-          ? -orientation.width / 20
-          : -orientation.width / 26,
     },
     productContainer: {
       flex: 1,
       backgroundColor: 'gainsboro',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
     },
   });
 export default HomeScreen;

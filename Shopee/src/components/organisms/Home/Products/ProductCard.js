@@ -15,7 +15,7 @@ const ProductCard = props => {
   const {name, price, image, countInStock} = props;
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
       <Image
         style={styles.image}
         resizeMode="contain"
@@ -40,7 +40,7 @@ const ProductCard = props => {
       ) : (
         <Text style={{marginTop: 20}}>Currently Unavailable</Text>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -54,8 +54,17 @@ const styles = StyleSheet.create({
     marginBottom: width / 39,
     marginLeft: width / 39,
     alignItems: 'center',
-    elevation: 8,
     backgroundColor: '#fff',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   image: {
     width: width / 2 - 20 - 10,

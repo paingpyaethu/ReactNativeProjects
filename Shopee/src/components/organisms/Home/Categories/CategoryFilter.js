@@ -17,7 +17,7 @@ const CategoryFilter = props => {
   const styles = responsiveStyle(orientation);
   return (
     <>
-      <ScrollView bounces={true} horizontal={true} style={styles.container}>
+      <ScrollView horizontal={true} style={styles.container}>
         <TouchableOpacity
           style={styles.categoryContainer}
           onPress={() => {
