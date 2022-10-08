@@ -1,25 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StatusBar, Image, StyleSheet} from 'react-native';
 import {useOrientation} from '../hooks/useOrientation';
 import Colors from '../theme/Colors';
-import FontType from '../theme/Fonts';
-import {_fontScale} from '../theme/Metrics';
+import Fonts from '../theme/Fonts';
+import Images from '../theme/Images';
+import Metrics from '../theme/Metrics';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate('WelcomeScreen');
+    }, 2000);
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
-        backgroundColor={Colors.DEFAULT_GREEN}
+        backgroundColor={Colors.PRIMARY_COLOR}
         translucent
       />
-      <Image
-        source={require('../assets/images/logo.png')}
-        resizeMode={'contain'}
-        style={styles.image}
-      />
+      <Image source={Images.LOGO} resizeMode={'contain'} style={styles.image} />
       <Text style={styles.titleText}>FooDotCo</Text>
     </View>
   );
@@ -31,7 +34,7 @@ const customStyle = orientation =>
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Colors.DEFAULT_GREEN,
+      backgroundColor: Colors.PRIMARY_COLOR,
     },
     image: {
       height: (orientation.height / 100) * 20,
@@ -39,8 +42,8 @@ const customStyle = orientation =>
     },
     titleText: {
       color: Colors.SECONDARY_BLACK,
-      fontSize: _fontScale(30),
-      fontFamily: FontType.POPPINS_MEDIUM,
+      fontSize: Metrics._scale(30),
+      fontFamily: Fonts.POPPINS_MEDIUM,
     },
   });
 export default SplashScreen;

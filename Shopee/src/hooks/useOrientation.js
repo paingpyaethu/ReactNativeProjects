@@ -14,6 +14,6 @@ export function useOrientation() {
 
   return {
     ...screenInfo,
-    isPortrait: screenInfo.height > screenInfo.width,
+    isPortrait: screenInfo.height / 100 > screenInfo.width / 100,
   };
 }

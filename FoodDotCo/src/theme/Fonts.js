@@ -1,4 +1,4 @@
-const FontType = {
+const Fonts = {
   POPPINS_BLACK: 'Poppins-Black',
   POPPINS_BOLD: 'Poppins-Bold',
   POPPINS_EXTRA_BOLD: 'Poppins-ExtraBold',
@@ -10,4 +10,4 @@ const FontType = {
   POPPINS_THIN: 'Poppins-Thin',
 };
 
-export default FontType;
+export default Fonts;
