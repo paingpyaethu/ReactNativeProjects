@@ -19,9 +19,8 @@ import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
 import GetStartedButton from '../../molecules/WelcomeButtons/GetStartedButton';
 import Images from '../../../theme/Images';
-import ToogleButton from '../../atoms/ToogleButton';
 
-const SignIn = props => {
+const SignUp = props => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
 
@@ -34,20 +33,23 @@ const SignIn = props => {
         translucent
       />
       <Separator height={StatusBar.currentHeight} />
-      {/* HeaderSignIn */}
+      {/* HeaderSignUp */}
       <View style={styles.headerContainer}>
         <IonIcons
           name="chevron-back"
           size={Metrics._scale(30)}
           onPress={() => props.navigation.goBack()}
         />
-        <Text style={styles.headerTitle}>Sign In</Text>
+        <Text style={styles.headerTitle}>Sign Up</Text>
       </View>
 
-      {/* Welcome HeaderTitle */}
-      <Text style={styles.title}>Welcome</Text>
+      {/* Create Account Title */}
+      <Text style={styles.title}>Create Account</Text>
       <Text style={styles.content}>
-        Enter your username and password for sign in and enjoy your food.
+        Enter your email, choose a username and password.{' '}
+        <Text style={styles.haveAccount} onPress={props.authToggleHandler}>
+          Already have account?
+        </Text>
       </Text>
 
       {/* InputContainer */}
@@ -61,6 +63,23 @@ const SignIn = props => {
           />
           <TextInput
             placeholder="Username"
+            placeholderTextColor={Colors.DEFAULT_GREY}
+            selectionColor={Colors.DEFAULT_GREY}
+            style={styles.inputText}
+          />
+        </View>
+      </View>
+      <Separator height={15} />
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="mail"
+            size={Metrics._scale(18)}
+            color={Colors.DEFAULT_GREY}
+            style={{marginRight: Metrics._scale(10)}}
+          />
+          <TextInput
+            placeholder="Email"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
@@ -93,32 +112,14 @@ const SignIn = props => {
         </View>
       </View>
 
-      <Text />
-
-      {/* Forgot Password / Remember Me */}
-      <View style={styles.forgotPwdContainer}>
-        <View style={styles.toggleContainer}>
-          <ToogleButton size={1} />
-          <Text style={styles.rememberMeText}>Remember me</Text>
-        </View>
-        <Text style={styles.forgotPwdText} onPress={props.forgotPwd}>
-          Forgot Password!
-        </Text>
-      </View>
-
-      {/* Sigin Button */}
+      {/* Create Account Button */}
       <GetStartedButton
-        btnText="Sign In"
-        btn={styles.signInBtn}
-        btnTextDesign={styles.signInBtnText}
+        btnText="Create Account"
+        btn={styles.sighUpBtn}
+        btnTextDesign={styles.sighUpBtnText}
+        onPress={props.regPhone}
       />
-
-      <View style={styles.signUpContainer}>
-        <Text style={styles.accountText}>Don't have an account?</Text>
-        <Text style={styles.signUpText} onPress={props.authToggleHandler}>
-          Sign Up
-        </Text>
-      </View>
+      <Separator height={15} />
       <Text style={styles.orText}>OR</Text>
 
       {/* Social Buttons */}
@@ -178,6 +179,10 @@ const customStyle = orientation =>
       marginHorizontal: Metrics._scale(20),
       color: Colors.DARK_THREE,
     },
+    haveAccount: {
+      color: Colors.PRIMARY_COLOR,
+      fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    },
 
     //*** Input Containers ***//
     inputContainer: {
@@ -202,32 +207,8 @@ const customStyle = orientation =>
       color: Colors.DEFAULT_BLACK,
     },
 
-    //*** Forgot Password ***//
-    forgotPwdContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginHorizontal: Metrics._scale(20),
-    },
-    toggleContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    rememberMeText: {
-      marginLeft: Metrics._scale(5),
-      fontSize: Metrics._scale(12),
-      lineHeight: Metrics._scale(12 * 1.4),
-      color: Colors.DEFAULT_GREY,
-      fontFamily: Fonts.POPPINS_MEDIUM,
-    },
-    forgotPwdText: {
-      fontSize: Metrics._scale(10),
-      lineHeight: Metrics._scale(10 * 1.4),
-      color: Colors.PRIMARY_COLOR,
-      fontFamily: Fonts.POPPINS_BOLD,
-    },
-    //*** SignIn Button ***//
-    signInBtn: {
+    //*** Create Account Button ***//
+    sighUpBtn: {
       backgroundColor: Colors.PRIMARY_COLOR,
       paddingVertical: Metrics._scale(8),
       paddingHorizontal: Metrics._scale(30),
@@ -248,33 +229,13 @@ const customStyle = orientation =>
 
       elevation: 3,
     },
-    signInBtnText: {
+    sighUpBtnText: {
       fontSize: Metrics._scale(16),
       fontFamily: Fonts.POPPINS_MEDIUM,
       color: Colors.DEFAULT_WHITE,
       lineHeight: Metrics._scale(16 * 1.4),
     },
-    //*** SignUpContainer ***//
-    signUpContainer: {
-      marginHorizontal: Metrics._scale(20),
-      paddingVertical: Metrics._scale(10),
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    accountText: {
-      fontSize: Metrics._scale(13),
-      color: Colors.DEFAULT_BLACK,
-      fontFamily: Fonts.POPPINS_MEDIUM,
-      lineHeight: Metrics._scale(13 * 1.4),
-    },
-    signUpText: {
-      fontSize: Metrics._scale(13),
-      color: Colors.PRIMARY_COLOR,
-      fontFamily: Fonts.POPPINS_MEDIUM,
-      lineHeight: Metrics._scale(13 * 1.4),
-      marginLeft: Metrics._scale(5),
-    },
+
     orText: {
       fontSize: Metrics._scale(15),
       color: Colors.DEFAULT_BLACK,
@@ -283,6 +244,7 @@ const customStyle = orientation =>
       marginLeft: Metrics._scale(5),
       alignSelf: 'center',
     },
+
     //*** Facebook and Google Buttons ***//
     facebookBtn: {
       backgroundColor: Colors.FABEBOOK_BLUE,
@@ -327,4 +289,4 @@ const customStyle = orientation =>
     },
   });
 
-export default SignIn;
+export default SignUp;
