@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View, StatusBar} from 'react-native';
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -13,11 +13,10 @@ import {useOrientation} from '../../hooks/useOrientation';
 import CustomButton from '../../components/molecules/WelcomeButtons/CustomButton';
 import PhoneInput from 'react-native-phone-number-input';
 
-const RegisterPhoneScreen = ({navigation}) => {
+const VerifyRegisterScreen = ({route, navigation}) => {
+  const {data} = route.params;
   const orientation = useOrientation();
   const styles = customStyle(orientation);
-
-  const [phoneNumber, setPhoneNumber] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,38 +33,22 @@ const RegisterPhoneScreen = ({navigation}) => {
           size={Metrics._scale(30)}
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.headerTitle}>Register Phone</Text>
+        <Text style={styles.headerTitle}>OTP Verification</Text>
       </View>
 
       {/* Register Phone Title */}
-      <Text style={styles.title}>Register Phone</Text>
+      <Text style={styles.title}>OTP Verification</Text>
       <Text style={styles.content}>
-        Enter your registered phone number to login
+        Enter the OTP number just sent you at{' '}
+        <Text style={styles.phoneNoText}>{data}</Text>
       </Text>
-
-      <View style={styles.inputContainer}>
-        <PhoneInput
-          defaultCode="MM"
-          layout="first"
-          onChangeFormattedText={text => setPhoneNumber(text)}
-          withDarkTheme
-          withShadow
-          autoFocus
-          containerStyle={styles.countryListContainer}
-          textContainerStyle={styles.phoneInputContainer}
-          textInputStyle={{padding: 0, fontSize: Metrics._scale(16)}}
-          codeTextStyle={{fontSize: Metrics._scale(16)}}
-        />
-      </View>
 
       {/* Continue Button */}
       <CustomButton
-        btnText="Continue"
-        btn={styles.continueBtn}
-        btnTextDesign={styles.continueBtnText}
-        onPress={() =>
-          navigation.navigate('VerifyRegisterScreen', {data: phoneNumber})
-        }
+        btnText="Submit"
+        btn={styles.submitBtn}
+        btnTextDesign={styles.submitBtnText}
+        onPress={() => navigation.navigate('RegisterPhoneScreen')}
       />
     </SafeAreaView>
   );
@@ -106,26 +89,15 @@ const customStyle = orientation =>
       marginHorizontal: Metrics._scale(20),
       color: Colors.DARK_THREE,
     },
-
-    inputContainer: {
-      marginVertical: Metrics._scale(48),
-    },
-    countryListContainer: {
-      marginLeft: Metrics._scale(19),
-      backgroundColor: Colors.LIGHT_GREY2,
-      width: orientation.width * 0.897,
-      height: (orientation.height / 100) * 8,
-      borderRadius: Metrics._scale(8),
-      borderWidth: 0.5,
-      borderColor: Colors.LIGHT_GREY2,
-    },
-    phoneInputContainer: {
-      backgroundColor: Colors.LIGHT_GREY,
-      borderColor: Colors.LIGHT_GREY2,
+    phoneNoText: {
+      fontSize: Metrics._scale(13),
+      fontFamily: Fonts.POPPINS_REGULAR,
+      color: Colors.DEFAULT_YELLOW,
+      lineHeight: Metrics._scale(13 * 1.4),
     },
 
     //*** Continue Button ***//
-    continueBtn: {
+    submitBtn: {
       backgroundColor: Colors.PRIMARY_COLOR,
       paddingVertical: Metrics._scale(8),
       paddingHorizontal: Metrics._scale(30),
@@ -146,7 +118,7 @@ const customStyle = orientation =>
 
       elevation: 3,
     },
-    continueBtnText: {
+    submitBtnText: {
       fontSize: Metrics._scale(16),
       fontFamily: Fonts.POPPINS_MEDIUM,
       color: Colors.DEFAULT_WHITE,
@@ -154,4 +126,4 @@ const customStyle = orientation =>
     },
   });
 
-export default RegisterPhoneScreen;
+export default VerifyRegisterScreen;
