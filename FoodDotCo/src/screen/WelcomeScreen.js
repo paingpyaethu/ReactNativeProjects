@@ -1,11 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import {View, StatusBar, StyleSheet} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 
 import Pagination from '../components/molecules/Pagination';
@@ -19,7 +13,7 @@ import Metrics from '../theme/Metrics';
 import SkipNextButton from '../components/molecules/WelcomeButtons/SkipNextButton';
 import GetStartedButton from '../components/molecules/WelcomeButtons/GetStartedButton';
 
-const WelcomeScreen = () => {
+const WelcomeScreen = props => {
   const [welcomeListIndex, setWelcomeListIndex] = useState(0);
   const welcomeListRef = useRef();
 
@@ -71,7 +65,12 @@ const WelcomeScreen = () => {
       <Separator height={(orientation.height / 100) * 8} />
 
       {welcomeListIndex === 2 ? (
-        <GetStartedButton />
+        <GetStartedButton
+          onPress={() => props.navigation.navigate('AuthScreen')}
+          btn={styles.btn}
+          btnTextDesign={styles.btnText}
+          btnText="Get Started"
+        />
       ) : (
         <SkipNextButton
           onPressSkip={() => welcomeListRef.current.scrollToEnd()}
@@ -92,23 +91,27 @@ const customStyle = orientation =>
     welcomeListContainer: {
       height: (orientation.height / 100) * 60,
     },
-    btnContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: (orientation.width / 100) * 90,
+    btn: {
+      backgroundColor: Colors.PRIMARY_COLOR,
+      paddingVertical: Metrics._scale(5),
+      paddingHorizontal: Metrics._scale(30),
+      borderRadius: Metrics._scale(8),
+
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
     },
     btnText: {
-      fontSize: Metrics._scale(16),
-      fontFamily: Fonts.POPPINS_SEMI_BOLD,
-      lineHeight: Metrics._scale(60),
-      textAlign: 'center',
-    },
-    nextBtn: {
-      backgroundColor: Colors.LIGHT_GREEN,
-      borderRadius: Metrics._scale(50),
-      width: Metrics._scale(60),
-      height: Metrics._scale(60),
+      fontSize: Metrics._scale(20),
+      fontFamily: Fonts.POPPINS_MEDIUM,
+      color: Colors.DEFAULT_WHITE,
+      lineHeight: Metrics._scale(20 * 1.4),
     },
   });
 export default WelcomeScreen;
