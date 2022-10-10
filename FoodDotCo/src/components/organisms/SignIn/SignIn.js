@@ -17,9 +17,9 @@ import Colors from '../../../theme/Colors';
 import Separator from '../../atoms/Separator';
 import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
-import GetStartedButton from '../../molecules/WelcomeButtons/GetStartedButton';
 import Images from '../../../theme/Images';
 import ToogleButton from '../../atoms/ToogleButton';
+import CustomButton from '../../molecules/WelcomeButtons/CustomButton';
 
 const SignIn = props => {
   const orientation = useOrientation();
@@ -107,7 +107,7 @@ const SignIn = props => {
       </View>
 
       {/* Sigin Button */}
-      <GetStartedButton
+      <CustomButton
         btnText="Sign In"
         btn={styles.signInBtn}
         btnTextDesign={styles.signInBtnText}

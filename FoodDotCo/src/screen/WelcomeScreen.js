@@ -11,7 +11,7 @@ import Colors from '../theme/Colors';
 import Fonts from '../theme/Fonts';
 import Metrics from '../theme/Metrics';
 import SkipNextButton from '../components/molecules/WelcomeButtons/SkipNextButton';
-import GetStartedButton from '../components/molecules/WelcomeButtons/GetStartedButton';
+import CustomButton from '../components/molecules/WelcomeButtons/CustomButton';
 
 const WelcomeScreen = props => {
   const [welcomeListIndex, setWelcomeListIndex] = useState(0);
@@ -65,7 +65,7 @@ const WelcomeScreen = props => {
       <Separator height={(orientation.height / 100) * 8} />
 
       {welcomeListIndex === 2 ? (
-        <GetStartedButton
+        <CustomButton
           onPress={() => props.navigation.navigate('AuthScreen')}
           btn={styles.btn}
           btnTextDesign={styles.btnText}

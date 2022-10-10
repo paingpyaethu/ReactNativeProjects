@@ -17,7 +17,7 @@ import Colors from '../../../theme/Colors';
 import Separator from '../../atoms/Separator';
 import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
-import GetStartedButton from '../../molecules/WelcomeButtons/GetStartedButton';
+import CustomButton from '../../molecules/WelcomeButtons/CustomButton';
 import Images from '../../../theme/Images';
 
 const SignUp = props => {
@@ -113,7 +113,7 @@ const SignUp = props => {
       </View>
 
       {/* Create Account Button */}
-      <GetStartedButton
+      <CustomButton
         btnText="Create Account"
         btn={styles.sighUpBtn}
         btnTextDesign={styles.sighUpBtnText}

@@ -1,24 +1,17 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, StatusBar} from 'react-native';
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Separator from '../../components/atoms/Separator';
 import Colors from '../../theme/Colors';
 import Metrics from '../../theme/Metrics';
 import Fonts from '../../theme/Fonts';
 import {useOrientation} from '../../hooks/useOrientation';
-import GetStartedButton from '../../components/molecules/WelcomeButtons/GetStartedButton';
+
+import CustomButton from '../../components/molecules/WelcomeButtons/CustomButton';
+import PhoneInput from 'react-native-phone-number-input';
 
 const RegisterPhoneScreen = props => {
   const orientation = useOrientation();
@@ -49,15 +42,25 @@ const RegisterPhoneScreen = props => {
       </Text>
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity style={styles.countryListContainer}>
-          <Image />
-          <Text></Text>
-          <MaterialIcons />
-        </TouchableOpacity>
-        <View style={styles.phoneInputContainer}>
-          <TextInput />
-        </View>
+        <PhoneInput
+          defaultCode="MM"
+          layout="first"
+          withDarkTheme
+          withShadow
+          autoFocus
+          containerStyle={styles.countryListContainer}
+          textContainerStyle={styles.phoneInputContainer}
+          textInputStyle={{padding: 0, fontSize: Metrics._scale(16)}}
+          codeTextStyle={{fontSize: Metrics._scale(16)}}
+        />
       </View>
+
+      {/* Continue Button */}
+      <CustomButton
+        btnText="Continue"
+        btn={styles.continueBtn}
+        btnTextDesign={styles.continueBtnText}
+      />
     </SafeAreaView>
   );
 };
@@ -99,32 +102,49 @@ const customStyle = orientation =>
     },
 
     inputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginHorizontal: Metrics._scale(20),
       marginVertical: Metrics._scale(48),
     },
     countryListContainer: {
-      backgroundColor: Colors.LIGHT_GREY,
-      width: (orientation.width / 100) * 22,
-      height: (orientation.height / 100) * 6,
-      marginRight: Metrics._scale(10),
+      marginLeft: Metrics._scale(19),
+      backgroundColor: Colors.LIGHT_GREY2,
+      width: orientation.width * 0.897,
+      height: (orientation.height / 100) * 8,
       borderRadius: Metrics._scale(8),
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
       borderWidth: 0.5,
       borderColor: Colors.LIGHT_GREY2,
     },
     phoneInputContainer: {
-      flex: 1,
       backgroundColor: Colors.LIGHT_GREY,
-      paddingHorizontal: Metrics._scale(10),
-      borderRadius: Metrics._scale(8),
-      borderWidth: 0.5,
       borderColor: Colors.LIGHT_GREY2,
+    },
+
+    //*** Continue Button ***//
+    continueBtn: {
+      backgroundColor: Colors.PRIMARY_COLOR,
+      paddingVertical: Metrics._scale(8),
+      paddingHorizontal: Metrics._scale(30),
+      marginHorizontal: Metrics._scale(20),
+      marginTop: Metrics._scale(18),
+      borderRadius: Metrics._scale(8),
+
       justifyContent: 'center',
-      height: (orientation.height / 100) * 6,
+      alignItems: 'center',
+
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
+    },
+    continueBtnText: {
+      fontSize: Metrics._scale(16),
+      fontFamily: Fonts.POPPINS_MEDIUM,
+      color: Colors.DEFAULT_WHITE,
+      lineHeight: Metrics._scale(16 * 1.4),
     },
   });
 

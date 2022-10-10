@@ -16,7 +16,7 @@ import Colors from '../../theme/Colors';
 import Metrics from '../../theme/Metrics';
 import Fonts from '../../theme/Fonts';
 import {useOrientation} from '../../hooks/useOrientation';
-import GetStartedButton from '../../components/molecules/WelcomeButtons/GetStartedButton';
+import CustomButton from '../../components/molecules/WelcomeButtons/CustomButton';
 
 const ForgotPwdScreen = props => {
   const orientation = useOrientation();
@@ -67,7 +67,7 @@ const ForgotPwdScreen = props => {
       <Separator height={15} />
 
       {/* Reset Pwd Button */}
-      <GetStartedButton
+      <CustomButton
         btnText="Reset Password"
         btn={styles.resetPwd}
         btnTextDesign={styles.resetPwdText}
