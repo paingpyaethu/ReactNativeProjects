@@ -13,7 +13,7 @@ const AuthScreen = ({navigation}) => {
     navigation.navigate('ForgotPwdScreen');
   };
   const regPhoneHandler = () => {
-    navigation.navigate('RegisterPhoneScreen');
+    // navigation.navigate('RegisterPhoneScreen');
   };
   return (
     <View style={styles.container}>

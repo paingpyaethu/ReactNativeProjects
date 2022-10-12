@@ -19,13 +19,39 @@ import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
 import Images from '../../../theme/Images';
 import ToogleButton from '../../atoms/ToogleButton';
-import CustomButton from '../../molecules/WelcomeButtons/CustomButton';
+import {userLogin} from '../../../stores/services/AuthenticationService';
+
+import Lottie from 'lottie-react-native';
 
 const SignIn = props => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
 
   const [isPwdShow, SetIsPwdShow] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [errMsg, setErrMsg] = useState('');
+
+  const login = () => {
+    setIsLoading(true);
+    const user = {
+      username,
+      password,
+    };
+    console.log(user);
+    userLogin(user).then(response => {
+      setIsLoading(false);
+      console.log(response);
+      setErrMsg('');
+      if (!response?.status) {
+        setErrMsg(response?.message);
+      }
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -63,6 +89,7 @@ const SignIn = props => {
             placeholder="Username"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
+            onChangeText={val => setUsername(val)}
             style={styles.inputText}
           />
         </View>
@@ -81,6 +108,7 @@ const SignIn = props => {
             placeholder="Password"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
+            onChangeText={val => setPassword(val)}
             style={styles.inputText}
           />
           <Feather
@@ -93,7 +121,8 @@ const SignIn = props => {
         </View>
       </View>
 
-      <Text />
+      {/* Error Message */}
+      {errMsg && <Text style={styles.errorMessage}>{errMsg}</Text>}
 
       {/* Forgot Password / Remember Me */}
       <View style={styles.forgotPwdContainer}>
@@ -107,11 +136,16 @@ const SignIn = props => {
       </View>
 
       {/* Sigin Button */}
-      <CustomButton
-        btnText="Sign In"
-        btn={styles.signInBtn}
-        btnTextDesign={styles.signInBtnText}
-      />
+      <TouchableOpacity
+        style={styles.signInBtn}
+        activeOpacity={0.8}
+        onPress={() => login()}>
+        {isLoading ? (
+          <Lottie source={Images.LOADING} autoPlay={true} />
+        ) : (
+          <Text style={styles.signInBtnText}>Sign In</Text>
+        )}
+      </TouchableOpacity>
 
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Don't have an account?</Text>
@@ -202,12 +236,22 @@ const customStyle = orientation =>
       color: Colors.DEFAULT_BLACK,
     },
 
+    errorMessage: {
+      fontSize: Metrics._scale(10),
+      lineHeight: Metrics._scale(10 * 1.4),
+      color: Colors.DEFAULT_RED,
+      fontFamily: Fonts.POPPINS_MEDIUM,
+      marginHorizontal: Metrics._scale(20),
+      marginTop: Metrics._scale(5),
+    },
+
     //*** Forgot Password ***//
     forgotPwdContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       marginHorizontal: Metrics._scale(20),
+      marginTop: Metrics._scale(5),
     },
     toggleContainer: {
       flexDirection: 'row',
@@ -234,6 +278,8 @@ const customStyle = orientation =>
       marginHorizontal: Metrics._scale(20),
       marginTop: Metrics._scale(18),
       borderRadius: Metrics._scale(8),
+
+      height: Metrics._scale(40),
 
       justifyContent: 'center',
       alignItems: 'center',

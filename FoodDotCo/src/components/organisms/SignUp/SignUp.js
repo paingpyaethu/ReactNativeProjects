@@ -17,14 +17,73 @@ import Colors from '../../../theme/Colors';
 import Separator from '../../atoms/Separator';
 import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
-import CustomButton from '../../molecules/WelcomeButtons/CustomButton';
 import Images from '../../../theme/Images';
+
+import Lottie from 'lottie-react-native';
+import {
+  checkUser,
+  userReg,
+} from '../../../stores/services/AuthenticationService';
+import {
+  showMarker,
+  validationStyle,
+} from '../../../utils/validations/signup/validationStyle';
 
 const SignUp = props => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
 
-  const [isPwdShow, SetIsPwdShow] = useState(false);
+  const [isPwdShow, setIsPwdShow] = useState(false);
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [errMsg, setErrMsg] = useState('');
+  const [emailErrMsg, setEmailErrMsg] = useState('');
+  const [userErrMsg, setUserErrMsg] = useState('');
+
+  const [userValidate, setUserValidate] = useState('default');
+  const [emailValidate, setEmailValidate] = useState('default');
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const register = () => {
+    const user = {
+      username,
+      email,
+      password,
+    };
+    console.log(user);
+    setIsLoading(true);
+    userReg(user).then(response => {
+      setIsLoading(false);
+      console.log(response);
+      setErrMsg('');
+      if (!response?.status) {
+        setErrMsg(response?.message);
+      }
+    });
+  };
+
+  const checkUserExist = async (type, val) => {
+    if (val?.length > 0) {
+      checkUser(type, val).then(res => {
+        if (res?.status) {
+          type === 'email' && emailErrMsg ? setEmailErrMsg('') : null;
+          type === 'username' && userErrMsg ? setUserErrMsg('') : null;
+          type === 'email' ? setEmailValidate('valid') : null;
+          type === 'username' ? setUserValidate('valid') : null;
+        } else {
+          type === 'email' ? setEmailErrMsg(res?.message) : null;
+          type === 'username' ? setUserErrMsg(res?.message) : null;
+          type === 'email' ? setEmailValidate('invalid') : null;
+          type === 'username' ? setUserValidate('invalid') : null;
+        }
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -53,7 +112,7 @@ const SignUp = props => {
       </Text>
 
       {/* InputContainer */}
-      <View style={styles.inputContainer}>
+      <View style={validationStyle(userValidate)}>
         <View style={styles.inputSubContainer}>
           <Feather
             name="user"
@@ -65,12 +124,19 @@ const SignUp = props => {
             placeholder="Username"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
+            onChangeText={val => setUsername(val)}
+            onEndEditing={({nativeEvent: {text}}) =>
+              checkUserExist('username', text)
+            }
             style={styles.inputText}
           />
+          {showMarker(userValidate)}
         </View>
       </View>
+      {userErrMsg && <Text style={styles.errorMessage}>{userErrMsg}</Text>}
+
       <Separator height={15} />
-      <View style={styles.inputContainer}>
+      <View style={validationStyle(emailValidate)}>
         <View style={styles.inputSubContainer}>
           <Feather
             name="mail"
@@ -82,10 +148,17 @@ const SignUp = props => {
             placeholder="Email"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
+            onChangeText={val => setEmail(val)}
+            onEndEditing={({nativeEvent: {text}}) =>
+              checkUserExist('email', text)
+            }
             style={styles.inputText}
           />
+          {showMarker(emailValidate)}
         </View>
       </View>
+      {emailErrMsg && <Text style={styles.errorMessage}>{emailErrMsg}</Text>}
+
       <Separator height={15} />
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
@@ -100,6 +173,7 @@ const SignUp = props => {
             placeholder="Password"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
+            onChangeText={val => setPassword(val)}
             style={styles.inputText}
           />
           <Feather
@@ -107,18 +181,25 @@ const SignUp = props => {
             size={Metrics._scale(18)}
             color={Colors.DEFAULT_GREY}
             style={{marginLeft: Metrics._scale(10)}}
-            onPress={() => SetIsPwdShow(!isPwdShow)}
+            onPress={() => setIsPwdShow(!isPwdShow)}
           />
         </View>
       </View>
+      {/* Error Message */}
+      {errMsg && <Text style={styles.errorMessage}>{errMsg}</Text>}
 
       {/* Create Account Button */}
-      <CustomButton
-        btnText="Create Account"
-        btn={styles.sighUpBtn}
-        btnTextDesign={styles.sighUpBtnText}
-        onPress={props.regPhone}
-      />
+      <TouchableOpacity
+        style={styles.sighUpBtn}
+        activeOpacity={0.8}
+        onPress={() => register()}>
+        {isLoading ? (
+          <Lottie source={Images.LOADING} autoPlay={true} />
+        ) : (
+          <Text style={styles.sighUpBtnText}>Create Account</Text>
+        )}
+      </TouchableOpacity>
+
       <Separator height={15} />
       <Text style={styles.orText}>OR</Text>
 
@@ -207,6 +288,15 @@ const customStyle = orientation =>
       color: Colors.DEFAULT_BLACK,
     },
 
+    errorMessage: {
+      fontSize: Metrics._scale(10),
+      lineHeight: Metrics._scale(10 * 1.4),
+      color: Colors.DEFAULT_RED,
+      fontFamily: Fonts.POPPINS_MEDIUM,
+      marginHorizontal: Metrics._scale(20),
+      marginTop: Metrics._scale(5),
+    },
+
     //*** Create Account Button ***//
     sighUpBtn: {
       backgroundColor: Colors.PRIMARY_COLOR,
@@ -215,6 +305,8 @@ const customStyle = orientation =>
       marginHorizontal: Metrics._scale(20),
       marginTop: Metrics._scale(18),
       borderRadius: Metrics._scale(8),
+
+      height: Metrics._scale(40),
 
       justifyContent: 'center',
       alignItems: 'center',
