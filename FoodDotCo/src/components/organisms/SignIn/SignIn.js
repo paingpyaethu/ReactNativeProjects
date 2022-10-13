@@ -19,13 +19,18 @@ import Metrics from '../../../theme/Metrics';
 import Fonts from '../../../theme/Fonts';
 import Images from '../../../theme/Images';
 import ToogleButton from '../../atoms/ToogleButton';
-import {userLogin} from '../../../stores/services/AuthenticationService';
+import {userLogin} from '../../../store/services/AuthenticationService';
 
 import Lottie from 'lottie-react-native';
+import {useDispatch} from 'react-redux';
+import {setToken} from '../../../store/redux/actions/GeneralAction';
+import {_setToken} from '../../../utils/appStorage';
 
 const SignIn = props => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
+
+  const dispatch = useDispatch();
 
   const [isPwdShow, SetIsPwdShow] = useState(false);
 
@@ -42,12 +47,14 @@ const SignIn = props => {
       username,
       password,
     };
-    console.log(user);
     userLogin(user).then(response => {
       setIsLoading(false);
-      console.log(response);
       setErrMsg('');
-      if (!response?.status) {
+      if (response?.status) {
+        _setToken(response?.token).then(() => {
+          dispatch(setToken(response?.token));
+        });
+      } else {
         setErrMsg(response?.message);
       }
     });
@@ -214,15 +221,6 @@ const customStyle = orientation =>
     },
 
     //*** Input Containers ***//
-    inputContainer: {
-      backgroundColor: Colors.LIGHT_GREY,
-      paddingHorizontal: Metrics._scale(10),
-      marginHorizontal: Metrics._scale(20),
-      borderRadius: Metrics._scale(8),
-      borderWidth: 1,
-      borderColor: Colors.INACTIVE_GREY,
-      justifyContent: 'center',
-    },
     inputSubContainer: {
       flexDirection: 'row',
       alignItems: 'center',

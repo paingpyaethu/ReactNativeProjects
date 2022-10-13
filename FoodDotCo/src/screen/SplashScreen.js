@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Text, StatusBar, Image, StyleSheet} from 'react-native';
 import {useOrientation} from '../hooks/useOrientation';
 import Colors from '../theme/Colors';
@@ -10,11 +10,6 @@ const SplashScreen = ({navigation}) => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
 
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('WelcomeScreen');
-    }, 2000);
-  }, [navigation]);
   return (
     <View style={styles.container}>
       <StatusBar

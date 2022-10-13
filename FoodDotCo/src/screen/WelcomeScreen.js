@@ -6,14 +6,18 @@ import Pagination from '../components/molecules/Pagination';
 import Separator from '../components/atoms/Separator';
 import WelcomeCard from '../components/organisms/WelcomeCard';
 import {useOrientation} from '../hooks/useOrientation';
-import General from '../stores/constants/General';
+import General from '../store/constants/General';
 import Colors from '../theme/Colors';
 import Fonts from '../theme/Fonts';
 import Metrics from '../theme/Metrics';
 import SkipNextButton from '../components/molecules/WelcomeButtons/SkipNextButton';
 import CustomButton from '../components/molecules/WelcomeButtons/CustomButton';
+import {_setNewUser} from '../utils/appStorage';
+import {useDispatch} from 'react-redux';
+import {setIsNewUser} from '../store/redux/actions/GeneralAction';
 
 const WelcomeScreen = props => {
+  const dispatch = useDispatch();
   const [welcomeListIndex, setWelcomeListIndex] = useState(0);
   const welcomeListRef = useRef();
 
@@ -25,6 +29,12 @@ const WelcomeScreen = props => {
   const pageScroll = () => {
     welcomeListRef.current.scrollToIndex({
       index: welcomeListIndex < 2 ? welcomeListIndex + 1 : welcomeListIndex,
+    });
+  };
+
+  const navigate = () => {
+    _setNewUser().then(() => {
+      dispatch(setIsNewUser());
     });
   };
   const orientation = useOrientation();
@@ -66,7 +76,7 @@ const WelcomeScreen = props => {
 
       {welcomeListIndex === 2 ? (
         <CustomButton
-          onPress={() => props.navigation.navigate('AuthScreen')}
+          onPress={() => navigate()}
           btn={styles.btn}
           btnTextDesign={styles.btnText}
           btnText="Get Started"

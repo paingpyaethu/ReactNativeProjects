@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import General from '../../stores/constants/General';
+import General from '../../store/constants/General';
 import PageStyle from '../atoms/PageStyle';
 
 const Pagination = ({index}) => {

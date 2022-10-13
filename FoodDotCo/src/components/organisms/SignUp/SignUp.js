@@ -23,7 +23,7 @@ import Lottie from 'lottie-react-native';
 import {
   checkUser,
   userReg,
-} from '../../../stores/services/AuthenticationService';
+} from '../../../store/services/AuthenticationService';
 import {
   showMarker,
   validationStyle,

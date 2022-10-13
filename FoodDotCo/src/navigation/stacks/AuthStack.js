@@ -6,16 +6,13 @@ import WelcomeScreen from '../../screen/WelcomeScreen';
 import AuthScreen from '../../screen/Auth/AuthScreen';
 import ForgotPwdScreen from '../../screen/Auth/ForgotPwdScreen';
 import RegisterPhoneScreen from '../../screen/Auth/RegisterPhoneScreen';
-import OTPScreen from '../../screen/Auth/VerifyRegisterScreen';
 import VerifyRegisterScreen from '../../screen/Auth/VerifyRegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
-const MainStack = () => {
+const AuthStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="AuthScreen" component={AuthScreen} />
       <Stack.Screen name="ForgotPwdScreen" component={ForgotPwdScreen} />
       <Stack.Screen
@@ -30,4 +27,4 @@ const MainStack = () => {
   );
 };
 
-export default MainStack;
+export default AuthStack;
