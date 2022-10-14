@@ -221,6 +221,15 @@ const customStyle = orientation =>
     },
 
     //*** Input Containers ***//
+    inputContainer: {
+      backgroundColor: Colors.LIGHT_GREY,
+      paddingHorizontal: Metrics._scale(10),
+      marginHorizontal: Metrics._scale(20),
+      borderRadius: Metrics._scale(8),
+      borderWidth: 1,
+      borderColor: Colors.INACTIVE_GREY,
+      justifyContent: 'center',
+    },
     inputSubContainer: {
       flexDirection: 'row',
       alignItems: 'center',

@@ -37,7 +37,7 @@ export const appStart = () => {
               type: SET_USER_DATA,
               payload: response?.data,
             });
-          } else if (response?.error?.message === 'TokenExpiredError') {
+          } else if (response?.message === 'TokenExpiredError') {
             refreshToken().then(tokenRes => {
               if (tokenRes?.status) {
                 dispatch({
