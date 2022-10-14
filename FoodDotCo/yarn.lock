@@ -6192,6 +6192,14 @@
   "resolved" "https://registry.npmjs.org/react-async-hook/-/react-async-hook-3.6.1.tgz"
   "version" "3.6.1"
 
+"react-devtools-core@^4.26.0":
+  "integrity" "sha512-OO0Q+vXtHYCXvRQ6elLiOUph3MjsCpuYktGTLnBpizYm46f8tAPuJKihGkwsceitHSJNpzNIjJaYHgX96CyTUQ=="
+  "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.26.0.tgz"
+  "version" "4.26.0"
+  dependencies:
+    "shell-quote" "^1.6.1"
+    "ws" "^7"
+
 "react-devtools-core@4.24.0":
   "integrity" "sha512-Rw7FzYOOzcfyUPaAm9P3g0tFdGqGq2LLiAI+wjYcp6CsF3DeeMrRS3HZAho4s273C29G/DJhx0e8BpRE/QZNGg=="
   "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.24.0.tgz"

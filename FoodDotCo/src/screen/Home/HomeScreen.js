@@ -1,7 +1,9 @@
 import {
   SafeAreaView,
+  ScrollView,
   View,
   Text,
+  TouchableOpacity,
   FlatList,
   StatusBar,
   StyleSheet,
@@ -21,7 +23,14 @@ import CategoryMenuItem from '../../components/molecules/CategoryMenuItem';
 import RestaurantService from '../../store/services/RestaurantService';
 import {FlashList} from '@shopify/flash-list';
 import RestaurantCard from '../../components/molecules/Restaurants/RestaurantCard';
+import RestaurantList from '../../components/organisms/Restaurants/RestaurantList';
+import SortListTabBar from '../../components/atoms/Restaurants/SortListTabBar';
 
+// const sortStyle = isActive => {
+//   isActive
+//     ? {styles.sortListItem}
+//     : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
+// };
 const HomeScreen = ({navigation}) => {
   const [activeCategory, setActiveCategory] = useState();
   const [restaurants, setRestaurants] = useState(null);
@@ -30,7 +39,6 @@ const HomeScreen = ({navigation}) => {
     const foodotco = navigation.addListener('focus', () => {
       RestaurantService.getRestaurants().then(response => {
         if (response?.status) {
-          console.log(response?.data?.data);
           setRestaurants(response?.data?.data);
         }
       });
@@ -70,21 +78,27 @@ const HomeScreen = ({navigation}) => {
         ))}
       </View>
 
-      <View style={styles.listContainer}>
-        <View style={styles.horizontalListContainer}>
-          <View style={styles.listHeader}>
-            <Text style={styles.listHeaderTitle}>Top Rated</Text>
-            <Text style={styles.listHeaderSubTitle}>See all</Text>
-          </View>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={restaurants}
-            keyExtractor={item => item._id}
-            renderItem={({item}) => <RestaurantCard {...item} />}
-          />
-        </View>
-      </View>
+      <ScrollView style={styles.listContainer}>
+        <RestaurantList restaurantData={restaurants} />
+
+        {/* <View style={styles.sortListContainer}>
+          <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>
+            <Text style={styles.sortListText}>Recent</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>
+            <Text style={styles.sortListText}>Favorite</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>
+            <Text style={styles.sortListText}>Rating</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>
+            <Text style={styles.sortListText}>Popular</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>
+            <Text style={styles.sortListText}>Trending</Text>
+          </TouchableOpacity>
+        </View> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -181,29 +195,30 @@ const customStyle = orientation =>
     listContainer: {
       paddingVertical:
         orientation.width > 768 ? Metrics._scale(30) : Metrics._scale(15),
-      zIndex: 1,
+      zIndex: -1,
     },
-    horizontalListContainer: {
-      marginTop: Metrics._scale(30),
-    },
-    listHeader: {
+
+    //SortList Container
+    sortListContainer: {
       flexDirection: 'row',
+      justifyContent: 'space-evenly',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      marginHorizontal: Metrics._scale(20),
-      marginBottom: Metrics._scale(5),
+      backgroundColor: Colors.DEFAULT_WHITE,
+      elevation: 3,
     },
-    listHeaderTitle: {
+    sortListItem: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: Colors.DEFAULT_YELLOW,
+      height: Metrics._scale(40),
+    },
+    sortListText: {
       color: Colors.DEFAULT_BLACK,
-      fontSize: Metrics._scale(13),
-      lineHeight: Metrics._scale(13 * 1.4),
-      fontFamily: Fonts.POPPINS_MEDIUM,
-    },
-    listHeaderSubTitle: {
-      color: Colors.DEFAULT_YELLOW,
-      fontSize: Metrics._scale(13),
-      lineHeight: Metrics._scale(13 * 1.4),
-      fontFamily: Fonts.POPPINS_MEDIUM,
+      fontSize: Metrics._scale(12),
+      lineHeight: Metrics._scale(12 * 1.4),
+      fontFamily: Fonts.POPPINS_SEMI_BOLD,
     },
   });
 

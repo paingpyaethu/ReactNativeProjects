@@ -12,6 +12,8 @@ const Images = {
   DESSERT: require('../assets/images/categoryImg/dessert.png'),
   NOODLES: require('../assets/images/categoryImg/noodles.png'),
   DRINKS: require('../assets/images/categoryImg/drinks.png'),
+  DELIVERY_CHARGE: require('../assets/images/delivery_charge.png'),
+  DELIVERY_TIME: require('../assets/images/delivery_time.png'),
 };
 
 export default Images;
