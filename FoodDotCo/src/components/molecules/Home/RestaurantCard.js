@@ -8,11 +8,14 @@ import Colors from '../../../theme/Colors';
 import Fonts from '../../../theme/Fonts';
 import Metrics from '../../../theme/Metrics';
 
-const RestaurantCard = ({item}) => {
+const RestaurantCard = ({item, navigate}) => {
   const orientation = useOrientation();
   const styles = customStyle(orientation);
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.8}
+      onPress={() => navigate(item.id)}>
       <Image
         source={{uri: StaticImageService.getPoster(item.images.poster)}}
         style={styles.posterStyle}
@@ -36,7 +39,9 @@ const RestaurantCard = ({item}) => {
               size={Metrics._scale(14)}
               color={Colors.DEFAULT_YELLOW}
             />
-            <Text style={styles.timeDistanceText}>{item.distance}m</Text>
+            <Text style={styles.timeDistanceText}>
+              {item.distance / 1000}km
+            </Text>
           </View>
           <View style={styles.timeDistance}>
             <IonIcons

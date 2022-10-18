@@ -7,10 +7,10 @@ import Metrics from '../../../theme/Metrics';
 import Colors from '../../../theme/Colors';
 import Fonts from '../../../theme/Fonts';
 
-import RestaurantCard from '../../molecules/Restaurants/RestaurantCard';
 import SortListTabBar from '../../atoms/Restaurants/SortListTabBar';
-import SortListItemCard from '../../molecules/Restaurants/SortListItemCard';
+import SortListItemCard from '../../molecules/Home/SortListItemCard';
 import {useOrientation} from '../../../hooks/useOrientation';
+import RestaurantCard from '../../molecules/Home/RestaurantCard';
 
 const sortStyle = isActive => {
   isActive
@@ -18,7 +18,7 @@ const sortStyle = isActive => {
     : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_BLACK};
 };
 
-const RestaurantList = ({restaurantData}) => {
+const RestaurantList = ({restaurantData, navigation}) => {
   const orientation = useOrientation();
   return (
     <>
@@ -29,7 +29,7 @@ const RestaurantList = ({restaurantData}) => {
         </View>
         <FlatList
           data={restaurantData}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
           ListHeaderComponent={() => <Separator width={Metrics._scale(15)} />}
@@ -37,17 +37,25 @@ const RestaurantList = ({restaurantData}) => {
           ItemSeparatorComponent={() => (
             <Separator width={Metrics._scale(15)} />
           )}
-          renderItem={({item}) => <RestaurantCard item={item} />}
+          renderItem={({item}) => (
+            <RestaurantCard
+              item={item}
+              navigate={restaurantId =>
+                navigation.navigate('RestaurantScreen', {restaurantId})
+              }
+            />
+          )}
         />
       </View>
       <SortListTabBar />
 
       <Separator height={(orientation.height / 100) * 1} />
 
-      {restaurantData &&
-        restaurantData.map(data => (
-          <SortListItemCard data={data} key={data._id} />
-        ))}
+      {restaurantData
+        ? restaurantData.map(data => (
+            <SortListItemCard data={data} key={data.id} />
+          ))
+        : null}
 
       <Separator height={Metrics._scale(40)} />
     </>
@@ -63,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginHorizontal: Metrics._scale(20),
-    marginBottom: Metrics._scale(5),
+    marginBottom: Metrics._scale(10),
   },
   listHeaderTitle: {
     color: Colors.DEFAULT_BLACK,
@@ -76,29 +84,6 @@ const styles = StyleSheet.create({
     fontSize: Metrics._scale(13),
     lineHeight: Metrics._scale(13 * 1.4),
     fontFamily: Fonts.POPPINS_MEDIUM,
-  },
-
-  //Sort List Container
-  sortListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: Colors.DEFAULT_WHITE,
-    elevation: 3,
-  },
-  sortListItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.DEFAULT_YELLOW,
-    height: Metrics._scale(40),
-  },
-  sortListText: {
-    color: Colors.DEFAULT_BLACK,
-    fontSize: Metrics._scale(12),
-    lineHeight: Metrics._scale(12 * 1.4),
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
   },
 });
 export default RestaurantList;

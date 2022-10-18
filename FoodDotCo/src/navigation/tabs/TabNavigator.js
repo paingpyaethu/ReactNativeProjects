@@ -4,13 +4,15 @@ import HomeScreen from '../../screen/Home/HomeScreen';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Colors from '../../theme/Colors';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import RestaurantScreen from '../../screen/Restaurant/RestaurantScreen';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="MainScreen"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -18,8 +20,8 @@ const TabNavigator = () => {
         tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="MainScreen"
+        component={MainScreen}
         options={{
           tabBarIcon: ({color}) => (
             <AntDesign name="home" color={color} size={30} />
@@ -27,6 +29,20 @@ const TabNavigator = () => {
         }}
       />
     </Tab.Navigator>
+  );
+};
+
+const MainScreen = () => {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="HomeScreen">
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="RestaurantScreen" component={RestaurantScreen} />
+    </Stack.Navigator>
   );
 };
 

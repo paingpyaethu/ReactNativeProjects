@@ -22,9 +22,7 @@ import CategoryMenuItem from '../../components/molecules/CategoryMenuItem';
 
 import RestaurantService from '../../store/services/RestaurantService';
 import {FlashList} from '@shopify/flash-list';
-import RestaurantCard from '../../components/molecules/Restaurants/RestaurantCard';
-import RestaurantList from '../../components/organisms/Restaurants/RestaurantList';
-import SortListTabBar from '../../components/atoms/Restaurants/SortListTabBar';
+import RestaurantList from '../../components/organisms/Home/RestaurantList';
 
 // const sortStyle = isActive => {
 //   isActive
@@ -79,7 +77,7 @@ const HomeScreen = ({navigation}) => {
       </View>
 
       <ScrollView style={styles.listContainer}>
-        <RestaurantList restaurantData={restaurants} />
+        <RestaurantList restaurantData={restaurants} navigation={navigation} />
 
         {/* <View style={styles.sortListContainer}>
           <TouchableOpacity style={styles.sortListItem} activeOpacity={0.8}>

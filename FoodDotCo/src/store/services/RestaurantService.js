@@ -7,7 +7,7 @@ const AuthRequest = axios.create({
   baseURL: BASE_URL,
 });
 const getRestaurants = async () => {
-  console.log('RestaurantService | getRestaurantsData');
+  // console.log('RestaurantService | getRestaurantsData');
   try {
     const response = await AuthRequest.get('/restaurant', {
       headers: authHeader(getToken()),
@@ -32,4 +32,30 @@ const getRestaurants = async () => {
   }
 };
 
-export default {getRestaurants};
+const getOneRestaurantById = async restaurantId => {
+  // console.log('RestaurantService | getOneRestaurantById');
+  try {
+    const response = await AuthRequest.get(`/restaurant/${restaurantId}`, {
+      headers: authHeader(getToken()),
+    });
+    if (response?.status === 200) {
+      return {
+        status: true,
+        message: 'Restaurants data fetched',
+        data: response?.data,
+      };
+    } else {
+      return {
+        status: false,
+        message: 'Restaurants data not found',
+      };
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: 'Restaurants data not found',
+    };
+  }
+};
+
+export default {getRestaurants, getOneRestaurantById};
