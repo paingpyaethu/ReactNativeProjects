@@ -5,19 +5,22 @@ import {
   View,
   Text,
   TouchableOpacity,
+  FlatList,
   StyleSheet,
 } from 'react-native';
 import React from 'react';
 import {useOrientation} from '../../../../hooks/useOrientation';
+import Metrics from '../../../../theme/Metrics';
 
 const CategoryFilter = props => {
   const {catData} = props;
 
   const orientation = useOrientation();
   const styles = responsiveStyle(orientation);
+
   return (
-    <>
-      <ScrollView horizontal={true} style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView horizontal={true}>
         <TouchableOpacity
           style={styles.categoryContainer}
           onPress={() => {
@@ -30,7 +33,9 @@ const CategoryFilter = props => {
                 ? {backgroundColor: '#1f4287'}
                 : {backgroundColor: '#88bef5'},
             ]}>
-            <Text style={{color: '#F8FCFF'}}>{'All'}</Text>
+            <Text style={{color: '#F8FCFF', fontSize: Metrics._scale(13)}}>
+              {'All'}
+            </Text>
           </View>
         </TouchableOpacity>
         {catData &&
@@ -50,7 +55,9 @@ const CategoryFilter = props => {
                     ? {backgroundColor: '#1f4287'}
                     : {backgroundColor: '#88bef5'},
                 ]}>
-                <Text style={{color: '#F8FCFF'}}>{item.name}</Text>
+                <Text style={{color: '#F8FCFF', fontSize: Metrics._scale(13)}}>
+                  {item.name}
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -70,7 +77,7 @@ const CategoryFilter = props => {
           </View>
         </View>
       )}
-    </>
+    </View>
   );
 };
 
@@ -78,14 +85,15 @@ const responsiveStyle = orientation =>
   StyleSheet.create({
     container: {
       backgroundColor: '#f2f2f2',
+      // backgroundColor: 'red',
     },
     categoryContainer: {
-      marginHorizontal: 10,
-      marginVertical: 20,
+      marginHorizontal: Metrics._scale(9),
+      marginVertical: Metrics._scale(19),
     },
     categories: {
-      padding: 8,
-      borderRadius: 8,
+      padding: Metrics._scale(8),
+      borderRadius: Metrics._scale(8),
     },
   });
 

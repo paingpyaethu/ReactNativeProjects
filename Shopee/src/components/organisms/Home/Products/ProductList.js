@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import ProductCard from './ProductCard';
 
 const ProductList = props => {

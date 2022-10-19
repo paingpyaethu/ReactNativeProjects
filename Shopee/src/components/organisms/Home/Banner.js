@@ -1,9 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {ScrollView, View, StyleSheet} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
 import {useOrientation} from '../../../hooks/useOrientation';
+import Metrics from '../../../theme/Metrics';
 
 const Banner = () => {
   const orientation = useOrientation();
@@ -23,31 +23,37 @@ const Banner = () => {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <SliderBox
-          images={bannerData}
-          dotColor="#343434"
-          autoplay={true}
-          circleLoop={true}
-          ImageComponentStyle={styles.imageComponentStyle}
-        />
-        <View style={{height: 20}} />
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <SliderBox
+        images={bannerData}
+        inactiveDotColor="#FCE6CD"
+        dotColor="#343434"
+        dotStyle={styles.dotStyle}
+        autoplay={true}
+        circleLoop={true}
+        ImageComponentStyle={styles.imageComponentStyle}
+      />
+    </View>
   );
 };
 
 const responsiveStyle = orientation =>
   StyleSheet.create({
     container: {
-      flex: 1,
+      // flex: 1,
       backgroundColor: 'gainsboro',
     },
+    dotStyle: {
+      width: Metrics._scale(10),
+      height: Metrics._scale(10),
+      borderRadius: Metrics._scale(5),
+      padding: Metrics._scale(8),
+    },
     imageComponentStyle: {
-      borderRadius: 15,
+      borderRadius: Metrics._scale(15),
       width: orientation.width * 0.95,
-      marginTop: 10,
+      height: orientation.width / 2,
+      marginVertical: Metrics._scale(10),
     },
   });
 export default Banner;
