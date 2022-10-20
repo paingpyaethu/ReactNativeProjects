@@ -6,7 +6,7 @@ const ProductList = props => {
   const {item} = props;
 
   const _productDetailHandler = () => {
-    props.navigation.navigate('ProductDetail', {productData: item});
+    props.navigation.navigate('ProductDetail', {productDetail: item});
   };
   return (
     <TouchableOpacity onPress={_productDetailHandler}>

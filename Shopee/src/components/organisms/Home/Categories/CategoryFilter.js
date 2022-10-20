@@ -84,6 +84,7 @@ const CategoryFilter = props => {
 const responsiveStyle = orientation =>
   StyleSheet.create({
     container: {
+      // flex: 1,
       backgroundColor: '#f2f2f2',
       // backgroundColor: 'red',
     },

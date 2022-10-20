@@ -14,8 +14,7 @@ import Metrics from '../../theme/Metrics';
 import {useOrientation} from '../../hooks/useOrientation';
 
 const ProductDetailScreen = ({route, navigation}) => {
-  const {productData} = route.params;
-  console.log(productData);
+  const {productDetail} = route.params;
 
   const orientation = useOrientation();
   const styles = customStyle(orientation);
@@ -30,7 +29,7 @@ const ProductDetailScreen = ({route, navigation}) => {
         />
         <View
           style={{
-            width: '85%',
+            width: '90%',
             alignItems: 'center',
           }}>
           <Text style={styles.headerText}>ProductDetail</Text>
@@ -40,27 +39,27 @@ const ProductDetailScreen = ({route, navigation}) => {
       <ScrollView>
         <Image
           source={{
-            uri: productData.image
-              ? productData.image
+            uri: productDetail.image
+              ? productDetail.image
               : 'https://www.pngkey.com/png/full/110-1102882_black-box-outline-open-card-white-cartoon-empty.png',
           }}
           resizeMode="contain"
           style={styles.image}
         />
         <View style={styles.contentContainer}>
-          <Text style={styles.contentHeader}>{productData.name}</Text>
+          <Text style={styles.contentHeader}>{productDetail.name}</Text>
           <Text style={styles.contentText}>
-            {productData.brand.toUpperCase()}
+            {productDetail.brand.toUpperCase()}
           </Text>
         </View>
-        <Text>{productData.description}</Text>
+        <Text>{productDetail.description}</Text>
 
         <View style={{height: Metrics._scale(30)}} />
         {/* TODO: Description, Rish Description and Availability */}
       </ScrollView>
 
       <View style={styles.bottomContainer}>
-        <Text style={styles.price}>$ {productData.price}</Text>
+        <Text style={styles.price}>$ {productDetail.price}</Text>
         <TouchableOpacity style={styles.addBtn}>
           <Text style={styles.addBtnText}>Add</Text>
         </TouchableOpacity>
@@ -78,7 +77,7 @@ const customStyle = orientation =>
     headerContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: Metrics._scale(10),
+      marginBottom: Metrics._scale(15),
     },
     headerText: {
       fontSize: Metrics._scale(18),
