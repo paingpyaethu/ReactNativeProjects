@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ScrollView,
   View,
@@ -6,43 +7,47 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
-import {connect} from 'react-redux';
-import Metrics from '../theme/Metrics';
-import {useOrientation} from '../hooks/useOrientation';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-const OrderScreen = props => {
+import Metrics from '../../theme/Metrics';
+
+import {useOrientation} from '../../hooks/useOrientation';
+
+//From Redux
+import {clearCart, removeFromCart} from '../../store/redux/actions/CartAction';
+
+import CartItem from '../../components/organisms/Cart/CartItem';
+
+const CartScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cartItems, shallowEqual);
+
+  const _clearCartData = () => {
+    dispatch(clearCart());
+  };
+
+  const _deleteHandler = item => {
+    dispatch(removeFromCart(item));
+  };
+
+  let total = 0;
+  cartItems.forEach(cart => {
+    return (total += cart.price);
+  });
+
   const orientation = useOrientation();
   const styles = customStyle(orientation);
 
-  let total = 0;
-  props.cartItems.forEach(cart => {
-    return (total += cart.product.price);
-  });
   return (
     <>
-      {props.cartItems.length > 0 ? (
+      {cartItems.length > 0 ? (
         <View style={styles.container}>
           <Text style={styles.cartHeader}>My Shopping Cart</Text>
           <ScrollView>
-            {props.cartItems.map(data => {
+            {cartItems.map(data => {
               return (
-                <View key={data.product._id} style={styles.itemContainer}>
-                  <View style={styles.imageContainer}>
-                    <Image
-                      style={styles.image}
-                      resizeMode="contain"
-                      source={{
-                        uri: data.product.image
-                          ? data.product.image
-                          : 'https://www.pngkey.com/png/full/110-1102882_black-box-outline-open-card-white-cartoon-empty.png',
-                      }}
-                    />
-                  </View>
-                  <View style={styles.itemNamePriceContainer}>
-                    <Text style={styles.itemName}>{data.product.name}</Text>
-                    <Text style={styles.itemPrice}>${data.product.price}</Text>
-                  </View>
+                <View key={Math.random()}>
+                  <CartItem item={data} deleteHandler={_deleteHandler} />
                 </View>
               );
             })}
@@ -54,10 +59,12 @@ const OrderScreen = props => {
           </View>
 
           <View style={styles.bottomContainer}>
-            <TouchableOpacity style={styles.clearBtn}>
+            <TouchableOpacity style={styles.clearBtn} onPress={_clearCartData}>
               <Text style={styles.clearText}>Clear Cart</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.checkoutBtn}>
+            <TouchableOpacity
+              style={styles.checkoutBtn}
+              onPress={() => navigation.navigate('CheckoutScreen')}>
               <Text style={styles.checkoutText}>Checkout</Text>
             </TouchableOpacity>
           </View>
@@ -65,7 +72,7 @@ const OrderScreen = props => {
       ) : (
         <View style={styles.emptyCart}>
           <Image
-            source={require('../assets/img/empty-cart.png')}
+            source={require('../../assets/img/empty-cart.png')}
             resizeMode="contain"
           />
         </View>
@@ -74,12 +81,18 @@ const OrderScreen = props => {
   );
 };
 
-const mapStateToProps = state => {
-  const {cartItems} = state;
-  return {
-    cartItems: cartItems,
-  };
-};
+// const mapStateToProps = state => {
+//   const {cartItems} = state;
+//   return {
+//     cartItems: cartItems,
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     clearCart: () => dispatch(clearCart()),
+//   };
+// };
 const customStyle = orientation =>
   StyleSheet.create({
     container: {
@@ -92,35 +105,6 @@ const customStyle = orientation =>
       lineHeight: Metrics._scale(20 * 1.4),
       fontWeight: 'bold',
       marginBottom: Metrics._scale(10),
-    },
-    itemContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginHorizontal: Metrics._scale(15),
-      marginVertical: Metrics._scale(10),
-    },
-    itemNamePriceContainer: {
-      marginLeft: Metrics._scale(20),
-    },
-    itemName: {
-      fontSize: Metrics._scale(14),
-      lineHeight: Metrics._scale(14 * 1.4),
-      fontWeight: 'bold',
-      marginBottom: Metrics._scale(5),
-    },
-    itemPrice: {
-      fontSize: Metrics._scale(12),
-      lineHeight: Metrics._scale(12 * 1.4),
-      fontWeight: '500',
-    },
-    imageContainer: {
-      backgroundColor: '#dee1ec',
-      padding: Metrics._scale(8),
-      borderRadius: Metrics._scale(8),
-    },
-    image: {
-      width: Metrics._scale(80),
-      height: Metrics._scale(80),
     },
 
     totalPriceContainer: {
@@ -183,4 +167,5 @@ const customStyle = orientation =>
       alignItems: 'center',
     },
   });
-export default connect(mapStateToProps, null)(OrderScreen);
+// export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
+export default CartScreen;

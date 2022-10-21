@@ -12,13 +12,12 @@ const ProductCard = props => {
 
   const dispatch = useDispatch();
 
+  const _addToCartHandler = value => {
+    dispatch(addToCart(value));
+  };
+
   const orientation = useOrientation();
   const styles = customStyle(orientation);
-
-  // const _addToCartHandler = () => {
-  //   dispatch(addToCart(item));
-  //   console.log('Successfully Added!');
-  // };
 
   return (
     <View style={styles.container}>
@@ -41,7 +40,7 @@ const ProductCard = props => {
       {countInStock > 0 ? (
         <TouchableOpacity
           style={styles.addBtn}
-          onPress={() => props.addItemToCart(props)}>
+          onPress={() => _addToCartHandler(props)}>
           <Text style={styles.addBtnText}>Add</Text>
         </TouchableOpacity>
       ) : (
@@ -70,7 +69,7 @@ const mapDispatchToProps = dispatch => {
 const customStyle = orientation =>
   StyleSheet.create({
     container: {
-      width: orientation.width / 2 - Metrics._scale(14),
+      width: orientation.width / 2 - Metrics._scale(11),
       height: Metrics._scale(180),
       padding: Metrics._scale(10),
       borderRadius: Metrics._scale(10),
@@ -120,4 +119,5 @@ const customStyle = orientation =>
       color: '#fdfdfd',
     },
   });
-export default connect(null, mapDispatchToProps)(ProductCard);
+// export default connect(null, mapDispatchToProps)(ProductCard);
+export default ProductCard;
