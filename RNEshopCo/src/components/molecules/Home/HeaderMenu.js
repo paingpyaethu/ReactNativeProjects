@@ -14,7 +14,7 @@ import Fonts from '../../../themes/Fonts';
 import Metrics from '../../../themes/Metrics';
 import Separator from '../../atoms/Separator';
 
-const Header = () => {
+const HeaderMenu = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -45,8 +45,6 @@ const Header = () => {
     </SafeAreaView>
   );
 };
-
-export default Header;
 
 const styles = StyleSheet.create({
   container: {
@@ -87,3 +85,5 @@ const styles = StyleSheet.create({
     right: Metrics._scale(12),
   },
 });
+
+export default HeaderMenu;

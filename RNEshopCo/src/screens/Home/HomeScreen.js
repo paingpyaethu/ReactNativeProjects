@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import Header from '../../components/molecules/Home/Header';
+import Banner from '../../components/molecules/Home/Banner';
+import ProductList from '../../components/organisms/Home/ProductList';
 
 const HomeScreen = () => {
   return (
     <View>
-      <Header />
+      <Banner />
+      <ProductList />
     </View>
   );
 };
