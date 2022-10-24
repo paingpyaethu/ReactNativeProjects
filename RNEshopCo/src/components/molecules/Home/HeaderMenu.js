@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
   container: {
     width: Metrics.width,
     backgroundColor: '#fff',
-    paddingHorizontal: Metrics._scale(10),
 
     shadowColor: '#000',
     shadowOffset: {
@@ -65,6 +64,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: Metrics._scale(10),
   },
   searchInput: {
     backgroundColor: Colors.LIGHT_GREY,

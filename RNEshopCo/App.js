@@ -1,15 +1,13 @@
 import React from 'react';
-import {SafeAreaView, View, Text} from 'react-native';
-import Banner from './src/components/molecules/Home/Banner';
-import HeaderMenu from './src/components/molecules/Home/HeaderMenu';
+import {Provider} from 'react-redux';
 import HomeScreen from './src/screens/Home/HomeScreen';
+import {Store} from './src/stores/redux/Store';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <HeaderMenu />
+    <Provider store={Store}>
       <HomeScreen />
-    </SafeAreaView>
+    </Provider>
   );
 };
 
