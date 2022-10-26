@@ -1,4 +1,4 @@
-const Fonts = {
+export default {
   ROBOTOSLAB_BLACK: 'RobotoSlab-Black',
   ROBOTOSLAB_BOLD: 'RobotoSlab-Bold',
   ROBOTOSLAB_EXTRA_BOLD: 'RobotoSlab-ExtraBold',
@@ -7,5 +7,3 @@ const Fonts = {
   ROBOTOSLAB_REGULAR: 'RobotoSlab-Regular',
   ROBOTOSLAB_SEMI_BOLD: 'RobotoSlab-SemiBold',
 };
-
-export default Fonts;

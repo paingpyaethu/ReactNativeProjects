@@ -12,9 +12,8 @@ import ProductList from '../../components/organisms/Home/ProductList';
 
 import {getAllProducts} from '../../stores/redux/products/productSlice';
 import {BASE_URL} from '../../stores/api_endpoint';
-import Metrics from '../../themes/Metrics';
-import Fonts from '../../themes/Fonts';
-import Colors from '../../themes/Colors';
+
+import {COLORS, FONTS, METRICS} from '../../themes';
 
 const HomeScreen = ({navigation}) => {
   const products = useSelector(state => state.products.products);
@@ -49,18 +48,18 @@ const HomeScreen = ({navigation}) => {
     return (
       <View
         style={{
-          margin: Metrics._scale(15),
-          backgroundColor: Colors.DEFAULT_RED,
-          padding: Metrics._scale(10),
-          borderRadius: Metrics._scale(5),
+          margin: METRICS._scale(15),
+          backgroundColor: COLORS.DEFAULT_RED,
+          padding: METRICS._scale(10),
+          borderRadius: METRICS._scale(5),
         }}>
         <Text
           style={{
             color: '#F8FCFF',
             textAlign: 'center',
-            fontFamily: Fonts.ROBOTOSLAB_MEDIUM,
-            fontSize: Metrics._scale(14),
-            lineHeight: Metrics._scale(14 * 1.4),
+            fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+            fontSize: METRICS._scale(14),
+            lineHeight: METRICS._scale(14 * 1.4),
           }}>
           {'No Products Found!'}
         </Text>
@@ -76,6 +75,7 @@ const HomeScreen = ({navigation}) => {
         data={products}
         renderItem={_renderItem}
         ListHeaderComponent={_listHeaderComponent}
+        ListEmptyComponent={_listEmptyComponent}
         keyExtractor={_keyExtractor}
       />
     </View>
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listHeaderText: {
-    marginTop: Metrics._scale(10),
-    fontSize: Metrics._scale(16),
-    fontFamily: Fonts.ROBOTOSLAB_BOLD,
-    color: Colors.DARK_GREY,
+    marginTop: METRICS._scale(10),
+    fontSize: METRICS._scale(16),
+    fontFamily: FONTS.ROBOTOSLAB_BOLD,
+    color: COLORS.DARK_GREY,
     textAlign: 'center',
   },
 });

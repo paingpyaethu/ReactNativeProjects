@@ -9,9 +9,8 @@ import {
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
-import Colors from '../../../themes/Colors';
-import Fonts from '../../../themes/Fonts';
-import Metrics from '../../../themes/Metrics';
+import {METRICS, COLORS, FONTS} from '../../../themes';
+
 import Separator from '../../atoms/Separator';
 
 const HeaderMenu = () => {
@@ -19,25 +18,25 @@ const HeaderMenu = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={Colors.LIGHT_GREY}
+        backgroundColor={COLORS.LIGHT_GREY}
         translucent
       />
       <Separator height={StatusBar.currentHeight} />
 
       <View style={styles.headerContainer}>
         <TouchableOpacity>
-          <Feather name="align-left" size={Metrics._scale(30)} />
+          <Feather name="align-left" size={METRICS._scale(30)} />
         </TouchableOpacity>
         <TextInput
           placeholder="Search"
-          placeholderTextColor={Colors.NORMAL_GREY}
+          placeholderTextColor={COLORS.NORMAL_GREY}
           style={styles.searchInput}
         />
         <TouchableOpacity>
           <Feather
             name="search"
-            size={Metrics._scale(24)}
-            color={Colors.NORMAL_GREY}
+            size={METRICS._scale(24)}
+            color={COLORS.NORMAL_GREY}
             style={styles.searchIcon}
           />
         </TouchableOpacity>
@@ -48,7 +47,7 @@ const HeaderMenu = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: Metrics.width,
+    width: METRICS.width,
     backgroundColor: '#fff',
 
     shadowColor: '#000',
@@ -64,25 +63,25 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: Metrics._scale(10),
+    marginLeft: METRICS._scale(10),
   },
   searchInput: {
-    backgroundColor: Colors.LIGHT_GREY,
-    width: Metrics.width - Metrics._scale(60),
-    padding: Metrics._scale(10),
-    marginVertical: Metrics._scale(5),
-    marginLeft: Metrics._scale(10),
-    borderRadius: Metrics._scale(10),
+    backgroundColor: COLORS.LIGHT_GREY,
+    width: METRICS.width - METRICS._scale(60),
+    padding: METRICS._scale(10),
+    marginVertical: METRICS._scale(5),
+    marginLeft: METRICS._scale(10),
+    borderRadius: METRICS._scale(10),
 
-    fontFamily: Fonts.ROBOTOSLAB_MEDIUM,
-    fontSize: Metrics._scale(14),
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS._scale(14),
 
     position: 'relative',
   },
   searchIcon: {
     position: 'absolute',
-    bottom: Metrics._scale(-12),
-    right: Metrics._scale(12),
+    bottom: METRICS._scale(-12),
+    right: METRICS._scale(12),
   },
 });
 

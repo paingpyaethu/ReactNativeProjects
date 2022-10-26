@@ -3,33 +3,34 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import Colors from '../../../themes/Colors';
-import Fonts from '../../../themes/Fonts';
-import Metrics from '../../../themes/Metrics';
+import {METRICS, COLORS, FONTS, ROUTES} from '../../../themes';
 
-const ProductCard = props => {
+const ProductCard = ({product, navigation}) => {
   const [click, setClick] = useState(false);
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
+      }>
       <View style={styles.container}>
         <Image
           source={require('../../../assets/images/products/men-fashion-2.png')}
           resizeMode="contain"
           style={styles.image}
         />
-        <Text style={styles.name}>{props.name}</Text>
+        <Text style={styles.name}>{product.name}</Text>
         <View style={styles.priceAndRatingContainer}>
-          <Text style={styles.price}>${props.price}</Text>
+          <Text style={styles.price}>${product.price}</Text>
           <Text style={styles.offerPrice}>
-            {props.offerPrice > 0 ? '$' + props.offerPrice : null}
+            {product.offerPrice > 0 ? '$' + product.offerPrice : null}
           </Text>
           <View style={styles.ratingContainer}>
             <IonIcons
               name="star"
-              size={Metrics._scale(18)}
-              color={Colors.DEFAULT_YELLOW}
+              size={METRICS._scale(18)}
+              color={COLORS.DEFAULT_YELLOW}
             />
-            <Text style={styles.reviewsNum}>({props.numOfReviews})</Text>
+            <Text style={styles.reviewsNum}>({product.numOfReviews})</Text>
           </View>
         </View>
 
@@ -38,32 +39,32 @@ const ProductCard = props => {
             <TouchableOpacity onPress={() => setClick(!click)}>
               <IonIcons
                 name="heart"
-                size={Metrics._scale(25)}
-                color={Colors.DEFAULT_RED}
+                size={METRICS._scale(25)}
+                color={COLORS.DEFAULT_RED}
               />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => setClick(!click)}>
               <IonIcons
                 name="heart-outline"
-                size={Metrics._scale(25)}
-                color={Colors.SECONDARY_COLOR}
+                size={METRICS._scale(25)}
+                color={COLORS.SECONDARY_COLOR}
               />
             </TouchableOpacity>
           )}
 
-          {props.Stock !== 0 ? (
+          {product.Stock !== 0 ? (
             <TouchableOpacity>
               <MaterialIcons
                 name="add-shopping-cart"
-                size={Metrics._scale(25)}
-                color={Colors.SECONDARY_COLOR}
-                style={{marginLeft: Metrics._scale(8)}}
+                size={METRICS._scale(25)}
+                color={COLORS.SECONDARY_COLOR}
+                style={{marginLeft: METRICS._scale(8)}}
               />
             </TouchableOpacity>
           ) : null}
         </View>
-        {props.Stock === 0 ? (
+        {product.Stock === 0 ? (
           <View style={styles.outOfStock}>
             <Text style={styles.outOfStockText}>Out Of Stock</Text>
           </View>
@@ -75,14 +76,14 @@ const ProductCard = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    width: Metrics.width / 2 - Metrics._scale(20),
-    height: Metrics.width / 2.1 - Metrics._scale(10),
+    backgroundColor: COLORS.LIGHT_GREY,
+    width: METRICS.width / 2 - METRICS._scale(20),
+    height: METRICS.width / 2.1 - METRICS._scale(10),
 
-    marginTop: Metrics._scale(35),
-    padding: Metrics._scale(8),
+    marginTop: METRICS._scale(35),
+    padding: METRICS._scale(8),
 
-    borderRadius: Metrics._scale(5),
+    borderRadius: METRICS._scale(5),
 
     shadowColor: '#000',
     shadowOffset: {
@@ -95,51 +96,51 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: Metrics._scale(90),
-    height: Metrics._scale(90),
+    width: METRICS._scale(90),
+    height: METRICS._scale(90),
     position: 'absolute',
-    top: -Metrics._scale(40),
+    top: -METRICS._scale(40),
   },
   name: {
-    fontFamily: Fonts.ROBOTOSLAB_MEDIUM,
-    fontSize: Metrics._scale(15),
-    lineHeight: Metrics._scale(15 * 1.4),
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS._scale(15),
+    lineHeight: METRICS._scale(15 * 1.4),
     textAlign: 'center',
-    marginTop: Metrics._scale(6),
-    paddingTop: Metrics._scale(50),
-    color: Colors.PRIMARY_COLOR,
+    marginTop: METRICS._scale(6),
+    paddingTop: METRICS._scale(50),
+    color: COLORS.PRIMARY_COLOR,
   },
   priceAndRatingContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: -Metrics._scale(15),
+    marginTop: -METRICS._scale(15),
   },
   price: {
-    fontFamily: Fonts.ROBOTOSLAB_REGULAR,
-    fontSize: Metrics._scale(16),
-    lineHeight: Metrics._scale(16 * 1.4),
+    fontFamily: FONTS.ROBOTOSLAB_REGULAR,
+    fontSize: METRICS._scale(16),
+    lineHeight: METRICS._scale(16 * 1.4),
   },
   offerPrice: {
-    color: Colors.DEFAULT_RED,
-    fontFamily: Fonts.ROBOTOSLAB_LIGHT,
-    fontSize: Metrics._scale(14),
-    lineHeight: Metrics._scale(14 * 1.4),
+    color: COLORS.DEFAULT_RED,
+    fontFamily: FONTS.ROBOTOSLAB_LIGHT,
+    fontSize: METRICS._scale(14),
+    lineHeight: METRICS._scale(14 * 1.4),
 
     textDecorationLine: 'line-through',
-    marginLeft: -Metrics._scale(30),
-    marginTop: -Metrics._scale(5),
+    marginLeft: -METRICS._scale(30),
+    marginTop: -METRICS._scale(5),
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   reviewsNum: {
-    fontFamily: Fonts.ROBOTOSLAB_REGULAR,
-    fontSize: Metrics._scale(14),
-    lineHeight: Metrics._scale(14 * 1.4),
-    marginLeft: Metrics._scale(2),
+    fontFamily: FONTS.ROBOTOSLAB_REGULAR,
+    fontSize: METRICS._scale(14),
+    lineHeight: METRICS._scale(14 * 1.4),
+    marginLeft: METRICS._scale(2),
   },
 
   footerContainer: {
@@ -148,13 +149,13 @@ const styles = StyleSheet.create({
   },
 
   outOfStock: {
-    width: Metrics._scale(60),
-    height: Metrics._scale(60),
-    backgroundColor: Colors.DEFAULT_RED,
-    borderRadius: Metrics._scale(60),
+    width: METRICS._scale(60),
+    height: METRICS._scale(60),
+    backgroundColor: COLORS.DEFAULT_RED,
+    borderRadius: METRICS._scale(60),
     position: 'absolute',
-    top: -Metrics._scale(10),
-    right: -Metrics._scale(10),
+    top: -METRICS._scale(10),
+    right: -METRICS._scale(10),
     alignItems: 'center',
     justifyContent: 'center',
 
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
   },
   outOfStockText: {
     color: '#fff',
-    fontSize: Metrics._scale(12),
+    fontSize: METRICS._scale(12),
     textAlign: 'center',
 
     shadowColor: '#000',
