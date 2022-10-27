@@ -3,7 +3,6 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Octicons from 'react-native-vector-icons/Octicons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS, METRICS, ROUTES} from '../../themes';
@@ -25,6 +24,7 @@ const TabNavigator = () => {
         tabBarActiveTintColor: COLORS.PRIMARY_COLOR,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
+        tabBarStyle: styles.tabBarStyle,
         tabBarIcon: ({color, focused}) => {
           let iconName;
 
@@ -40,7 +40,12 @@ const TabNavigator = () => {
             iconName = focused ? 'person-circle' : 'person-circle-outline';
           }
           return (
-            <IonIcons name={iconName} size={METRICS._scale(22)} color={color} />
+            <IonIcons
+              name={iconName}
+              size={METRICS._scale(22)}
+              color={color}
+              style={{width: METRICS.width / 5, textAlign: 'center'}}
+            />
           );
         },
       })}>

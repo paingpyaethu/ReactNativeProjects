@@ -20,7 +20,10 @@ export default {
   CART_TAB: 'Cart Tab',
   CART_DRAWER: 'Cart Drawer',
 
+  ORDER: 'Order',
+  ORDER_DRAWER: 'Order Drawer',
+
   PROFILE: 'Profile',
   PROFILE_TAB: 'Profile Tab',
-  PROFILE_DRAWER: 'Product Drawer',
+  PROFILE_DRAWER: 'Profile Drawer',
 };

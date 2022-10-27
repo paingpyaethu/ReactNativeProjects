@@ -13,7 +13,7 @@ import {METRICS, COLORS, FONTS} from '../../../themes';
 
 import Separator from '../../atoms/Separator';
 
-const HeaderMenu = () => {
+const HeaderMenu = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar

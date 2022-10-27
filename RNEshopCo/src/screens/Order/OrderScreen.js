@@ -1,16 +1,15 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {METRICS} from '../../themes';
 
-const ProductScreen = () => {
+const OrderScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>{METRICS.height}</Text>
+      <Text>OrderScreen</Text>
     </View>
   );
 };
 
-export default ProductScreen;
+export default OrderScreen;
 
 const styles = StyleSheet.create({
   container: {
