@@ -2,7 +2,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 
 import AppNavigator from './src/navigations/AppNavigator';
-import {Store} from './src/stores/redux/Store';
+import {Store} from './src/stores/slices/Store';
 
 const App = () => {
   return (

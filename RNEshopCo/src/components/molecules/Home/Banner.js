@@ -25,8 +25,8 @@ const Banner = () => {
         inactiveDotColor="#FCE6CD"
         dotColor={COLORS.PRIMARY_COLOR}
         dotStyle={styles.dotStyle}
-        // autoplay={true}
-        // circleLoop={true}
+        autoplay={true}
+        circleLoop={true}
         ImageComponentStyle={styles.imageComponentStyle}
       />
     </View>

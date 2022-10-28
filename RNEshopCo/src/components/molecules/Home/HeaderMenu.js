@@ -24,7 +24,7 @@ const HeaderMenu = ({navigation}) => {
       <Separator height={StatusBar.currentHeight} />
 
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Feather name="align-left" size={METRICS._scale(30)} />
         </TouchableOpacity>
         <TextInput
