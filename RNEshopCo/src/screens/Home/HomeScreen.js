@@ -16,7 +16,13 @@ const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    let mounted = false;
+    if (!mounted) {
+      dispatch(fetchProducts());
+    }
+    return () => {
+      mounted = true;
+    };
   }, [dispatch]);
 
   const _renderItem = ({item}) => {
