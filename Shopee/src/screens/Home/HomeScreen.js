@@ -1,29 +1,27 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   View,
   Text,
-  FlatList,
+  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+
+import axios from 'axios';
+
 import CustomSearchBar from '../../components/molecules/CustomSearchBar';
 import Banner from '../../components/organisms/Home/Banner';
 import CategoryFilter from '../../components/organisms/Home/Categories/CategoryFilter';
 import ProductList from '../../components/organisms/Home/Products/ProductList';
+
 import SearchedProducts from './SearchedProducts';
 
-import {useOrientation} from '../../hooks/useOrientation';
-import {FlashList} from '@shopify/flash-list';
+import {BASE_URL} from '../../store/api_endpoint';
+import {FONTS, METRICS} from '../../theme';
 
-const data = require('../../assets/data/products.json');
-const categoriesData = require('../../assets/data/categories.json');
-
-const HomeScreen = props => {
-  const orientation = useOrientation();
-  const styles = responsiveStyle(orientation);
-
+const HomeScreen = ({navigation}) => {
   const [products, setProducts] = useState([]);
   const [productFiltered, setProductFiltered] = useState([]);
   const [focus, setFocus] = useState();
@@ -33,29 +31,43 @@ const HomeScreen = props => {
   const [active, setActive] = useState();
   const [initialState, setInitialState] = useState([]);
 
-  const [isGreen, setIsGreen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setProducts(data);
-    setProductFiltered(data);
-    setFocus(false);
+  useFocusEffect(
+    useCallback(() => {
+      // eslint-disable-next-line no-undef
+      const abortController = new AbortController();
 
-    setCategories(categoriesData);
-    setProductsCat(data);
-    setActive('all');
-    setInitialState(data);
+      setFocus(false);
+      setActive('all');
 
-    return () => {
-      setProducts([]);
-      setProductFiltered([]);
-      setFocus();
+      axios
+        .get(`${BASE_URL}/products`, {signal: abortController.signal})
+        .then(res => {
+          setProducts(res.data);
+          setProductFiltered(res.data);
+          setProductsCat(res.data);
+          setInitialState(res.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
 
-      setCategories([]);
-      setProductsCat([]);
-      setActive();
-      setInitialState([]);
-    };
-  }, []);
+      axios
+        .get(`${BASE_URL}/categories`, {signal: abortController.signal})
+        .then(res => {
+          setCategories(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        abortController.abort();
+      };
+    }, []),
+  );
 
   const searchProduct = text => {
     setProductFiltered(
@@ -81,98 +93,62 @@ const HomeScreen = props => {
         ];
   };
 
-  // const _renderItem = ({item}) => {
-  //   return <ProductList item={item} navigation={props.navigation} />;
-  // };
-
-  // const ListHeaderComponent = () => {
-  //   return (
-  //     <>
-  //       <Banner />
-  //       <CategoryFilter
-  //         catData={categories}
-  //         categoryFilter={changeCategories}
-  //         productsCat={productsCat}
-  //         active={active}
-  //         setActive={setActive}
-  //       />
-  //     </>
-  //   );
-  // };
-
-  const ListEmptyComponent = () => {
-    return (
-      <View
-        style={{
-          margin: 15,
-          backgroundColor: '#F35162',
-          padding: 10,
-          borderRadius: 5,
-        }}>
-        <Text
-          style={{
-            color: '#F8FCFF',
-            textAlign: 'center',
-          }}>
-          {'No Products Found!'}
-        </Text>
-      </View>
-    );
-  };
-
-  const _keyExtractor = item => item._id;
-
   return (
-    <SafeAreaView style={styles.container}>
-      <CustomSearchBar
-        onFocus={openList}
-        onChangeText={text => searchProduct(text)}
-        focus={focus}
-        onPress={onBlur}
-      />
+    <>
+      {loading === false ? (
+        <View style={styles.container}>
+          <CustomSearchBar
+            onFocus={openList}
+            onChangeText={text => searchProduct(text)}
+            focus={focus}
+            onPress={onBlur}
+          />
 
-      <ScrollView>
-        <Banner />
-        <CategoryFilter
-          catData={categories}
-          categoryFilter={changeCategories}
-          productsCat={productsCat}
-          active={active}
-          setActive={setActive}
-        />
+          <ScrollView>
+            <Banner />
+            <CategoryFilter
+              catData={categories}
+              categoryFilter={changeCategories}
+              productsCat={productsCat}
+              active={active}
+              setActive={setActive}
+            />
 
-        {productsCat.length > 0 ? (
-          <View style={styles.productContainer}>
-            {productsCat.map(item => {
-              return (
-                <ProductList
-                  key={item._id}
-                  item={item}
-                  navigation={props.navigation}
-                />
-              );
-            })}
-          </View>
-        ) : (
-          <View
-            style={{
-              margin: 15,
-              backgroundColor: '#F35162',
-              padding: 10,
-              borderRadius: 5,
-            }}>
-            <Text
-              style={{
-                color: '#F8FCFF',
-                textAlign: 'center',
-              }}>
-              {'No Products Found!'}
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+            {productsCat.length > 0 ? (
+              <View style={styles.productContainer}>
+                {productsCat.map(item => {
+                  return (
+                    <ProductList
+                      key={item._id}
+                      item={item}
+                      navigation={navigation}
+                    />
+                  );
+                })}
+              </View>
+            ) : (
+              <View
+                style={{
+                  margin: METRICS._scale(15),
+                  backgroundColor: '#F35162',
+                  padding: METRICS._scale(10),
+                  borderRadius: METRICS._scale(5),
+                }}>
+                <Text
+                  style={{
+                    color: '#F8FCFF',
+                    textAlign: 'center',
+                    fontFamily: FONTS.MONTSERRAT_MEDIUM,
+                    fontSize: METRICS._scale(14),
+                    lineHeight: METRICS._scale(14 * 1.4),
+                  }}>
+                  {'No Products Found!'}
+                </Text>
+              </View>
+            )}
+          </ScrollView>
 
-      {/* {focus === true ? (
+          {/* {focus === true ? (
         <SearchedProducts productFiltered={productFiltered} />
       ) : (
         <View style={styles.productContainer}>
@@ -188,21 +164,32 @@ const HomeScreen = props => {
           />
         </View>
       )} */}
-    </SafeAreaView>
+        </View>
+      ) : (
+        <View
+          style={{
+            backgroundColor: '#f2f2f2',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <ActivityIndicator size="large" color="red" />
+        </View>
+      )}
+    </>
   );
 };
 
-const responsiveStyle = orientation =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    productContainer: {
-      flex: 1,
-      backgroundColor: 'gainsboro',
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  productContainer: {
+    flex: 1,
+    backgroundColor: 'gainsboro',
 
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-    },
-  });
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+});
 export default HomeScreen;

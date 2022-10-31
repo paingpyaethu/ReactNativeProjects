@@ -1,17 +1,11 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
 import ProductCard from './ProductCard';
 
-const ProductList = props => {
-  const {item} = props;
-
-  const _productDetailHandler = () => {
-    props.navigation.navigate('ProductDetail', {productDetail: item});
-  };
+const ProductList = ({item, navigation}) => {
   return (
-    <TouchableOpacity onPress={_productDetailHandler}>
-      <ProductCard {...item} />
-    </TouchableOpacity>
+    <>
+      <ProductCard product={item} navigation={navigation} />
+    </>
   );
 };
 

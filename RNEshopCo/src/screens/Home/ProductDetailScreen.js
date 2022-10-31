@@ -1,7 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-const ProductDetails = ({route, navigation}) => {
+const ProductDetailScreen = ({route}) => {
   const {item} = route.params;
 
   return (
@@ -11,7 +11,7 @@ const ProductDetails = ({route, navigation}) => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetailScreen;
 
 const styles = StyleSheet.create({
   container: {

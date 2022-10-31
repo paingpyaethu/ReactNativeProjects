@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
-import Metrics from '../../../theme/Metrics';
+// Custom Themes
+import {METRICS} from '../../../theme';
 
 const CartItem = props => {
   const data = props.item;
@@ -39,32 +40,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: Metrics._scale(15),
-    marginVertical: Metrics._scale(10),
+    marginHorizontal: METRICS._scale(15),
+    marginVertical: METRICS._scale(10),
   },
   imageContainer: {
     backgroundColor: '#dee1ec',
-    padding: Metrics._scale(8),
-    borderRadius: Metrics._scale(8),
+    padding: METRICS._scale(8),
+    borderRadius: METRICS._scale(8),
   },
   image: {
-    width: Metrics._scale(80),
-    height: Metrics._scale(80),
+    width: METRICS._scale(80),
+    height: METRICS._scale(80),
   },
   itemNamePriceContainer: {
     flex: 1,
-    marginLeft: Metrics._scale(20),
+    marginLeft: METRICS._scale(20),
   },
   itemName: {
-    fontSize: Metrics._scale(14),
-    lineHeight: Metrics._scale(14 * 1.4),
+    fontSize: METRICS._scale(14),
+    lineHeight: METRICS._scale(14 * 1.4),
     fontWeight: 'bold',
-    marginBottom: Metrics._scale(5),
+    marginBottom: METRICS._scale(5),
     textAlign: 'left',
   },
   itemPrice: {
-    fontSize: Metrics._scale(12),
-    lineHeight: Metrics._scale(12 * 1.4),
+    fontSize: METRICS._scale(12),
+    lineHeight: METRICS._scale(12 * 1.4),
     fontWeight: '500',
   },
 });

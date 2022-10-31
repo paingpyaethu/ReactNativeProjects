@@ -1,12 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {connect} from 'react-redux';
-import Metrics from '../../theme/Metrics';
-import {useOrientation} from '../../hooks/useOrientation';
+
+import {METRICS} from '../../theme';
 
 const CartNoti = props => {
-  const orientation = useOrientation();
-  const styles = customStyle(orientation);
   return (
     <>
       {props.cartItems.length ? (
@@ -26,25 +24,24 @@ const mapStateToProps = state => {
 };
 export default connect(mapStateToProps)(CartNoti);
 
-const customStyle = orientation =>
-  StyleSheet.create({
-    badge: {
-      flex: 1,
-      backgroundColor: '#17b978',
-      width: Metrics._scale(20),
-      height: Metrics._scale(20),
-      borderRadius: Metrics._scale(20),
+const styles = StyleSheet.create({
+  badge: {
+    flex: 1,
+    backgroundColor: '#17b978',
+    width: METRICS._scale(20),
+    height: METRICS._scale(20),
+    borderRadius: METRICS._scale(20),
 
-      position: 'absolute',
-      top: -Metrics._scale(5),
-      left: Metrics._scale(45),
-      zIndex: 1,
-    },
-    text: {
-      color: '#fff',
-      fontSize: Metrics._scale(12),
-      lineHeight: Metrics._scale(20),
-      textAlign: 'center',
-      fontWeight: 'bold',
-    },
-  });
+    position: 'absolute',
+    top: -METRICS._scale(5),
+    left: METRICS._scale(45),
+    zIndex: 1,
+  },
+  text: {
+    color: '#fff',
+    fontSize: METRICS._scale(12),
+    lineHeight: METRICS._scale(20),
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+});

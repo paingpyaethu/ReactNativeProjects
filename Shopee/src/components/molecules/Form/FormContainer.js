@@ -1,13 +1,10 @@
 import React from 'react';
 import {StyleSheet, ScrollView, Text} from 'react-native';
-//Custom Hook
-import {useOrientation} from '../../../hooks/useOrientation';
+
 //Custom Themes
-import Metrics from '../../../theme/Metrics';
+import {METRICS} from '../../../theme';
 
 const FormContainer = props => {
-  const orientation = useOrientation();
-  const styles = customStyle(orientation);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{props.title}</Text>
@@ -16,18 +13,17 @@ const FormContainer = props => {
   );
 };
 
-const customStyle = orientation =>
-  StyleSheet.create({
-    container: {
-      marginTop: Metrics._scale(30),
-      marginBottom: Metrics._scale(400),
-      width: orientation.width,
-      justifyContent: 'center',
-      alignContent: 'center',
-    },
-    title: {
-      fontSize: Metrics.style(30),
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    marginTop: METRICS._scale(30),
+    marginBottom: METRICS._scale(400),
+    width: METRICS.width,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  title: {
+    fontSize: METRICS.style(30),
+  },
+});
 
 export default FormContainer;

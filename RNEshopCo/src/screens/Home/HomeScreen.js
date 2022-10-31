@@ -7,7 +7,7 @@ import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
 import Banner from '../../components/molecules/Home/Banner';
 import ProductList from '../../components/organisms/Home/ProductList';
 
-import {COLORS, FONTS, METRICS} from '../../themes';
+import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 
 import {fetchProducts} from '../../stores/slices/products/productSlice';
 
@@ -16,6 +16,8 @@ const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // dispatch(fetchProducts());
+
     let mounted = false;
     if (!mounted) {
       dispatch(fetchProducts());
@@ -25,53 +27,21 @@ const HomeScreen = ({navigation}) => {
     };
   }, [dispatch]);
 
-  const _renderItem = ({item}) => {
-    return <ProductList item={item} navigation={navigation} />;
-  };
-
-  const _listHeaderComponent = () => {
-    return (
-      <>
-        <Text style={styles.listHeaderText}>New Trends</Text>
-      </>
-    );
-  };
-  const _listEmptyComponent = () => {
-    return (
-      <View
-        style={{
-          margin: METRICS._scale(15),
-          backgroundColor: COLORS.DEFAULT_RED,
-          padding: METRICS._scale(10),
-          borderRadius: METRICS._scale(5),
-        }}>
-        <Text
-          style={{
-            color: '#F8FCFF',
-            textAlign: 'center',
-            fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
-            fontSize: METRICS._scale(14),
-            lineHeight: METRICS._scale(14 * 1.4),
-          }}>
-          {'No Products Found!'}
-        </Text>
-      </View>
-    );
-  };
-  const _keyExtractor = item => item._id;
   return (
     <View style={styles.container}>
       <HeaderMenu navigation={navigation} />
       <Banner />
+
+      <ProductList data={products} navigation={navigation} />
       {/* <Text>{JSON.stringify(products, null, 2)}</Text> */}
-      <FlatList
+      {/* <FlatList
         numColumns={2}
         data={products}
         renderItem={_renderItem}
         ListHeaderComponent={_listHeaderComponent}
         ListEmptyComponent={_listEmptyComponent}
         keyExtractor={_keyExtractor}
-      />
+      /> */}
     </View>
   );
 };

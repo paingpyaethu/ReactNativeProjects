@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {
@@ -7,11 +8,17 @@ import {
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
-import {COLORS, FONTS, METRICS} from '../../../themes';
+import {COLORS, FONTS, IMAGES, METRICS} from '../../../themes';
 
 const CustomDrawer = props => {
   return (
     <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={IMAGES.LOGO}
+          style={{width: '100%', height: METRICS._scale(130)}}
+        />
+      </View>
       <View style={styles.userContainer}>
         <Image
           source={require('../../../assets/images/logo/user_avatar.png')}
@@ -20,7 +27,7 @@ const CustomDrawer = props => {
         <Text style={styles.userText}>Paing Pyae Thu</Text>
       </View>
       <DrawerContentScrollView {...props}>
-        <View>
+        <View style={{marginTop: METRICS._scale(-30)}}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
@@ -44,6 +51,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: METRICS._scale(50),
     margin: 0,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   userContainer: {
     flexDirection: 'row',

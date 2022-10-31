@@ -5,12 +5,12 @@ import {
   View,
   Text,
   Image,
-  Dimensions,
   Platform,
   StyleSheet,
 } from 'react-native';
 
-const dimension = Dimensions.get('window');
+import {METRICS} from '../../theme';
+
 const SearchedProducts = props => {
   const {productFiltered} = props;
 
@@ -59,10 +59,10 @@ const SearchedProducts = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: dimension.height,
+    height: METRICS.height,
     backgroundColor: 'gainsboro',
     borderTopLeftRadius:
-      Platform.OS === 'ios' ? dimension.height / 30 : dimension.height / 7,
+      Platform.OS === 'ios' ? METRICS.height / 30 : METRICS.height / 7,
   },
   listContainer: {
     flexDirection: 'row',
@@ -73,19 +73,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   images: {
-    width: dimension.width / 5.57,
-    height: dimension.height / 12.06,
+    width: METRICS.width / 5.57,
+    height: METRICS.height / 12.06,
   },
   name: {
-    fontSize: dimension.width / 22.83,
+    fontSize: METRICS.width / 22.83,
     fontWeight: 'bold',
     color: '#43425D',
-    marginBottom: dimension.height / 168.8,
+    marginBottom: METRICS.height / 168.8,
   },
   desc: {
-    fontSize: dimension.width / 29.3571,
+    fontSize: METRICS.width / 29.3571,
     color: '#343434',
-    paddingRight: dimension.width / 8.22,
+    paddingRight: METRICS.width / 8.22,
   },
 });
 export default SearchedProducts;

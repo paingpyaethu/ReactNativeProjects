@@ -1,14 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
-import {useOrientation} from '../../../hooks/useOrientation';
-import Metrics from '../../../theme/Metrics';
+import {METRICS} from '../../../theme';
 
 const Banner = () => {
-  const orientation = useOrientation();
-  const styles = responsiveStyle(orientation);
-
   const [bannerData, setBannerData] = useState([]);
 
   useEffect(() => {
@@ -37,23 +33,22 @@ const Banner = () => {
   );
 };
 
-const responsiveStyle = orientation =>
-  StyleSheet.create({
-    container: {
-      // flex: 1,
-      backgroundColor: 'gainsboro',
-    },
-    dotStyle: {
-      width: Metrics._scale(10),
-      height: Metrics._scale(10),
-      borderRadius: Metrics._scale(5),
-      padding: Metrics._scale(8),
-    },
-    imageComponentStyle: {
-      borderRadius: Metrics._scale(15),
-      width: orientation.width * 0.95,
-      height: orientation.width / 2,
-      marginVertical: Metrics._scale(10),
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    backgroundColor: 'gainsboro',
+  },
+  dotStyle: {
+    width: METRICS._scale(10),
+    height: METRICS._scale(10),
+    borderRadius: METRICS._scale(5),
+    padding: METRICS._scale(8),
+  },
+  imageComponentStyle: {
+    borderRadius: METRICS._scale(15),
+    width: METRICS.width * 0.95,
+    height: METRICS.width / 2,
+    marginVertical: METRICS._scale(10),
+  },
+});
 export default Banner;

@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {METRICS, COLORS, FONTS, ROUTES} from '../../../themes';
+import {METRICS, COLORS, FONTS, ROUTES, IMAGES} from '../../../themes';
 
 const ProductCard = ({product, navigation}) => {
   const [click, setClick] = useState(false);
@@ -13,24 +13,21 @@ const ProductCard = ({product, navigation}) => {
         navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
       }>
       <View style={styles.container}>
-        <Image
-          source={require('../../../assets/images/products/men-fashion-2.png')}
-          resizeMode="contain"
-          style={styles.image}
-        />
-        <Text style={styles.name}>{product.name}</Text>
+        <Image source={{uri: product.image}} style={styles.image} />
+        <Text style={styles.name}>
+          {product.name.length > 20
+            ? product.name.substring(0, 15) + '...'
+            : product.name}
+        </Text>
         <View style={styles.priceAndRatingContainer}>
           <Text style={styles.price}>${product.price}</Text>
-          <Text style={styles.offerPrice}>
-            {product.offerPrice > 0 ? '$' + product.offerPrice : null}
-          </Text>
           <View style={styles.ratingContainer}>
             <IonIcons
               name="star"
               size={METRICS._scale(18)}
               color={COLORS.DEFAULT_YELLOW}
             />
-            <Text style={styles.reviewsNum}>({product.numOfReviews})</Text>
+            <Text style={styles.reviewsNum}>({product.numReviews})</Text>
           </View>
         </View>
 
@@ -53,7 +50,7 @@ const ProductCard = ({product, navigation}) => {
             </TouchableOpacity>
           )}
 
-          {product.Stock !== 0 ? (
+          {product.countInStock !== 0 ? (
             <TouchableOpacity>
               <MaterialIcons
                 name="add-shopping-cart"
@@ -64,7 +61,7 @@ const ProductCard = ({product, navigation}) => {
             </TouchableOpacity>
           ) : null}
         </View>
-        {product.Stock === 0 ? (
+        {product.countInStock === 0 ? (
           <View style={styles.outOfStock}>
             <Text style={styles.outOfStockText}>Out Of Stock</Text>
           </View>
@@ -74,14 +71,17 @@ const ProductCard = ({product, navigation}) => {
   );
 };
 
+export default ProductCard;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.LIGHT_GREY,
-    width: METRICS.width / 2 - METRICS._scale(20),
-    height: METRICS.width / 2.1 - METRICS._scale(10),
+    width: METRICS.width / 2 - METRICS._scale(11),
+    padding: METRICS._scale(15),
 
+    marginLeft: (METRICS.width / 100) * 1.9,
     marginTop: METRICS._scale(35),
-    padding: METRICS._scale(8),
+    marginBottom: METRICS._scale(20),
 
     borderRadius: METRICS._scale(5),
 
@@ -96,26 +96,27 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: METRICS._scale(90),
-    height: METRICS._scale(90),
+    width: METRICS._scale(110),
+    height: METRICS._scale(110),
     position: 'absolute',
     top: -METRICS._scale(40),
+    left: METRICS._scale(10),
   },
   name: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
     fontSize: METRICS._scale(15),
     lineHeight: METRICS._scale(15 * 1.4),
     textAlign: 'center',
-    marginTop: METRICS._scale(6),
+    marginTop: METRICS._scale(30),
     paddingTop: METRICS._scale(50),
     color: COLORS.PRIMARY_COLOR,
   },
   priceAndRatingContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: -METRICS._scale(15),
+    marginVertical: METRICS._scale(15),
   },
   price: {
     fontFamily: FONTS.ROBOTOSLAB_REGULAR,
@@ -185,5 +186,3 @@ const styles = StyleSheet.create({
     elevation: 13,
   },
 });
-
-export default ProductCard;

@@ -2,9 +2,9 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '../../../screens/Home/HomeScreen';
-import ProductDetails from '../../../components/organisms/Home/ProductDetails';
 
 import {ROUTES} from '../../../themes';
+import ProductDetailScreen from '../../../screens/Home/ProductDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,10 +21,10 @@ const HomeStack = () => {
 
       <Stack.Screen
         name={ROUTES.PRODUCT_DETAIL}
-        component={ProductDetails}
-        options={{
-          headerShown: false,
-        }}
+        component={ProductDetailScreen}
+        // options={{
+        //   headerShown: false,
+        // }}
       />
     </Stack.Navigator>
   );

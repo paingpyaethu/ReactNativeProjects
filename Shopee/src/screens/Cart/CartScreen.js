@@ -9,14 +9,12 @@ import {
 } from 'react-native';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import Metrics from '../../theme/Metrics';
-
-import {useOrientation} from '../../hooks/useOrientation';
-
 //From Redux
 import {clearCart, removeFromCart} from '../../store/redux/actions/CartAction';
 
 import CartItem from '../../components/organisms/Cart/CartItem';
+
+import {METRICS} from '../../theme';
 
 const CartScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -34,9 +32,6 @@ const CartScreen = ({navigation}) => {
   cartItems.forEach(cart => {
     return (total += cart.price);
   });
-
-  const orientation = useOrientation();
-  const styles = customStyle(orientation);
 
   return (
     <>
@@ -93,79 +88,78 @@ const CartScreen = ({navigation}) => {
 //     clearCart: () => dispatch(clearCart()),
 //   };
 // };
-const customStyle = orientation =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-    },
-    cartHeader: {
-      alignSelf: 'center',
-      fontSize: Metrics._scale(20),
-      lineHeight: Metrics._scale(20 * 1.4),
-      fontWeight: 'bold',
-      marginBottom: Metrics._scale(10),
-    },
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  cartHeader: {
+    alignSelf: 'center',
+    fontSize: METRICS._scale(20),
+    lineHeight: METRICS._scale(20 * 1.4),
+    fontWeight: 'bold',
+    marginBottom: METRICS._scale(10),
+  },
 
-    totalPriceContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+  totalPriceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
-      margin: Metrics._scale(15),
-    },
-    totalText: {
-      fontSize: Metrics._scale(14),
-      lineHeight: Metrics._scale(14 * 1.4),
-      fontWeight: '500',
-      color: '#3e3636',
-    },
-    totalPriceText: {
-      fontSize: Metrics._scale(14),
-      lineHeight: Metrics._scale(14 * 1.4),
-      fontWeight: '500',
-      color: '#cb3b3b',
-    },
+    margin: METRICS._scale(15),
+  },
+  totalText: {
+    fontSize: METRICS._scale(14),
+    lineHeight: METRICS._scale(14 * 1.4),
+    fontWeight: '500',
+    color: '#3e3636',
+  },
+  totalPriceText: {
+    fontSize: METRICS._scale(14),
+    lineHeight: METRICS._scale(14 * 1.4),
+    fontWeight: '500',
+    color: '#cb3b3b',
+  },
 
-    bottomContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
+  bottomContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
 
-      marginBottom: Metrics._scale(15),
-    },
-    clearBtn: {
-      backgroundColor: '#ff5959',
-      height: Metrics._scale(30),
-      width: Metrics._scale(100),
-      borderRadius: Metrics._scale(8),
-    },
-    clearText: {
-      fontSize: Metrics._scale(14),
-      color: '#fff',
-      textAlign: 'center',
-      lineHeight: Metrics._scale(30),
-    },
-    checkoutBtn: {
-      backgroundColor: '#17b978',
-      height: Metrics._scale(30),
-      width: Metrics._scale(100),
-      borderRadius: Metrics._scale(8),
+    marginBottom: METRICS._scale(15),
+  },
+  clearBtn: {
+    backgroundColor: '#ff5959',
+    height: METRICS._scale(30),
+    width: METRICS._scale(100),
+    borderRadius: METRICS._scale(8),
+  },
+  clearText: {
+    fontSize: METRICS._scale(14),
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: METRICS._scale(30),
+  },
+  checkoutBtn: {
+    backgroundColor: '#17b978',
+    height: METRICS._scale(30),
+    width: METRICS._scale(100),
+    borderRadius: METRICS._scale(8),
 
-      marginLeft: Metrics._scale(10),
-    },
-    checkoutText: {
-      fontSize: Metrics._scale(14),
-      color: '#fff',
-      textAlign: 'center',
-      lineHeight: Metrics._scale(30),
-    },
+    marginLeft: METRICS._scale(10),
+  },
+  checkoutText: {
+    fontSize: METRICS._scale(14),
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: METRICS._scale(30),
+  },
 
-    emptyCart: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+  emptyCart: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 // export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
 export default CartScreen;

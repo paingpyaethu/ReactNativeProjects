@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
-import Metrics from '../../../theme/Metrics';
+import {METRICS} from '../../../theme';
 
 const Input = props => {
   return (
@@ -22,12 +22,12 @@ const Input = props => {
 const styles = StyleSheet.create({
   input: {
     width: '80%',
-    height: Metrics._scale(60),
+    height: METRICS._scale(60),
     backgroundColor: '#fff',
-    margin: Metrics._scale(10),
-    borderRadius: Metrics._scale(15),
-    padding: Metrics._scale(10),
-    borderWidth: Metrics._scale(2),
+    margin: METRICS._scale(10),
+    borderRadius: METRICS._scale(15),
+    padding: METRICS._scale(10),
+    borderWidth: METRICS._scale(2),
     borderColor: 'orange',
   },
 });

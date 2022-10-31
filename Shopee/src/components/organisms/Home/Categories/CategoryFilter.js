@@ -5,19 +5,15 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
 } from 'react-native';
 import React from 'react';
-import {useOrientation} from '../../../../hooks/useOrientation';
-import Metrics from '../../../../theme/Metrics';
+
+// Custom Themes
+import {FONTS, METRICS} from '../../../../theme';
 
 const CategoryFilter = props => {
   const {catData} = props;
-
-  const orientation = useOrientation();
-  const styles = responsiveStyle(orientation);
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal={true}>
@@ -33,9 +29,7 @@ const CategoryFilter = props => {
                 ? {backgroundColor: '#1f4287'}
                 : {backgroundColor: '#88bef5'},
             ]}>
-            <Text style={{color: '#F8FCFF', fontSize: Metrics._scale(13)}}>
-              {'All'}
-            </Text>
+            <Text style={styles.allCatText}>{'All'}</Text>
           </View>
         </TouchableOpacity>
         {catData &&
@@ -55,9 +49,7 @@ const CategoryFilter = props => {
                     ? {backgroundColor: '#1f4287'}
                     : {backgroundColor: '#88bef5'},
                 ]}>
-                <Text style={{color: '#F8FCFF', fontSize: Metrics._scale(13)}}>
-                  {item.name}
-                </Text>
+                <Text style={styles.catetoryText}>{item.name}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -81,21 +73,33 @@ const CategoryFilter = props => {
   );
 };
 
-const responsiveStyle = orientation =>
-  StyleSheet.create({
-    container: {
-      // flex: 1,
-      backgroundColor: '#f2f2f2',
-      // backgroundColor: 'red',
-    },
-    categoryContainer: {
-      marginHorizontal: Metrics._scale(9),
-      marginVertical: Metrics._scale(19),
-    },
-    categories: {
-      padding: Metrics._scale(8),
-      borderRadius: Metrics._scale(8),
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    backgroundColor: '#f2f2f2',
+    // backgroundColor: 'red',
+  },
+  categoryContainer: {
+    marginHorizontal: METRICS._scale(9),
+    marginVertical: METRICS._scale(19),
+  },
+  categories: {
+    padding: METRICS._scale(8),
+    borderRadius: METRICS._scale(8),
+  },
+
+  allCatText: {
+    color: '#F8FCFF',
+    fontSize: METRICS._scale(13),
+    lineHeight: METRICS._scale(13 * 1.4),
+    fontFamily: FONTS.MONTSERRAT_MEDIUM,
+  },
+  catetoryText: {
+    color: '#F8FCFF',
+    fontSize: METRICS._scale(13),
+    lineHeight: METRICS._scale(13 * 1.4),
+    fontFamily: FONTS.MONTSERRAT_MEDIUM,
+  },
+});
 
 export default CategoryFilter;

@@ -1,7 +1,6 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Image, Platform, StyleSheet} from 'react-native';
-import Metrics from '../../theme/Metrics';
+import {METRICS} from '../../theme';
 
 const LogoHeader = () => {
   return (
@@ -9,7 +8,7 @@ const LogoHeader = () => {
       <Image
         source={require('../../assets/img/Logo.png')}
         resizeMode="contain"
-        style={{height: Metrics._scale(145)}}
+        style={{height: METRICS._scale(145)}}
       />
     </View>
   );
