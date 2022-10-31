@@ -4,6 +4,7 @@ import {
   ScrollView,
   View,
   Text,
+  TouchableOpacity,
   Image,
   Platform,
   StyleSheet,
@@ -12,38 +13,41 @@ import {
 import {METRICS} from '../../theme';
 
 const SearchedProducts = props => {
+  console.log('SearchProducts Rendered!');
   const {productFiltered} = props;
 
   return (
     <ScrollView style={styles.container}>
       {productFiltered && productFiltered.length > 0 ? (
         productFiltered.map((item, index) => (
-          <View key={index} style={styles.listContainer}>
-            {/* <Text>{dimension.height}</Text> */}
+          <TouchableOpacity key={index}>
+            <View style={styles.listContainer}>
+              {/* <Text>{dimension.height}</Text> */}
 
-            <Image
-              style={styles.images}
-              resizeMode="contain"
-              source={{
-                uri: item.image
-                  ? item.image
-                  : 'https://www.pngkey.com/png/full/110-1102882_black-box-outline-open-card-white-cartoon-empty.png',
-              }}
-            />
+              <Image
+                style={styles.images}
+                resizeMode="contain"
+                source={{
+                  uri: item.image
+                    ? item.image
+                    : 'https://www.pngkey.com/png/full/110-1102882_black-box-outline-open-card-white-cartoon-empty.png',
+                }}
+              />
 
-            <View style={styles.listText}>
-              <View>
-                <Text style={styles.name}>{item.name}</Text>
-              </View>
-              <View>
-                <Text style={styles.desc}>
-                  {item.description.length > 100
-                    ? item.description.substring(0, 100) + '...'
-                    : item.description}
-                </Text>
+              <View style={styles.listText}>
+                <View>
+                  <Text style={styles.name}>{item.name}</Text>
+                </View>
+                <View>
+                  <Text style={styles.desc}>
+                    {item.description.length > 100
+                      ? item.description.substring(0, 100) + '...'
+                      : item.description}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))
       ) : (
         <View>

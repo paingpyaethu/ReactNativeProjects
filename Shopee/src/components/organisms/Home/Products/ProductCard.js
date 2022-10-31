@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
@@ -38,20 +37,14 @@ const ProductCard = ({product, navigation}) => {
         <Text style={styles.price}>${product.price}</Text>
 
         {product.countInStock > 0 ? (
-          <TouchableOpacity style={styles.addBtn} onPress={_addToCartHandler}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => _addToCartHandler(product)}>
             <Text style={styles.addBtnText}>Add</Text>
           </TouchableOpacity>
         ) : (
-          <View
-            style={{
-              backgroundColor: '#f85959',
-              paddingVertical: METRICS._scale(5),
-              paddingHorizontal: METRICS._scale(10),
-              borderRadius: METRICS._scale(5),
-            }}>
-            <Text style={{fontSize: METRICS._scale(13), color: '#feff89'}}>
-              Currently Unavailable
-            </Text>
+          <View style={styles.unavailable}>
+            <Text style={styles.unavailableText}>Currently Unavailable</Text>
           </View>
         )}
       </View>
@@ -108,6 +101,17 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.MONTSERRAT_MEDIUM,
     color: 'orange',
     marginVertical: METRICS._scale(10),
+  },
+  unavailable: {
+    backgroundColor: '#f85959',
+    paddingVertical: METRICS._scale(5),
+    paddingHorizontal: METRICS._scale(10),
+    borderRadius: METRICS._scale(5),
+  },
+
+  unavailableText: {
+    fontSize: METRICS._scale(13),
+    color: '#feff89',
   },
   addBtn: {
     backgroundColor: '#17b978',

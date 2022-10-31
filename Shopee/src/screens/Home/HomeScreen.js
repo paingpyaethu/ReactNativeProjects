@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, memo} from 'react';
 import {
   ScrollView,
   View,
@@ -35,6 +35,8 @@ const HomeScreen = ({navigation}) => {
 
   useFocusEffect(
     useCallback(() => {
+      // console.log('Home Screen Rendered!');
+
       // eslint-disable-next-line no-undef
       const abortController = new AbortController();
 
@@ -44,10 +46,10 @@ const HomeScreen = ({navigation}) => {
       axios
         .get(`${BASE_URL}/products`, {signal: abortController.signal})
         .then(res => {
-          setProducts(res.data);
-          setProductFiltered(res.data);
-          setProductsCat(res.data);
-          setInitialState(res.data);
+          setProducts(res.data.data);
+          setProductFiltered(res.data.data);
+          setProductsCat(res.data.data);
+          setInitialState(res.data.data);
           setLoading(false);
         })
         .catch(error => {
@@ -103,67 +105,52 @@ const HomeScreen = ({navigation}) => {
             focus={focus}
             onPress={onBlur}
           />
+          {focus === true ? (
+            <SearchedProducts productFiltered={productFiltered} />
+          ) : (
+            <ScrollView>
+              <Banner />
+              <CategoryFilter
+                catData={categories}
+                categoryFilter={changeCategories}
+                active={active}
+                setActive={setActive}
+              />
 
-          <ScrollView>
-            <Banner />
-            <CategoryFilter
-              catData={categories}
-              categoryFilter={changeCategories}
-              productsCat={productsCat}
-              active={active}
-              setActive={setActive}
-            />
-
-            {productsCat.length > 0 ? (
-              <View style={styles.productContainer}>
-                {productsCat.map(item => {
-                  return (
-                    <ProductList
-                      key={item._id}
-                      item={item}
-                      navigation={navigation}
-                    />
-                  );
-                })}
-              </View>
-            ) : (
-              <View
-                style={{
-                  margin: METRICS._scale(15),
-                  backgroundColor: '#F35162',
-                  padding: METRICS._scale(10),
-                  borderRadius: METRICS._scale(5),
-                }}>
-                <Text
+              {productsCat.length > 0 ? (
+                <View style={styles.productContainer}>
+                  {productsCat.map(item => {
+                    return (
+                      <ProductList
+                        key={item._id}
+                        item={item}
+                        navigation={navigation}
+                      />
+                    );
+                  })}
+                </View>
+              ) : (
+                <View
                   style={{
-                    color: '#F8FCFF',
-                    textAlign: 'center',
-                    fontFamily: FONTS.MONTSERRAT_MEDIUM,
-                    fontSize: METRICS._scale(14),
-                    lineHeight: METRICS._scale(14 * 1.4),
+                    margin: METRICS._scale(15),
+                    backgroundColor: '#F35162',
+                    padding: METRICS._scale(10),
+                    borderRadius: METRICS._scale(5),
                   }}>
-                  {'No Products Found!'}
-                </Text>
-              </View>
-            )}
-          </ScrollView>
-
-          {/* {focus === true ? (
-        <SearchedProducts productFiltered={productFiltered} />
-      ) : (
-        <View style={styles.productContainer}>
-
-          <FlashList
-            estimatedItemSize={277}
-            numColumns={2}
-            data={productsCat}
-            renderItem={_renderItem}
-            ListHeaderComponent={ListHeaderComponent}
-            ListEmptyComponent={ListEmptyComponent}
-            keyExtractor={_keyExtractor}
-          />
-        </View>
-      )} */}
+                  <Text
+                    style={{
+                      color: '#F8FCFF',
+                      textAlign: 'center',
+                      fontFamily: FONTS.MONTSERRAT_MEDIUM,
+                      fontSize: METRICS._scale(14),
+                      lineHeight: METRICS._scale(14 * 1.4),
+                    }}>
+                    {'No Products Found!'}
+                  </Text>
+                </View>
+              )}
+            </ScrollView>
+          )}
         </View>
       ) : (
         <View

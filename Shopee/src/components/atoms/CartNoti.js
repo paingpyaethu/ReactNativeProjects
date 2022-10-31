@@ -1,28 +1,23 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect, shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {METRICS} from '../../theme';
 
 const CartNoti = props => {
+  const cartItems = useSelector(state => state.cartItems, shallowEqual);
   return (
     <>
-      {props.cartItems.length ? (
+      {cartItems.length ? (
         <View style={styles.badge}>
-          <Text style={styles.text}>{props.cartItems.length}</Text>
+          <Text style={styles.text}>{cartItems.length}</Text>
         </View>
       ) : null}
     </>
   );
 };
 
-const mapStateToProps = state => {
-  const {cartItems} = state;
-  return {
-    cartItems: cartItems,
-  };
-};
-export default connect(mapStateToProps)(CartNoti);
+export default CartNoti;
 
 const styles = StyleSheet.create({
   badge: {

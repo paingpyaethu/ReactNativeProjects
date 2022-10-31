@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, ScrollView, Text} from 'react-native';
 
 //Custom Themes
-import {METRICS} from '../../../theme';
+import {FONTS, METRICS} from '../../../theme';
 
-const FormContainer = props => {
+const CustomForm = props => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{props.title}</Text>
@@ -15,15 +15,17 @@ const FormContainer = props => {
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: METRICS._scale(30),
     marginBottom: METRICS._scale(400),
     width: METRICS.width,
-    justifyContent: 'center',
-    alignContent: 'center',
   },
   title: {
-    fontSize: METRICS.style(30),
+    fontSize: METRICS._scale(30),
+    lineHeight: METRICS._scale(30 * 1.4),
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
   },
 });
 
-export default FormContainer;
+export default CustomForm;

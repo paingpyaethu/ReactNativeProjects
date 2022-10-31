@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect, useCallback} from 'react';
 import ProductCard from './ProductCard';
 
 const ProductList = ({item, navigation}) => {
+  // useCallback(() => {
+  //   console.log('ProductList Render.');
+  // }, []);
+
   return (
     <>
       <ProductCard product={item} navigation={navigation} />
@@ -9,4 +13,4 @@ const ProductList = ({item, navigation}) => {
   );
 };
 
-export default ProductList;
+export default React.memo(ProductList);

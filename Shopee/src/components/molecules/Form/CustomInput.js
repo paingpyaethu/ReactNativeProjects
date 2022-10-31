@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
-import {METRICS} from '../../../theme';
+import {FONTS, METRICS} from '../../../theme';
 
-const Input = props => {
+const CustomInput = props => {
   return (
     <TextInput
       style={styles.input}
       placeholder={props.placeholder}
+      placeholderTextColor={'#C9C9C9'}
       name={props.name}
       id={props.id}
       value={props.value}
@@ -22,13 +23,17 @@ const Input = props => {
 const styles = StyleSheet.create({
   input: {
     width: '80%',
-    height: METRICS._scale(60),
     backgroundColor: '#fff',
+    height: METRICS._scale(50),
     margin: METRICS._scale(10),
-    borderRadius: METRICS._scale(15),
     padding: METRICS._scale(10),
+
+    borderRadius: METRICS._scale(6),
     borderWidth: METRICS._scale(2),
-    borderColor: 'orange',
+    borderColor: '#ADADAD',
+
+    fontSize: METRICS._scale(14),
+    fontFamily: FONTS.MONTSERRAT_MEDIUM,
   },
 });
-export default Input;
+export default CustomInput;

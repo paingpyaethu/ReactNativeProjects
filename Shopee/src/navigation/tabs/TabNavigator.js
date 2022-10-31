@@ -6,13 +6,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeStack from '../stack/HomeStack';
 import AdminSettingStack from '../stack/AdminSettingStack';
-import ProfileStack from '../stack/ProfileStack';
 import CartStack from '../stack/CartStack';
 
 import CartNoti from '../../components/atoms/CartNoti';
 
 // Custom Themes
 import {METRICS} from '../../theme';
+import ProfileStack from '../stack/auth/ProfileStack';
 
 const Tab = createBottomTabNavigator();
 
