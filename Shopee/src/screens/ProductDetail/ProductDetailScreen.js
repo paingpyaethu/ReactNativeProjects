@@ -10,11 +10,27 @@ import {
 import React from 'react';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Toast from 'react-native-toast-message';
 
 import {METRICS} from '../../theme';
 
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../../store/redux/actions/CartAction';
+
 const ProductDetailScreen = ({route, navigation}) => {
   const {productDetail} = route.params;
+
+  const dispatch = useDispatch();
+
+  const _addToCartHandler = value => {
+    dispatch(addToCart(value));
+    Toast.show({
+      topOffset: METRICS._scale(60),
+      type: 'success',
+      text1: `${productDetail.name} added to cart!`,
+      text2: 'Go to your cart to complete order.',
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +73,9 @@ const ProductDetailScreen = ({route, navigation}) => {
 
       <View style={styles.bottomContainer}>
         <Text style={styles.price}>$ {productDetail.price}</Text>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => _addToCartHandler(productDetail)}>
           <Text style={styles.addBtnText}>Add</Text>
         </TouchableOpacity>
       </View>

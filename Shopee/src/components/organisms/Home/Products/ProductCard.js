@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import {useDispatch} from 'react-redux';
 
 import {addToCart} from '../../../../store/redux/actions/CartAction';
@@ -10,6 +12,12 @@ const ProductCard = ({product, navigation}) => {
 
   const _addToCartHandler = value => {
     dispatch(addToCart(value));
+    Toast.show({
+      topOffset: METRICS._scale(60),
+      type: 'success',
+      text1: `${product.name} added to cart!`,
+      text2: 'Go to your cart to complete order.',
+    });
   };
 
   return (

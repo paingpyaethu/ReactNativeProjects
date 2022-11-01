@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import Toast from 'react-native-toast-message';
+
 import ErrorMessage from '../../components/atoms/ErrorMessage';
 import CustomButton from '../../components/molecules/Form/CustomButton';
 import CustomForm from '../../components/molecules/Form/CustomForm';
@@ -16,11 +19,11 @@ const RegisterScreen = props => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
-  const [error, setError] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (name === '' || email === '' || phone === '' || password === '') {
-      setError('Please fill in your credentials');
+      setErrorMsg('Please fill in your credentials');
     }
 
     let user = {
@@ -35,12 +38,26 @@ const RegisterScreen = props => {
       .post(`${BASE_URL}/users/register`, user)
       .then(res => {
         if (res.status === 200) {
+          Toast.show({
+            topOffset: METRICS._scale(60),
+            type: 'success',
+            text1: res.data.message,
+            text2: 'Please login your account',
+            visibilityTime: 3000,
+          });
           setTimeout(() => {
             props.navigation.navigate('Login');
           }, 500);
         }
       })
-      .catch(error => {});
+      .catch(error => {
+        Toast.show({
+          topOffset: METRICS._scale(60),
+          type: 'error',
+          text1: 'Something went wrong',
+          text2: 'Please try again!',
+        });
+      });
   };
   return (
     <KeyboardAwareScrollView viewIsInsideTabBar={true} enableOnAndroid={true}>
@@ -75,7 +92,7 @@ const RegisterScreen = props => {
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
         />
-        {error ? <ErrorMessage message={error} /> : null}
+        {errorMsg ? <ErrorMessage message={errorMsg} /> : null}
         <CustomButton
           btnText={'Register'}
           footerText={'Already have an account?'}
