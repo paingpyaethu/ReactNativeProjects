@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
@@ -6,6 +7,7 @@ import ErrorMessage from '../../components/atoms/ErrorMessage';
 import CustomButton from '../../components/molecules/Form/CustomButton';
 import CustomForm from '../../components/molecules/Form/CustomForm';
 import CustomInput from '../../components/molecules/Form/CustomInput';
+import {BASE_URL} from '../../store/api_endpoint';
 import {METRICS} from '../../theme';
 
 const RegisterScreen = props => {
@@ -17,16 +19,28 @@ const RegisterScreen = props => {
   const [error, setError] = useState('');
 
   const handleSubmit = () => {
-    const user = {
-      email,
-      password,
-    };
-
     if (name === '' || email === '' || phone === '' || password === '') {
       setError('Please fill in your credentials');
-    } else {
-      console.log('success');
     }
+
+    let user = {
+      name: name,
+      email: email,
+      phone: phone,
+      password: password,
+      isAdmin: false,
+    };
+
+    axios
+      .post(`${BASE_URL}/users/register`, user)
+      .then(res => {
+        if (res.status === 200) {
+          setTimeout(() => {
+            props.navigation.navigate('Login');
+          }, 500);
+        }
+      })
+      .catch(error => {});
   };
   return (
     <KeyboardAwareScrollView viewIsInsideTabBar={true} enableOnAndroid={true}>

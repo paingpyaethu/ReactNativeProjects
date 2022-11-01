@@ -14,7 +14,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {METRICS} from '../../theme';
 
 const ProductDetailScreen = ({route, navigation}) => {
-  console.log('ProductDetail Rendered.');
   const {productDetail} = route.params;
 
   return (

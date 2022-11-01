@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 // export default connect(null, mapDispatchToProps)(ProductCard);
-export default ProductCard;
+export default React.memo(ProductCard);
