@@ -10,13 +10,18 @@ import AppNavigator from './src/navigation/AppNavigator';
 import {Provider} from 'react-redux';
 import store from './src/store/redux/store';
 
+// Context
+import {AxiosProvider} from './src/contexts/AxiosContext';
+
 const App = () => {
   return (
-    <Provider store={store}>
-      <LogoHeader />
-      <AppNavigator />
-      <CustomToast />
-    </Provider>
+    <AxiosProvider>
+      <Provider store={store}>
+        <LogoHeader />
+        <AppNavigator />
+        <CustomToast />
+      </Provider>
+    </AxiosProvider>
   );
 };
 export default App;

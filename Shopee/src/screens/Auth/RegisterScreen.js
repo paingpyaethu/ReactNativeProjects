@@ -1,16 +1,20 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import Toast from 'react-native-toast-message';
+import {useDispatch, useSelector} from 'react-redux';
 
 import ErrorMessage from '../../components/atoms/ErrorMessage';
 import CustomButton from '../../components/molecules/Form/CustomButton';
 import CustomForm from '../../components/molecules/Form/CustomForm';
 import CustomInput from '../../components/molecules/Form/CustomInput';
+import {AxiosContext} from '../../contexts/AxiosContext';
+
 import {BASE_URL} from '../../store/api_endpoint';
+import {registerUser} from '../../store/services/AuthServices';
+
 import {METRICS} from '../../theme';
 
 const RegisterScreen = props => {
@@ -21,44 +25,36 @@ const RegisterScreen = props => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = async () => {
-    if (name === '' || email === '' || phone === '' || password === '') {
-      setErrorMsg('Please fill in your credentials');
-    }
+  const axiosContext = useContext(AxiosContext);
+  const {publicAxios} = axiosContext;
 
-    let user = {
-      name: name,
-      email: email,
-      phone: phone,
-      password: password,
-      isAdmin: false,
+  const dispatch = useDispatch();
+
+  const _handleRegister = () => {
+    const userData = {
+      name,
+      email,
+      phone,
+      password,
     };
 
-    axios
-      .post(`${BASE_URL}/users/register`, user)
-      .then(res => {
-        if (res.status === 200) {
-          Toast.show({
-            topOffset: METRICS._scale(60),
-            type: 'success',
-            text1: res.data.message,
-            text2: 'Please login your account',
-            visibilityTime: 3000,
-          });
-          setTimeout(() => {
-            props.navigation.navigate('Login');
-          }, 500);
-        }
-      })
-      .catch(error => {
-        Toast.show({
-          topOffset: METRICS._scale(60),
-          type: 'error',
-          text1: 'Something went wrong',
-          text2: 'Please try again!',
-        });
-      });
+    dispatch(registerUser(userData, publicAxios, props.navigation));
   };
+
+  // const handleSubmit = async () => {
+  //   if (name === '' || email === '' || phone === '' || password === '') {
+  //     setErrorMsg('Please fill in your credentials');
+  //   }
+
+  //   let user = {
+  //     name: name,
+  //     email: email,
+  //     phone: phone,
+  //     password: password,
+  //     isAdmin: false,
+  //   };
+  //   register(user);
+  // };
   return (
     <KeyboardAwareScrollView viewIsInsideTabBar={true} enableOnAndroid={true}>
       <CustomForm title={'Register'}>
@@ -98,7 +94,7 @@ const RegisterScreen = props => {
           footerText={'Already have an account?'}
           loginRegText={'Login'}
           onPress={() => props.navigation.navigate('Login')}
-          onSubmit={handleSubmit}
+          onSubmit={() => _handleRegister()}
         />
       </CustomForm>
     </KeyboardAwareScrollView>

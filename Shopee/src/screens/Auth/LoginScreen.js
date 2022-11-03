@@ -1,14 +1,21 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import CustomInput from '../../components/molecules/Form/CustomInput';
 import CustomButton from '../../components/molecules/Form/CustomButton';
 import CustomForm from '../../components/molecules/Form/CustomForm';
 import ErrorMessage from '../../components/atoms/ErrorMessage';
+import {useDispatch} from 'react-redux';
+import {AxiosContext} from '../../contexts/AxiosContext';
+import {login, loginUser} from '../../store/services/AuthServices';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const axiosContext = useContext(AxiosContext);
+  const {publicAxios} = axiosContext;
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     const user = {
@@ -19,7 +26,7 @@ const LoginScreen = props => {
     if (email === '' || password === '') {
       setError('Please fill in your credentials');
     } else {
-      console.log('success');
+      dispatch(login(user, publicAxios));
     }
   };
 

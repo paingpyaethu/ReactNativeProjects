@@ -1,11 +1,29 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
+import {View, Text, ScrollView} from 'react-native';
+import {useDispatch} from 'react-redux';
 
-const ProfileScreen = () => {
+// Context
+import {BASE_URL} from '../../store/api_endpoint';
+import {logout} from '../../store/services/AuthServices';
+
+const ProfileScreen = props => {
+  const [userProfile, setUserProfile] = useState();
+
+  const dispatch = useDispatch();
+
+  const signout = () => {
+    dispatch(logout());
+    console.log('Logout');
+  };
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
+    <>
+      <ScrollView>
+        <View>
+          <Text>ProfileScreen</Text>
+          <Text onPress={signout}>Logout</Text>
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
