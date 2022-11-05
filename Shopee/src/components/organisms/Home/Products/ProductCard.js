@@ -5,7 +5,7 @@ import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
 
 import {addToCart} from '../../../../store/redux/actions/CartAction';
-import {FONTS, METRICS} from '../../../../theme';
+import {COLORS, FONTS, METRICS} from '../../../../theme';
 
 const ProductCard = ({product, navigation}) => {
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginVertical: METRICS._scale(10),
   },
   unavailable: {
-    backgroundColor: '#f85959',
+    backgroundColor: COLORS.DEFAULT_RED,
     paddingVertical: METRICS._scale(5),
     paddingHorizontal: METRICS._scale(10),
     borderRadius: METRICS._scale(5),
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
 
   unavailableText: {
     fontSize: METRICS._scale(13),
-    color: '#feff89',
+    color: COLORS.YELLOW,
   },
   addBtn: {
-    backgroundColor: '#17b978',
+    backgroundColor: COLORS.GREEN,
     paddingVertical: METRICS._scale(5),
     paddingHorizontal: METRICS._scale(10),
     borderRadius: METRICS._scale(5),
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: METRICS._scale(14),
     lineHeight: METRICS._scale(14 * 1.4),
     fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
-    color: '#fdfdfd',
+    color: COLORS.LIGHT_GREY,
   },
 });
 // export default connect(null, mapDispatchToProps)(ProductCard);

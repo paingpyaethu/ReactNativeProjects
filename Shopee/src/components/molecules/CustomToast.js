@@ -17,7 +17,7 @@ const toastConfig = {
     <ErrorToast
       {...props}
       style={styles.errorToastStyle}
-      text1Style={styles.text1Style}
+      text1Style={styles.errText1Style}
       text2Style={styles.text2Style}
     />
   ),
@@ -44,5 +44,9 @@ const styles = StyleSheet.create({
     fontSize: METRICS._scale(12),
     fontFamily: FONTS.MONTSERRAT_MEDIUM,
     color: '#390B12',
+  },
+  errText1Style: {
+    fontSize: METRICS._scale(10),
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
   },
 });

@@ -15,13 +15,13 @@ import {AxiosProvider} from './src/contexts/AxiosContext';
 
 const App = () => {
   return (
-    <AxiosProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <AxiosProvider>
         <LogoHeader />
         <AppNavigator />
         <CustomToast />
-      </Provider>
-    </AxiosProvider>
+      </AxiosProvider>
+    </Provider>
   );
 };
 export default App;

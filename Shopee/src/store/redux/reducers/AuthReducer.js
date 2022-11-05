@@ -36,6 +36,7 @@ const AuthReducer = (state = initialState, action) => {
         user: action.payload,
         accessToken: action.token,
         authenticated: true,
+        isLoading: false,
       };
     case LOGOUT:
       return {

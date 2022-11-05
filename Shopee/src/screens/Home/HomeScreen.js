@@ -19,7 +19,7 @@ import ProductList from '../../components/organisms/Home/Products/ProductList';
 import SearchedProducts from './SearchedProducts';
 
 import {BASE_URL} from '../../store/api_endpoint';
-import {FONTS, METRICS} from '../../theme';
+import {COLORS, FONTS, METRICS} from '../../theme';
 
 const HomeScreen = ({navigation}) => {
   const [products, setProducts] = useState([]);
@@ -133,7 +133,7 @@ const HomeScreen = ({navigation}) => {
                 <View
                   style={{
                     margin: METRICS._scale(15),
-                    backgroundColor: '#F35162',
+                    backgroundColor: COLORS.DEFAULT_RED,
                     padding: METRICS._scale(10),
                     borderRadius: METRICS._scale(5),
                   }}>

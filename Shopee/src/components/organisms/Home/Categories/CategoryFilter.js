@@ -10,7 +10,7 @@ import {
 import React from 'react';
 
 // Custom Themes
-import {FONTS, METRICS} from '../../../../theme';
+import {COLORS, FONTS, METRICS} from '../../../../theme';
 
 const CategoryFilter = props => {
   const {catData} = props;
@@ -26,8 +26,8 @@ const CategoryFilter = props => {
             style={[
               styles.categories,
               props.active === 'all'
-                ? {backgroundColor: '#1f4287'}
-                : {backgroundColor: '#88bef5'},
+                ? {backgroundColor: COLORS.SECONDARY_COLOR}
+                : {backgroundColor: COLORS.PRIMARY_COLOR},
             ]}>
             <Text style={styles.allCatText}>{'All'}</Text>
           </View>
@@ -46,8 +46,8 @@ const CategoryFilter = props => {
                 style={[
                   styles.categories,
                   props.active === props.catData.indexOf(item)
-                    ? {backgroundColor: '#1f4287'}
-                    : {backgroundColor: '#88bef5'},
+                    ? {backgroundColor: COLORS.SECONDARY_COLOR}
+                    : {backgroundColor: COLORS.PRIMARY_COLOR},
                 ]}>
                 <Text style={styles.catetoryText}>{item.name}</Text>
               </View>
@@ -59,7 +59,7 @@ const CategoryFilter = props => {
           <View
             style={{
               margin: 15,
-              backgroundColor: '#F35162',
+              backgroundColor: COLORS.DEFAULT_RED,
               padding: 10,
               borderRadius: 5,
             }}>

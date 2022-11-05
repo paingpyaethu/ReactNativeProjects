@@ -24,7 +24,7 @@ export const loadJWT = () => {
       const accessToken = jwt.token;
       const authenticated = jwt.isAuthenticated;
 
-      console.log('Keychain Password::: ', jwt);
+      // console.log('Keychain Password::: ', jwt);
 
       dispatch(fetch_auth_success(user, accessToken, authenticated));
     } catch (error) {
@@ -34,7 +34,7 @@ export const loadJWT = () => {
 };
 export const registerUser = (data, publicAxios, navigation) => {
   return dispatch => {
-    dispatch(fetch_auth_req);
+    dispatch(fetch_auth_req());
 
     publicAxios
       .post('/users/register', data)
@@ -68,44 +68,85 @@ export const registerUser = (data, publicAxios, navigation) => {
   };
 };
 export const login = (data, publicAxios) => {
-  return async dispatch => {
+  return dispatch => {
     dispatch(fetch_auth_req());
 
-    let res = await publicAxios
+    publicAxios
       .post('/users/login', data)
-      .catch(error => error.message);
-
-    if (res.status === 200) {
-      const userInfo = res.data;
-      const _token = res.data.token;
-      await Keychain.setGenericPassword(
-        'token',
-        JSON.stringify({
-          token: _token,
-          isAuthenticated: true,
-          userInfo: userInfo,
-        }),
-      );
-      console.log('Login Data::: ', userInfo);
-      dispatch(fetch_auth_login(userInfo, _token));
-      Toast.show({
-        topOffset: METRICS._scale(60),
-        type: 'success',
-        text1: res.data.message,
-        visibilityTime: 3000,
+      .then(res => {
+        if (res.status === 200) {
+          const userInfo = res.data;
+          const _token = res.data.token;
+          Keychain.setGenericPassword(
+            'token',
+            JSON.stringify({
+              token: _token,
+              isAuthenticated: true,
+              userInfo: userInfo,
+            }),
+          );
+          // console.log('Login Data::: ', userInfo);
+          dispatch(fetch_auth_login(userInfo, _token));
+          Toast.show({
+            topOffset: METRICS._scale(60),
+            type: 'success',
+            text1: res.data.message,
+            visibilityTime: 3000,
+          });
+        }
+      })
+      .catch(e => {
+        let errMsg = e.response.data.message;
+        dispatch(fetch_auth_error(errMsg));
+        Toast.show({
+          type: 'error',
+          text1: errMsg,
+          position: 'bottom',
+          visibilityTime: 3000,
+        });
       });
-    } else {
-      dispatch(fetch_auth_error(res));
-
-      Toast.show({
-        type: 'error',
-        text1: res,
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
-    }
   };
 };
+// export const login = (data, publicAxios) => {
+//   return async dispatch => {
+//     dispatch(fetch_auth_req());
+
+//     let res = await publicAxios
+//       .post('/users/login', data)
+//       .catch(error => error.message);
+
+//     if (res.status === 200) {
+//       const userInfo = res.data;
+//       const _token = res.data.token;
+//       await Keychain.setGenericPassword(
+//         'token',
+//         JSON.stringify({
+//           token: _token,
+//           isAuthenticated: true,
+//           userInfo: userInfo,
+//         }),
+//       );
+//       // console.log('Login Data::: ', userInfo);
+//       dispatch(fetch_auth_login(userInfo, _token));
+//       Toast.show({
+//         topOffset: METRICS._scale(60),
+//         type: 'success',
+//         text1: res.data.message,
+//         visibilityTime: 3000,
+//       });
+//     } else if (res.status === 400) {
+//       console.log(res.status);
+//       dispatch(fetch_auth_error(res));
+
+//       Toast.show({
+//         type: 'error',
+//         text1: res,
+//         position: 'bottom',
+//         visibilityTime: 3000,
+//       });
+//     }
+//   };
+// };
 
 export const logout = () => {
   return async dispatch => {
