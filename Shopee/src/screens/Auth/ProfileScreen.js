@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useState, useEffect} from 'react';
 import {
   View,
@@ -16,49 +17,31 @@ import {logout} from '../../store/services/AuthServices';
 import {FONTS, METRICS} from '../../theme';
 
 const ProfileScreen = props => {
-  const authContext = useContext(AxiosContext);
-  const {authAxios} = authContext;
+  // const authContext = useContext(AxiosContext);
+  // const {authAxios} = authContext;
 
   const auth = useSelector(state => state.auth);
 
-  const [userProfile, setUserProfile] = useState();
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    let mounted = true;
-    authAxios
-      .get(`${BASE_URL}/users/${auth.user.id}`)
-      .then(res => {
-        if (mounted) {
-          setUserProfile(res.data);
-        }
-      })
-      .catch(err => console.log(err));
-
-    return () => {
-      mounted = false;
-    };
-  }, [auth, auth.user.id, authAxios]);
 
   const signout = () => {
     dispatch(logout());
   };
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.userName}>{userProfile ? userProfile.name : ''}</Text>
-      <View>
-        <Text style={styles.userData}>
-          {userProfile ? userProfile.email : ''}
-        </Text>
-        <Text style={styles.userData}>
-          {userProfile ? userProfile.phone : ''}
-        </Text>
-      </View>
-      <TouchableOpacity onPress={signout} style={styles.logoutBtn}>
-        <Text style={styles.logoutText}>LogOut</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <>
+      {auth.authenticated ? (
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.userName}>{auth.user.data.name}</Text>
+          <View>
+            <Text style={styles.userData}>{auth.user.data.email}</Text>
+            <Text style={styles.userData}>{auth.user.data.phone}</Text>
+          </View>
+          <TouchableOpacity onPress={signout} style={styles.logoutBtn}>
+            <Text style={styles.logoutText}>LogOut</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      ) : null}
+    </>
   );
 };
 

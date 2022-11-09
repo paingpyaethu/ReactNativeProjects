@@ -10,4 +10,6 @@ export default {
   DARK_GREY: '#272422',
   NORMAL_GREY: '#ADADAD',
   LIGHT_GREY: '#F2F2F2',
+  WHITE: '#FFFFFF',
+  GAINSBORO: '#DCDCDC',
 };

@@ -36,7 +36,8 @@ const CustomInput = ({
           name={iconName}
           size={METRICS._scale(20)}
           color={COLORS.SECONDARY_COLOR}
-          style={{marginRight: METRICS._scale(15)}}
+          // style={{marginRight: METRICS._scale(15)}}
+          style={[iconName ? {marginRight: METRICS._scale(15)} : null]}
         />
         <TextInput
           secureTextEntry={hidePassword}

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback, memo} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {
   ScrollView,
   View,
@@ -20,8 +20,12 @@ import SearchedProducts from './SearchedProducts';
 
 import {BASE_URL} from '../../store/api_endpoint';
 import {COLORS, FONTS, METRICS} from '../../theme';
+import {AxiosContext} from '../../contexts/AxiosContext';
 
 const HomeScreen = ({navigation}) => {
+  const authContext = useContext(AxiosContext);
+  const {authAxios} = authContext;
+
   const [products, setProducts] = useState([]);
   const [productFiltered, setProductFiltered] = useState([]);
   const [focus, setFocus] = useState();
@@ -43,7 +47,7 @@ const HomeScreen = ({navigation}) => {
       setFocus(false);
       setActive('all');
 
-      axios
+      authAxios
         .get(`${BASE_URL}/products`, {signal: abortController.signal})
         .then(res => {
           setProducts(res.data.data);
@@ -56,7 +60,7 @@ const HomeScreen = ({navigation}) => {
           console.log('Api call error');
         });
 
-      axios
+      authAxios
         .get(`${BASE_URL}/categories`, {signal: abortController.signal})
         .then(res => {
           setCategories(res.data);
@@ -68,7 +72,7 @@ const HomeScreen = ({navigation}) => {
       return () => {
         abortController.abort();
       };
-    }, []),
+    }, [authAxios]),
   );
 
   const searchProduct = text => {

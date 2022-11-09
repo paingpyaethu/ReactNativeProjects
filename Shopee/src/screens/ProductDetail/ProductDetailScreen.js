@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {
   ScrollView,
@@ -7,20 +8,44 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-toast-message';
 
-import {METRICS} from '../../theme';
+import {COLORS, FONTS, METRICS} from '../../theme';
 
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../../store/redux/actions/CartAction';
+import TrafficLight from '../../components/atoms/TrafficLight';
 
 const ProductDetailScreen = ({route, navigation}) => {
   const {productDetail} = route.params;
 
   const dispatch = useDispatch();
+
+  const [availability, setAvailability] = useState(null);
+  const [availabilityText, setAvailabilityText] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      if (productDetail.countInStock === 0) {
+        setAvailability(<TrafficLight bgColor={COLORS.DEFAULT_RED} />);
+        setAvailabilityText('Unavailable');
+      } else if (productDetail.countInStock <= 5) {
+        setAvailability(<TrafficLight bgColor={COLORS.DEFAULT_YELLOW} />);
+        setAvailabilityText('Limited Stock');
+      } else {
+        setAvailability(<TrafficLight bgColor={COLORS.GREEN} />);
+        setAvailabilityText('Available');
+      }
+    }
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const _addToCartHandler = value => {
     dispatch(addToCart(value));
@@ -65,10 +90,18 @@ const ProductDetailScreen = ({route, navigation}) => {
             {productDetail.brand.toUpperCase()}
           </Text>
         </View>
-        <Text>{productDetail.description}</Text>
 
         <View style={{height: METRICS._scale(30)}} />
-        {/* TODO: Description, Rish Description and Availability */}
+
+        <View style={styles.availabilityContainer}>
+          <View style={styles.availability}>
+            <Text style={styles.availabilityText}>
+              Availability: {availabilityText}
+            </Text>
+            {availability}
+          </View>
+          <Text style={styles.description}>{productDetail.description}</Text>
+        </View>
       </ScrollView>
 
       <View style={styles.bottomContainer}>
@@ -95,8 +128,8 @@ const styles = StyleSheet.create({
     marginBottom: METRICS._scale(15),
   },
   headerText: {
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
     fontSize: METRICS._scale(18),
-    fontWeight: '600',
   },
   image: {
     width: METRICS.width,
@@ -108,14 +141,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentHeader: {
-    fontWeight: 'bold',
+    fontFamily: FONTS.MONTSERRAT_BOLD,
     fontSize: METRICS._scale(24),
     marginBottom: METRICS._scale(14),
   },
   contentText: {
-    fontWeight: '600',
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
     fontSize: METRICS._scale(16),
-    marginBottom: METRICS._scale(14),
+  },
+
+  availabilityContainer: {
+    alignItems: 'center',
+    paddingHorizontal: METRICS._scale(10),
+  },
+  availability: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: METRICS._scale(10),
+  },
+  availabilityText: {
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
+    fontSize: METRICS._scale(12),
+    marginRight: METRICS._scale(8),
+  },
+  description: {
+    fontFamily: FONTS.MONTSERRAT_MEDIUM,
+    fontSize: METRICS._scale(12),
+    lineHeight: METRICS._scale(12 * 1.4),
   },
 
   bottomContainer: {
@@ -127,7 +179,8 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: METRICS._scale(18),
-    fontWeight: '500',
+    lineHeight: METRICS._scale(18 * 1.4),
+    fontFamily: FONTS.MONTSERRAT_SEMI_BOLD,
     color: '#cb3b3b',
   },
   addBtn: {
@@ -138,7 +191,8 @@ const styles = StyleSheet.create({
   },
   addBtnText: {
     fontSize: METRICS._scale(14),
-    fontWeight: '600',
+    lineHeight: METRICS._scale(14 * 1.4),
+    fontFamily: FONTS.MONTSERRAT_MEDIUM,
     color: '#fdfdfd',
   },
 });

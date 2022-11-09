@@ -13,10 +13,15 @@ import CartNoti from '../../components/atoms/CartNoti';
 // Custom Themes
 import {METRICS} from '../../theme';
 import ProfileStack from '../stack/auth/ProfileStack';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const TabNavigator = ({isAuthenticated, isAdmin}) => {
+  console.log('TabNavigator Authenticated:::', isAuthenticated);
+  console.log('TabNavigator Admin:::', isAdmin);
+  // const auth = useSelector(state => state.auth);
+  // console.log(auth);
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -64,23 +69,27 @@ const TabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="AdminStack"
-        component={AdminSettingStack}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon
-              name="admin-panel-settings"
-              color={color}
-              size={METRICS._scale(30)}
-              style={{
-                width: METRICS.width / 4,
-                textAlign: 'center',
-              }}
-            />
-          ),
-        }}
-      />
+
+      {isAuthenticated === true && isAdmin.data.isAdmin === true ? (
+        <Tab.Screen
+          name="AdminStack"
+          component={AdminSettingStack}
+          options={{
+            tabBarIcon: ({color}) => (
+              <Icon
+                name="admin-panel-settings"
+                color={color}
+                size={METRICS._scale(30)}
+                style={{
+                  width: METRICS.width / 4,
+                  textAlign: 'center',
+                }}
+              />
+            ),
+          }}
+        />
+      ) : null}
+
       <Tab.Screen
         name="UserStack"
         component={ProfileStack}

@@ -7,6 +7,7 @@ import {AxiosContext} from '../../contexts/AxiosContext';
 import {login} from '../../store/services/AuthServices';
 import {FONTS, METRICS} from '../../theme';
 import Loader from '../../components/atoms/Loader';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const LoginScreen = props => {
   const [email, setEmail] = useState('');
@@ -64,7 +65,10 @@ const LoginScreen = props => {
   return (
     <>
       <Loader visible={loading} />
-      <View style={styles.container}>
+      <KeyboardAwareScrollView
+        viewIsInsideTabBar={true}
+        enableOnAndroid={true}
+        style={styles.container}>
         <Text style={styles.title}>Log In</Text>
         <View style={styles.subContainer}>
           <CustomInput
@@ -100,7 +104,7 @@ const LoginScreen = props => {
             onSubmit={() => handleSubmit()}
           />
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

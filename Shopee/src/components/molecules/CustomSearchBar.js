@@ -56,10 +56,12 @@ const styles = StyleSheet.create({
     color: '#4B4B4B',
   },
   input: {
+    flex: 1,
     height: METRICS._scale(30),
     borderColor: '#BBC5D4',
     paddingHorizontal: METRICS._scale(30),
     paddingVertical: METRICS._scale(2),
+    marginLeft: METRICS._scale(8),
     fontSize: METRICS._scale(13),
     fontFamily: FONTS.MONTSERRAT_MEDIUM,
   },

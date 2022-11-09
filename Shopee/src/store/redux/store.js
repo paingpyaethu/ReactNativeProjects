@@ -5,14 +5,16 @@ import {
   compose,
 } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import AuthReducer from './reducers/AuthReducer';
 
 //From Reducers
 import CartReducer from './reducers/CartReducer';
+import AuthReducer from './reducers/AuthReducer';
+import ProductReducer from './reducers/ProductReducer';
 
 const rootReducer = combineReducers({
   cartItems: CartReducer,
   auth: AuthReducer,
+  products: ProductReducer,
 });
 const middlewareEnhancer = applyMiddleware(ReduxThunk);
 let composeEnhancers = compose;

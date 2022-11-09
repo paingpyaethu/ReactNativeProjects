@@ -1,42 +1,16 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../../../screens/Auth/LoginScreen';
 import RegisterScreen from '../../../screens/Auth/RegisterScreen';
 import ProfileScreen from '../../../screens/Auth/ProfileScreen';
-import {useDispatch, useSelector} from 'react-redux';
-import {loadJWT} from '../../../store/services/AuthServices';
+import {useSelector} from 'react-redux';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const ProfileStack = () => {
   const auth = useSelector(state => state.auth);
-  // console.log('Auth from Redux::: ', auth);
-  const dispatch = useDispatch();
+  console.log('Profile::: ', auth);
 
-  const [loaded, setIsLoaded] = useState(true);
-
-  useEffect(() => {
-    dispatch(loadJWT());
-    setTimeout(() => {
-      setIsLoaded(false);
-    }, 10);
-  }, [dispatch]);
-
-  if (!auth.authenticated && loaded) {
-    return (
-      <View
-        style={{
-          backgroundColor: '#f2f2f2',
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <ActivityIndicator size="large" color="red" />
-      </View>
-    );
-  }
   return (
     <Stack.Navigator>
       {!auth.authenticated ? (

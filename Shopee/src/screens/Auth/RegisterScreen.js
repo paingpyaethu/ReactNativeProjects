@@ -3,9 +3,8 @@ import {StyleSheet, Text, View} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import ErrorMessage from '../../components/atoms/ErrorMessage';
 import Loader from '../../components/atoms/Loader';
 import CustomButton from '../../components/molecules/Form/CustomButton';
 import CustomInput from '../../components/molecules/Form/CustomInput';
