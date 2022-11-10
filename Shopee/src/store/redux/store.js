@@ -10,11 +10,13 @@ import ReduxThunk from 'redux-thunk';
 import CartReducer from './reducers/CartReducer';
 import AuthReducer from './reducers/AuthReducer';
 import ProductReducer from './reducers/ProductReducer';
+import CategoryReducer from './reducers/CategoryReducer';
 
 const rootReducer = combineReducers({
   cartItems: CartReducer,
   auth: AuthReducer,
   products: ProductReducer,
+  categories: CategoryReducer,
 });
 const middlewareEnhancer = applyMiddleware(ReduxThunk);
 let composeEnhancers = compose;
