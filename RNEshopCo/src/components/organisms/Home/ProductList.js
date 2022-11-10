@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     width: METRICS.width,
   },
   listHeaderText: {
-    marginTop: METRICS._scale(10),
+    marginTop: METRICS._scale(18),
     fontSize: METRICS._scale(16),
     fontFamily: FONTS.ROBOTOSLAB_BOLD,
     color: COLORS.DARK_GREY,

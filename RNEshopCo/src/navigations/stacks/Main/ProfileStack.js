@@ -12,7 +12,7 @@ const ProfileStack = () => {
         name={ROUTES.PROFILE}
         component={ProfileScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
     </Stack.Navigator>

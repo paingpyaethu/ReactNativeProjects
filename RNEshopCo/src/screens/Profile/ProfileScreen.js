@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text>ProfileScreen</Text>
+      <Text onPress={() => navigation.goBack()}>ProfileScreen</Text>
     </View>
   );
 };

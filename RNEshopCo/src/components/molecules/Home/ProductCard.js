@@ -12,8 +12,12 @@ const ProductCard = ({product, navigation}) => {
       onPress={() =>
         navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
       }>
+      <Text>{JSON.stringify(product.offerPrice, null, 2)}</Text>
       <View style={styles.container}>
-        <Image source={{uri: product.image}} style={styles.image} />
+        <Image
+          source={require('../../../assets/images/products/custom-jersey.png')}
+          style={styles.image}
+        />
         <Text style={styles.name}>
           {product.name.length > 20
             ? product.name.substring(0, 15) + '...'
@@ -21,13 +25,18 @@ const ProductCard = ({product, navigation}) => {
         </Text>
         <View style={styles.priceAndRatingContainer}>
           <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.offerPrice}>
+            {product.offerPrice && product.offerPrice.length > 0
+              ? '$' + product.offerPrice
+              : null}
+          </Text>
           <View style={styles.ratingContainer}>
             <IonIcons
               name="star"
               size={METRICS._scale(18)}
               color={COLORS.DEFAULT_YELLOW}
             />
-            <Text style={styles.reviewsNum}>({product.numReviews})</Text>
+            <Text style={styles.reviewsNum}>({product.numOfReviews})</Text>
           </View>
         </View>
 
@@ -50,7 +59,7 @@ const ProductCard = ({product, navigation}) => {
             </TouchableOpacity>
           )}
 
-          {product.countInStock !== 0 ? (
+          {product.Stock !== 0 ? (
             <TouchableOpacity>
               <MaterialIcons
                 name="add-shopping-cart"
@@ -61,7 +70,7 @@ const ProductCard = ({product, navigation}) => {
             </TouchableOpacity>
           ) : null}
         </View>
-        {product.countInStock === 0 ? (
+        {product.Stock === 0 ? (
           <View style={styles.outOfStock}>
             <Text style={styles.outOfStockText}>Out Of Stock</Text>
           </View>
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
     padding: METRICS._scale(15),
 
     marginLeft: (METRICS.width / 100) * 1.9,
-    marginTop: METRICS._scale(35),
+    marginTop: METRICS._scale(50),
     marginBottom: METRICS._scale(20),
 
     borderRadius: METRICS._scale(5),
