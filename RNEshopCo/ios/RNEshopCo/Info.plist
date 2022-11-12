@@ -28,6 +28,12 @@
 		<string>RobotoSlab-Regular.ttf</string>
 		<string>RobotoSlab-SemiBold.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to upload photos from your photo gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires to access camera for uploading photos to your profile or posts</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires to access Audio recording to record and uplod videos</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

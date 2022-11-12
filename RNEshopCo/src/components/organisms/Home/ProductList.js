@@ -5,9 +5,9 @@ import {StyleSheet, View, Text, FlatList} from 'react-native';
 import {METRICS, COLORS, FONTS} from '../../../themes';
 import ProductCard from '../../molecules/Home/ProductCard';
 
-const ProductList = props => {
+const ProductList = ({data, navigation}) => {
   const _renderComponent = ({item}) => (
-    <ProductCard product={item} navigation={props.navigation} />
+    <ProductCard product={item} navigation={navigation} />
   );
   const _listHeaderComponent = () => {
     return (
@@ -42,7 +42,7 @@ const ProductList = props => {
   return (
     <View style={styles.productListContainer}>
       <FlatList
-        data={props.data}
+        data={data}
         numColumns={2}
         keyExtractor={(item, index) => index.toString()}
         renderItem={_renderComponent}

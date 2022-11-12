@@ -1,23 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
 import Banner from '../../components/molecules/Home/Banner';
 import ProductList from '../../components/organisms/Home/ProductList';
-
-import {fetchProducts} from '../../stores/slices/products/productSlice';
+import {getAllProducts} from '../../stores/slices/products/productSlice';
 
 const HomeScreen = ({navigation}) => {
   const products = useSelector(state => state.products);
-  console.log(products);
   const dispatch = useDispatch();
 
   useEffect(() => {
     let mounted = false;
     if (!mounted) {
-      dispatch(fetchProducts());
+      dispatch(getAllProducts());
     }
     return () => {
       mounted = true;
@@ -25,12 +23,26 @@ const HomeScreen = ({navigation}) => {
   }, [dispatch]);
 
   return (
-    <View style={styles.container}>
-      <HeaderMenu navigation={navigation} />
-      <Banner />
+    <>
+      {products.isLoading === false ? (
+        <View style={styles.container}>
+          <HeaderMenu navigation={navigation} />
+          <Banner />
 
-      {/* <ProductList data={products} navigation={navigation} /> */}
-    </View>
+          <ProductList data={products.products} navigation={navigation} />
+        </View>
+      ) : (
+        <View
+          style={{
+            backgroundColor: '#f2f2f2',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <ActivityIndicator size="large" color="red" />
+        </View>
+      )}
+    </>
   );
 };
 

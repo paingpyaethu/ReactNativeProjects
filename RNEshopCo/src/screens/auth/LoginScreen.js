@@ -1,69 +1,91 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const LoginScreen = props => {
-  // const {navigation} = props;
-  const navigation = useNavigation();
+import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
+import CustomInput from '../../components/molecules/Form/CustomInput';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../stores/slices/auth/authSlice';
+
+const LoginScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+  console.log(auth);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const _handleSubmit = () => {
+    // setEmail('');
+    // setPassword('');
+    const user = {
+      email,
+      password,
+    };
+    dispatch(loginUser(user));
+  };
 
   return (
-    <SafeAreaView style={styles.main}>
-      <View style={styles.container}>
-        <View style={styles.wFull}>
-          <View style={styles.row}>
-            <Image
-              source={require('../../assets/images/logo/logo.png')}
-              style={styles.logo}
+    <>
+      <KeyboardAwareScrollView
+        viewIsInsideTabBar={true}
+        enableOnAndroid={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.main}>
+        <View style={styles.container}>
+          <View style={styles.wFull}>
+            <View style={styles.row}>
+              <Image
+                source={require('../../assets/images/logo/logo.png')}
+                style={styles.logo}
+              />
+            </View>
+            <Text style={styles.loginContinueTxt}>Login to continue</Text>
+
+            <CustomInput
+              label={'Email'}
+              iconName={'mail-open-outline'}
+              name={'email'}
+              value={email}
+              keyboardType={'email-address'}
+              onChangeText={text => setEmail(text.toLowerCase())}
+              error={auth.error}
             />
+            <CustomInput
+              label={'Password'}
+              iconName={'lock-closed-outline'}
+              name={'password'}
+              value={password}
+              onChangeText={text => setPassword(text)}
+              error={auth.error}
+              password
+            />
+            {/******************** LOGIN BUTTON *********************/}
+            <TouchableOpacity
+              onPress={_handleSubmit}
+              activeOpacity={0.7}
+              style={styles.loginBtnWrapper}>
+              <Text style={styles.loginText}>Log In</Text>
+            </TouchableOpacity>
+
+            {/***************** FORGOT PASSWORD BUTTON *****************/}
+            <TouchableOpacity
+              onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}>
+              <Text style={styles.forgotPassText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
 
-          <Text style={styles.loginContinueTxt}>Login in to continue</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor={COLORS.DEFAULT_GREY}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor={COLORS.DEFAULT_GREY}
-            secureTextEntry
-          />
-
-          {/******************** LOGIN BUTTON *********************/}
-          <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTES.HOME)}
-            activeOpacity={0.7}
-            style={styles.loginBtnWrapper}>
-            <Text style={styles.loginText}>Log In</Text>
-          </TouchableOpacity>
-
-          {/***************** FORGOT PASSWORD BUTTON *****************/}
-          <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}>
-            <Text style={styles.forgotPassText}>Forgot Password?</Text>
-          </TouchableOpacity>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}> Don't have an account? </Text>
+            {/******************** REGISTER BUTTON *********************/}
+            <TouchableOpacity
+              onPress={() => navigation.navigate(ROUTES.REGISTER)}>
+              <Text style={styles.signupBtn}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}> Don't have an account? </Text>
-          {/******************** REGISTER BUTTON *********************/}
-          <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTES.REGISTER)}>
-            <Text style={styles.signupBtn}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+      </KeyboardAwareScrollView>
+    </>
   );
 };
 
@@ -71,16 +93,13 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    justifyContent: 'center',
+    height: METRICS.height,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   container: {
     padding: METRICS._scale(15),
     width: METRICS.width,
-    position: 'relative',
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -95,18 +114,6 @@ const styles = StyleSheet.create({
     color: COLORS.SECONDARY_COLOR,
     textAlign: 'center',
     marginBottom: METRICS._scale(15),
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: COLORS.DEFAULT_GREY,
-    padding: METRICS._scale(15),
-    marginVertical: METRICS._scale(10),
-    borderRadius: METRICS._scale(6),
-    height: METRICS._scale(50),
-    paddingVertical: 0,
-
-    fontSize: METRICS._scale(14),
-    lineHeight: METRICS._scale(14 * 1.4),
   },
   // Login Btn Styles
   loginBtnWrapper: {
@@ -136,12 +143,10 @@ const styles = StyleSheet.create({
     fontSize: METRICS._scale(13),
     color: COLORS.PRIMARY_COLOR,
     textAlign: 'center',
-    marginTop: METRICS._scale(13),
+    marginVertical: METRICS._scale(13),
   },
   // footer
   footer: {
-    position: 'absolute',
-    bottom: METRICS._scale(20),
     textAlign: 'center',
     flexDirection: 'row',
   },

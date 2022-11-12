@@ -6,6 +6,7 @@ import RegisterScreen from '../../../screens/auth/RegisterScreen';
 import ForgotPwdScreen from '../../../screens/auth/ForgotPwdScreen';
 
 import {COLORS, ROUTES} from '../../../themes';
+import {HomeScreen} from '../../../screens';
 
 const Stack = createStackNavigator();
 
@@ -26,7 +27,7 @@ const AuthStack = () => {
         component={LoginScreen}
       />
       <Stack.Screen
-        // options={{headerShown: false}}
+        options={{headerShown: false}}
         name={ROUTES.REGISTER}
         component={RegisterScreen}
       />
@@ -34,6 +35,11 @@ const AuthStack = () => {
         // options={{headerShown: false}}
         name={ROUTES.FORGOT_PASSWORD}
         component={ForgotPwdScreen}
+      />
+      <Stack.Screen
+        // options={{headerShown: false}}
+        name={ROUTES.HOME}
+        component={HomeScreen}
       />
     </Stack.Navigator>
   );

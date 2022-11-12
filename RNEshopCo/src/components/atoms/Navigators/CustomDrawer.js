@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, {useEffect, useContext} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -9,8 +16,43 @@ import {
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS, FONTS, IMAGES, METRICS} from '../../../themes';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../../stores/slices/auth/authSlice';
+import {getUserData} from '../../../stores/slices/users/userSlice';
+import {AxiosContext} from '../../../contexts/AxiosContext';
 
 const CustomDrawer = props => {
+  const {authAxios} = useContext(AxiosContext);
+
+  const users = useSelector(state => state.users);
+  console.log('UserData:::', users);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      dispatch(getUserData(authAxios));
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [authAxios, dispatch]);
+
+  const _onLogout = () => {
+    Alert.alert('Log Out', 'Are you sure you want to logout?', [
+      {
+        text: 'cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'confrim',
+        onPress: () => dispatch(logout()),
+      },
+    ]);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -21,10 +63,14 @@ const CustomDrawer = props => {
       </View>
       <View style={styles.userContainer}>
         <Image
-          source={require('../../../assets/images/logo/user_avatar.png')}
+          source={{
+            uri: 'https://mern-ecommerce-stores.herokuapp.com/profile.png',
+          }}
           style={styles.userImg}
         />
-        <Text style={styles.userText}>Paing Pyae Thu</Text>
+        <Text style={styles.userText}>
+          {users.userData && users.userData.name}
+        </Text>
       </View>
       <DrawerContentScrollView {...props}>
         <View style={{marginTop: METRICS._scale(-30)}}>
@@ -32,7 +78,7 @@ const CustomDrawer = props => {
         </View>
       </DrawerContentScrollView>
 
-      <TouchableOpacity style={styles.logoutContainer}>
+      <TouchableOpacity style={styles.logoutContainer} onPress={_onLogout}>
         <IonIcons
           name="log-out-outline"
           size={METRICS._scale(20)}

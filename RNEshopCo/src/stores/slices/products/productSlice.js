@@ -1,37 +1,58 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {BASE_URL} from '../../api_endpoint';
 
 const initialState = {
   products: [],
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  isLoading: false,
   error: null,
 };
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const response = await axios.get(`${BASE_URL}/products`);
-    return response.data;
-  },
-);
+
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
-  extraReducers(builder) {
-    builder
-      .addCase(fetchProducts.pending, (state, action) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.products = action.payload.data;
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
+  reducers: {
+    fetch_products_request: state => {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    },
+    fetch_products_success: (state, action) => {
+      const products = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        products: products,
+      };
+    },
+    fetch_products_error: (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    },
   },
 });
 
-export default productsSlice.reducer;
+const {fetch_products_request, fetch_products_success, fetch_products_error} =
+  productsSlice.actions;
+
+const getAllProducts = () => {
+  return dispatch => {
+    dispatch(fetch_products_request());
+    axios
+      .get(`${BASE_URL}/products`)
+      .then(res => {
+        if (res.status === 200) {
+          dispatch(fetch_products_success(res.data.data));
+        }
+      })
+      .catch(e => {
+        dispatch(fetch_products_error(e));
+      });
+  };
+};
+
+export {productsSlice, getAllProducts};

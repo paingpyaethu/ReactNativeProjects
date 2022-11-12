@@ -12,7 +12,7 @@ const ProductCard = ({product, navigation}) => {
       onPress={() =>
         navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
       }>
-      <Text>{JSON.stringify(product.offerPrice, null, 2)}</Text>
+      {/* <Text>{JSON.stringify(product.offerPrice, null, 2)}</Text> */}
       <View style={styles.container}>
         <Image
           source={require('../../../assets/images/products/custom-jersey.png')}

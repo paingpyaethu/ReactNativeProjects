@@ -1,8 +1,21 @@
-import {configureStore} from '@reduxjs/toolkit';
-import productReducer from './products/productSlice';
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {authSlice} from './auth/authSlice';
+import {productsSlice} from './products/productSlice';
+import {userSlice} from './users/userSlice';
 
+const middlewares = getDefaultMiddleware({
+  immutableCheck: false,
+});
+
+if (__DEV__) {
+  const createDebugger = require('redux-flipper').default;
+  middlewares.push(createDebugger());
+}
 export const Store = configureStore({
   reducer: {
-    products: productReducer,
+    products: productsSlice.reducer,
+    auth: authSlice.reducer,
+    users: userSlice.reducer,
   },
+  middleware: middlewares,
 });
