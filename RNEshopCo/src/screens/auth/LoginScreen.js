@@ -10,14 +10,11 @@ import {loginUser} from '../../stores/slices/auth/authSlice';
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-  console.log(auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const _handleSubmit = () => {
-    // setEmail('');
-    // setPassword('');
     const user = {
       email,
       password,
@@ -49,7 +46,7 @@ const LoginScreen = ({navigation}) => {
               value={email}
               keyboardType={'email-address'}
               onChangeText={text => setEmail(text.toLowerCase())}
-              error={auth.error}
+              error={auth.loginError}
             />
             <CustomInput
               label={'Password'}
@@ -57,7 +54,7 @@ const LoginScreen = ({navigation}) => {
               name={'password'}
               value={password}
               onChangeText={text => setPassword(text)}
-              error={auth.error}
+              error={auth.loginError}
               password
             />
             {/******************** LOGIN BUTTON *********************/}

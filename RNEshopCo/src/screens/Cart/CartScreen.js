@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const CartScreen = () => {
+const CartScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text>CartScreen</Text>
+      <Text onPress={() => navigation.goBack()}>CartScreen</Text>
     </View>
   );
 };

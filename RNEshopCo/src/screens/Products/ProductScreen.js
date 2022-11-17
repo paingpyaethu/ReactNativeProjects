@@ -1,11 +1,38 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {METRICS} from '../../themes';
+import React, {useState} from 'react';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
+import {useSelector} from 'react-redux';
+import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
+import FilterProducts from '../../components/organisms/Products/FilterProducts';
+import SearchedProduct from '../../components/organisms/Products/SearchedProduct';
 
-const ProductScreen = () => {
+const ProductScreen = ({navigation}) => {
+  const {products} = useSelector(state => state.products);
+  const [data, setData] = useState();
+  const [search, setSearch] = useState('');
+
+  const searchHandler = text => {
+    if (text) {
+      setData(
+        products.filter(i => i.name.toLowerCase().includes(text.toLowerCase())),
+      );
+      setSearch(text);
+    } else {
+      setData(products);
+      setSearch(text);
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text>{METRICS.height}</Text>
+      <HeaderMenu
+        navigation={navigation}
+        value={search}
+        onChangeText={text => searchHandler(text)}
+      />
+      {search.length !== 0 ? (
+        <SearchedProduct data={data} navigation={navigation} />
+      ) : (
+        <FilterProducts navigation={navigation} />
+      )}
     </View>
   );
 };
@@ -15,7 +42,6 @@ export default ProductScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // backgroundColor: 'black',
   },
 });

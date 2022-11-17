@@ -1,15 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
 import Banner from '../../components/molecules/Home/Banner';
 import ProductList from '../../components/organisms/Home/ProductList';
 import {getAllProducts} from '../../stores/slices/products/productSlice';
+import Loader from '../../components/molecules/Home/Loader';
+import SearchedProduct from '../../components/organisms/Products/SearchedProduct';
 
 const HomeScreen = ({navigation}) => {
-  const products = useSelector(state => state.products);
+  const {isLoading, products} = useSelector(state => state.products);
+  const {wishlists} = useSelector(state => state.wishlists);
+
+  const [data, setData] = useState();
+  const [search, setSearch] = useState('');
+
+  const searchHandler = text => {
+    if (text) {
+      setData(
+        products.filter(i => i.name.toLowerCase().includes(text.toLowerCase())),
+      );
+      setSearch(text);
+    } else {
+      setData(products);
+      setSearch(text);
+    }
+  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,23 +43,28 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <>
-      {products.isLoading === false ? (
+      {isLoading === false ? (
         <View style={styles.container}>
-          <HeaderMenu navigation={navigation} />
-          <Banner />
-
-          <ProductList data={products.products} navigation={navigation} />
+          <HeaderMenu
+            navigation={navigation}
+            value={search}
+            onChangeText={text => searchHandler(text)}
+          />
+          {search.length !== 0 ? (
+            <SearchedProduct data={data} navigation={navigation} />
+          ) : (
+            <>
+              <Banner />
+              <ProductList
+                data={products}
+                navigation={navigation}
+                wishlists={wishlists}
+              />
+            </>
+          )}
         </View>
       ) : (
-        <View
-          style={{
-            backgroundColor: '#f2f2f2',
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <ActivityIndicator size="large" color="red" />
-        </View>
+        <Loader />
       )}
     </>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -13,10 +13,28 @@ import {
   CartStack,
   ProfileStack,
 } from '../stacks/Main';
+import {useDispatch, useSelector} from 'react-redux';
+import {getWishlist} from '../../stores/slices/wishlists/wishListSlice';
+import {AxiosContext} from '../../contexts/AxiosContext';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const {authAxios} = useContext(AxiosContext);
+
+  const {wishlists} = useSelector(state => state.wishlists);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      dispatch(getWishlist(authAxios));
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [dispatch, authAxios]);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -51,7 +69,13 @@ const TabNavigator = () => {
       })}>
       <Tab.Screen name={ROUTES.HOME_TAB} component={HomeStack} />
       <Tab.Screen name={ROUTES.PRODUCT_TAB} component={ProductStack} />
-      <Tab.Screen name={ROUTES.WISHLIST_TAB} component={WishListStack} />
+      <Tab.Screen
+        name={ROUTES.WISHLIST_TAB}
+        component={WishListStack}
+        options={{
+          tabBarBadge: wishlists?.length,
+        }}
+      />
       <Tab.Screen name={ROUTES.CART_TAB} component={CartStack} />
       <Tab.Screen name={ROUTES.PROFILE_TAB} component={ProfileStack} />
     </Tab.Navigator>

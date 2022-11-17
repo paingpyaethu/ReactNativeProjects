@@ -5,9 +5,9 @@ import {StyleSheet, View, Text, FlatList} from 'react-native';
 import {METRICS, COLORS, FONTS} from '../../../themes';
 import ProductCard from '../../molecules/Home/ProductCard';
 
-const ProductList = ({data, navigation}) => {
+const ProductList = ({data, navigation, wishlists}) => {
   const _renderComponent = ({item}) => (
-    <ProductCard product={item} navigation={navigation} />
+    <ProductCard product={item} navigation={navigation} wishlists={wishlists} />
   );
   const _listHeaderComponent = () => {
     return (
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   listHeaderText: {
     marginTop: METRICS._scale(18),
-    fontSize: METRICS._scale(16),
+    fontSize: METRICS.height / 40,
     fontFamily: FONTS.ROBOTOSLAB_BOLD,
     color: COLORS.DARK_GREY,
     textAlign: 'center',

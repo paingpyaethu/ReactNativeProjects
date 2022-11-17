@@ -1,34 +1,87 @@
-import React, {useState} from 'react';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {AxiosContext} from '../../../contexts/AxiosContext';
+import {
+  addToWishList,
+  removeWishList,
+} from '../../../stores/slices/wishlists/wishListSlice';
 
-import {METRICS, COLORS, FONTS, ROUTES, IMAGES} from '../../../themes';
+import {METRICS, COLORS, FONTS, ROUTES} from '../../../themes';
 
-const ProductCard = ({product, navigation}) => {
+const ProductCard = ({product, navigation, wishlists}) => {
+  const {authAxios} = useContext(AxiosContext);
+
+  const {userData} = useSelector(state => state.users);
+  const dispatch = useDispatch();
+
   const [click, setClick] = useState(false);
+  const [touch, setTouch] = useState(false);
+  const [data, setData] = useState('');
+
+  const _wishListHandler = async () => {
+    setClick(true);
+    const wishlistData = {
+      productName: product.name,
+      quantity: 1,
+      productImage: product.image,
+      productPrice: product.price,
+      userId: userData._id,
+      productId: product._id,
+      Stock: product.Stock,
+    };
+    dispatch(addToWishList(wishlistData, authAxios));
+  };
+
+  const _removeWishListHandler = id => {
+    setClick(false);
+    setTouch(true);
+    dispatch(removeWishList(id, authAxios));
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      if (wishlists && wishlists?.length > 0) {
+        wishlists.map(wishlist => {
+          setData(wishlist);
+          if (wishlist.productId === product._id && touch === false) {
+            setClick(true);
+          }
+        });
+      }
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [product._id, touch, wishlists]);
+
+  // console.log(data);
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
       }>
-      {/* <Text>{JSON.stringify(product.offerPrice, null, 2)}</Text> */}
+      {/* <Text>{JSON.stringify(wishlists, null, 2)}</Text> */}
       <View style={styles.container}>
         <Image
-          source={require('../../../assets/images/products/custom-jersey.png')}
+          source={{
+            uri: product.image,
+          }}
           style={styles.image}
         />
         <Text style={styles.name}>
-          {product.name.length > 20
+          {product.name.length > 15
             ? product.name.substring(0, 15) + '...'
             : product.name}
         </Text>
         <View style={styles.priceAndRatingContainer}>
           <Text style={styles.price}>${product.price}</Text>
           <Text style={styles.offerPrice}>
-            {product.offerPrice && product.offerPrice.length > 0
-              ? '$' + product.offerPrice
-              : null}
+            {product.offerPrice > 0 ? '$' + product.offerPrice : null}
           </Text>
           <View style={styles.ratingContainer}>
             <IonIcons
@@ -42,7 +95,7 @@ const ProductCard = ({product, navigation}) => {
 
         <View style={styles.footerContainer}>
           {click ? (
-            <TouchableOpacity onPress={() => setClick(!click)}>
+            <TouchableOpacity onPress={() => _removeWishListHandler(data._id)}>
               <IonIcons
                 name="heart"
                 size={METRICS._scale(25)}
@@ -50,7 +103,7 @@ const ProductCard = ({product, navigation}) => {
               />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => setClick(!click)}>
+            <TouchableOpacity onPress={_wishListHandler}>
               <IonIcons
                 name="heart-outline"
                 size={METRICS._scale(25)}
@@ -105,23 +158,22 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: METRICS._scale(110),
-    height: METRICS._scale(110),
+    width: METRICS.width >= 768 ? METRICS.height / 5 : METRICS.height / 7,
+    height: METRICS.width >= 768 ? METRICS.height / 5 : METRICS.height / 7,
     position: 'absolute',
     top: -METRICS._scale(40),
     left: METRICS._scale(10),
   },
   name: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
-    fontSize: METRICS._scale(15),
-    lineHeight: METRICS._scale(15 * 1.4),
+    fontSize: METRICS.width >= 768 ? METRICS.height / 40 : METRICS.height / 50,
+
     textAlign: 'center',
-    marginTop: METRICS._scale(30),
+    marginTop: METRICS.width >= 768 ? 0 : METRICS._scale(20),
     paddingTop: METRICS._scale(50),
     color: COLORS.PRIMARY_COLOR,
   },
   priceAndRatingContainer: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -129,17 +181,16 @@ const styles = StyleSheet.create({
   },
   price: {
     fontFamily: FONTS.ROBOTOSLAB_REGULAR,
-    fontSize: METRICS._scale(16),
-    lineHeight: METRICS._scale(16 * 1.4),
+    fontSize: METRICS.width >= 768 ? METRICS.height / 40 : METRICS.height / 50,
   },
   offerPrice: {
     color: COLORS.DEFAULT_RED,
     fontFamily: FONTS.ROBOTOSLAB_LIGHT,
-    fontSize: METRICS._scale(14),
-    lineHeight: METRICS._scale(14 * 1.4),
+    fontSize: METRICS.width >= 768 ? METRICS.height / 40 : METRICS.height / 50,
 
     textDecorationLine: 'line-through',
-    marginLeft: -METRICS._scale(30),
+    marginLeft:
+      METRICS.width >= 768 ? METRICS._scale(-40) : -METRICS._scale(20),
     marginTop: -METRICS._scale(5),
   },
   ratingContainer: {
@@ -148,8 +199,7 @@ const styles = StyleSheet.create({
   },
   reviewsNum: {
     fontFamily: FONTS.ROBOTOSLAB_REGULAR,
-    fontSize: METRICS._scale(14),
-    lineHeight: METRICS._scale(14 * 1.4),
+    fontSize: METRICS.width >= 768 ? METRICS.height / 40 : METRICS.height / 50,
     marginLeft: METRICS._scale(2),
   },
 

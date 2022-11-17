@@ -1,47 +1,65 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
+  ScrollView,
+  Image,
+  Text,
   View,
   TextInput,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
-import {METRICS, COLORS, FONTS} from '../../../themes';
+import {useSelector} from 'react-redux';
+import {METRICS, COLORS, FONTS, ROUTES} from '../../../themes';
 
 import Separator from '../../atoms/Separator';
+import SearchedProduct from '../../organisms/Products/SearchedProduct';
 
-const HeaderMenu = ({navigation}) => {
+const HeaderMenu = ({navigation, value, onChangeText}) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={COLORS.LIGHT_GREY}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Feather name="align-left" size={METRICS._scale(30)} />
-        </TouchableOpacity>
-        <TextInput
-          placeholder="Search"
-          placeholderTextColor={COLORS.NORMAL_GREY}
-          style={styles.searchInput}
+    <>
+      <SafeAreaView style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={COLORS.LIGHT_GREY}
+          translucent
         />
-        <TouchableOpacity>
-          <Feather
-            name="search"
-            size={METRICS._scale(24)}
-            color={COLORS.NORMAL_GREY}
-            style={styles.searchIcon}
+        <Separator height={StatusBar.currentHeight} />
+
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <Feather
+              name="align-left"
+              size={
+                METRICS.width >= 768 ? METRICS.height / 20 : METRICS.height / 30
+              }
+            />
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={COLORS.NORMAL_GREY}
+            value={value}
+            onChangeText={onChangeText}
+            style={styles.searchInput}
           />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <TouchableOpacity>
+            <Feather
+              name="search"
+              size={
+                METRICS.width >= 768 ? METRICS.height / 30 : METRICS.height / 40
+              }
+              color={COLORS.NORMAL_GREY}
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* <Text>{JSON.stringify(products, null, 2)}</Text> */}
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -74,14 +92,46 @@ const styles = StyleSheet.create({
     borderRadius: METRICS._scale(10),
 
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
-    fontSize: METRICS._scale(14),
+    fontSize: METRICS.width >= 768 ? METRICS.height / 50 : METRICS.height / 60,
 
     position: 'relative',
   },
   searchIcon: {
     position: 'absolute',
-    bottom: METRICS._scale(-12),
+    bottom: METRICS.width >= 768 ? METRICS._scale(-8) : METRICS._scale(-10),
     right: METRICS._scale(12),
+  },
+
+  // Searched Products
+  searchedProductContainer: {
+    flex: 1,
+    position: 'absolute',
+    width: METRICS.width,
+    left: 0,
+    top: METRICS.height / 5 - 60,
+    zIndex: 100,
+    height: METRICS.height * 2,
+    backgroundColor: 'rgba(61, 107, 115, 0.80)',
+    // paddingVertical: 10,
+  },
+  searchedProductList: {
+    flex: 1,
+    backgroundColor: 'red',
+    // height: METRICS.height,
+    marginVertical: METRICS._scale(15),
+    marginHorizontal: METRICS._scale(15),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  image: {
+    height: METRICS.height / 20,
+    width: METRICS.height / 20,
+  },
+  searchedProductName: {
+    color: '#fff',
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS.height / 60,
+    paddingLeft: METRICS._scale(20),
   },
 });
 

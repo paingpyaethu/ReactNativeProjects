@@ -1,25 +1,44 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
+import mime from 'mime';
 
 import CustomInput from '../../components/molecules/Form/CustomInput';
 
 import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../../stores/slices/auth/authSlice';
+import {BASE_URL} from '../../stores/api_endpoint';
+
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 const RegisterScreen = ({navigation}) => {
   const auth = useSelector(state => state.auth);
-  console.log('AuthReg::: ', auth);
+
+  let emailExisted =
+    auth.registerError && auth.registerError.includes('E11000');
+
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [image, setImage] = useState('');
+  const [fileName, setFileName] = useState('');
 
-  console.log('Avatar:::', avatar);
+  const [emailErrMsg, setEmailErrMsg] = useState('');
+  const [nameErrMsg, setNameErrMsg] = useState('');
+  const [pwdErrMsg, setPwdErrMsg] = useState('');
+  const [imageErrMsg, setImageErrMsg] = useState('');
 
   const _uploadImage = () => {
     ImagePicker.openPicker({
@@ -28,37 +47,86 @@ const RegisterScreen = ({navigation}) => {
       cropping: true,
       compressImageQuality: 0.8,
       includeBase64: true,
-    }).then(image => {
-      console.log('SelectedImage:::', image);
-      setAvatar(image.sourceURL);
-      // setAvatar('data:image/jpeg;base64,' + image.data);
+    }).then(img => {
+      console.log('SelectedImage:::', img);
+      setImage(img.path);
+      setFileName(img.filename || `${Date.now()}.jpg`);
     });
   };
-  const _handleSubmit = () => {
-    const formData = new FormData();
+  const customValidator = (data, errMsg) => {
+    if (!data) {
+      return errMsg;
+    }
+  };
+  const _handleSubmit = async () => {
+    console.log('Image', image);
+    // console.log('FileName', fileName);
+    Keyboard.dismiss();
+    let isValid = true;
+    if (!name) {
+      customValidator(name, setNameErrMsg('Name required.'));
+      isValid = false;
+    } else if (name.length < 3) {
+      customValidator(
+        name,
+        setNameErrMsg('Please enter a name at least 3 characters'),
+      );
+      isValid = false;
+    }
 
-    // const newImageUri = 'file:///' + avatar.split('file:/').join('');
-    formData.append('avatar', {
-      uri: avatar,
-      name: avatar,
-      // fileName: 'image',
-      type: 'image/jpg',
-      // name: newImageUri.split('/').pop(),
-    });
-    formData.append('avatar', avatar);
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('password', password);
+    if (!email) {
+      customValidator(email, setEmailErrMsg('Email required.'));
+      isValid = false;
+    } else if (!email.match(/\S+@\S+\.\S+/)) {
+      customValidator(email, setEmailErrMsg('Please input valid email.'));
+      isValid = false;
+    }
 
-    // setEmail('');
-    // setPassword('');
-    // const user = {
-    //   name,
-    //   email,
-    //   password,
-    //   avatar,
-    // };
-    dispatch(registerUser(formData));
+    if (!password) {
+      customValidator(password, setPwdErrMsg('Password required.'));
+      isValid = false;
+    } else if (password.length < 5) {
+      customValidator(
+        password,
+        setPwdErrMsg('Password should be greater than 5 characters'),
+      );
+      isValid = false;
+    }
+
+    if (image === '' || !image) {
+      customValidator(image, setImageErrMsg('No Image In Request!'));
+      isValid = false;
+    }
+
+    if (isValid) {
+      customValidator(
+        [name, email, password, image],
+        [
+          setNameErrMsg(null),
+          setEmailErrMsg(null),
+          setPwdErrMsg(null),
+          setImageErrMsg(null),
+        ],
+      );
+      // const formData = new FormData();
+
+      // formData.append('image', {
+      //   uri: image,
+      //   name: fileName,
+      // });
+      // formData.append('name', name);
+      // formData.append('email', email);
+      // formData.append('password', password);
+
+      const regData = {
+        name,
+        email,
+        password,
+        image,
+      };
+
+      dispatch(registerUser(regData));
+    }
   };
 
   return (
@@ -86,7 +154,7 @@ const RegisterScreen = ({navigation}) => {
               name={'name'}
               value={name}
               onChangeText={text => setName(text)}
-              // error={auth.error}
+              error={nameErrMsg}
             />
             <CustomInput
               label={'Email'}
@@ -95,7 +163,7 @@ const RegisterScreen = ({navigation}) => {
               value={email}
               keyboardType={'email-address'}
               onChangeText={text => setEmail(text.toLowerCase())}
-              // error={auth.error}
+              error={emailExisted ? 'Email already exists.' : emailErrMsg}
             />
             <CustomInput
               label={'Password'}
@@ -103,7 +171,7 @@ const RegisterScreen = ({navigation}) => {
               name={'password'}
               value={password}
               onChangeText={text => setPassword(text)}
-              // error={auth.error}
+              error={pwdErrMsg}
               password
             />
             <View style={styles.relative}>
@@ -111,9 +179,9 @@ const RegisterScreen = ({navigation}) => {
                 <Image
                   source={{
                     uri:
-                      avatar === ''
+                      image === ''
                         ? 'https://mern-ecommerce-stores.herokuapp.com/profile.png'
-                        : avatar,
+                        : image,
                   }}
                   style={styles.image}
                 />
@@ -123,6 +191,7 @@ const RegisterScreen = ({navigation}) => {
                   <Text style={styles.uploadPhotoTxt}>Choose Photo</Text>
                 </TouchableOpacity>
               </View>
+              {imageErrMsg && <Text style={styles.errMsg}>{imageErrMsg}</Text>}
             </View>
             {/******************** REGISTER BUTTON *********************/}
             <TouchableOpacity
@@ -223,6 +292,13 @@ const styles = StyleSheet.create({
     fontSize: METRICS._scale(12),
     // lineHeight: METRICS._scale(12 * 1.4),
     color: COLORS.SECONDARY_COLOR,
+  },
+  errMsg: {
+    color: '#EF452C',
+    fontSize: METRICS._scale(12),
+    lineHeight: METRICS._scale(12 * 1.4),
+    fontFamily: FONTS.ROBOTOSLAB_SEMI_BOLD,
+    marginTop: METRICS._scale(4),
   },
   // footer
   footer: {

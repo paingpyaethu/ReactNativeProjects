@@ -25,6 +25,7 @@ const CustomDrawer = props => {
   const {authAxios} = useContext(AxiosContext);
 
   const users = useSelector(state => state.users);
+  const userData = users.userData;
   console.log('UserData:::', users);
 
   const dispatch = useDispatch();
@@ -34,10 +35,14 @@ const CustomDrawer = props => {
 
     if (mounted) {
       dispatch(getUserData(authAxios));
+      if (users.error) {
+        dispatch(logout());
+      }
     }
     return () => {
       mounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authAxios, dispatch]);
 
   const _onLogout = () => {
@@ -58,22 +63,30 @@ const CustomDrawer = props => {
       <View style={styles.logoContainer}>
         <Image
           source={IMAGES.LOGO}
-          style={{width: '100%', height: METRICS._scale(130)}}
+          style={{
+            width: '100%',
+            height: METRICS.height / 5,
+          }}
         />
       </View>
       <View style={styles.userContainer}>
         <Image
           source={{
-            uri: 'https://mern-ecommerce-stores.herokuapp.com/profile.png',
+            uri:
+              userData && userData.image
+                ? userData.image
+                : 'https://mern-ecommerce-stores.herokuapp.com/profile.png',
           }}
           style={styles.userImg}
         />
-        <Text style={styles.userText}>
-          {users.userData && users.userData.name}
-        </Text>
+        <Text style={styles.userText}>{userData && userData.name}</Text>
       </View>
       <DrawerContentScrollView {...props}>
-        <View style={{marginTop: METRICS._scale(-30)}}>
+        <View
+          style={{
+            marginTop:
+              METRICS.width >= 768 ? METRICS._scale(0) : METRICS._scale(-30),
+          }}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
@@ -107,13 +120,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userImg: {
-    width: METRICS._scale(60),
-    height: METRICS._scale(60),
-    borderRadius: METRICS._scale(60 / 2),
+    width: METRICS.height / 10,
+    height: METRICS.height / 10,
+    borderRadius: METRICS.height / 10,
     marginLeft: METRICS._scale(10),
   },
   userText: {
-    fontSize: METRICS._scale(14),
+    fontSize: METRICS.height / 50,
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
     color: COLORS.SECONDARY_COLOR,
     paddingLeft: METRICS._scale(10),
@@ -123,10 +136,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: METRICS.width >= 768 ? METRICS._scale(10) : METRICS._scale(20),
+    marginBottom: METRICS.width >= 768 ? METRICS._scale(-30) : 0,
   },
   logoutText: {
     color: COLORS.DARK_GREY,
-    fontSize: METRICS._scale(14),
+    fontSize: METRICS.height / 50,
     fontFamily: FONTS.ROBOTOSLAB_SEMI_BOLD,
     paddingLeft: METRICS._scale(10),
   },

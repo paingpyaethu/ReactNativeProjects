@@ -22,9 +22,9 @@ const HomeStack = () => {
       <Stack.Screen
         name={ROUTES.PRODUCT_DETAIL}
         component={ProductDetailScreen}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

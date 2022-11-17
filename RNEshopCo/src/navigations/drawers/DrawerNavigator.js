@@ -28,7 +28,7 @@ const DrawerNavigator = () => {
         drawerStyle: {width: METRICS.width - METRICS._scale(100)},
         drawerLabelStyle: {
           marginLeft: METRICS.width >= 768 ? 0 : METRICS._scale(-15),
-          fontSize: METRICS._scale(14),
+          fontSize: METRICS.height / 50,
           fontFamily: FONTS.ROBOTOSLAB_SEMI_BOLD,
         },
         drawerItemStyle: {
@@ -44,7 +44,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="ios-home-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),
@@ -58,7 +58,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="layers-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),
@@ -72,7 +72,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="heart-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),
@@ -86,7 +86,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="cart-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),
@@ -100,7 +100,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="ios-cube-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),
@@ -114,7 +114,7 @@ const DrawerNavigator = () => {
           drawerIcon: ({focused, color, size}) => (
             <IonIcons
               name="person-circle-outline"
-              size={METRICS._scale(20)}
+              size={METRICS.height / 30}
               color={color}
             />
           ),

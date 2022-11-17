@@ -32,7 +32,7 @@ const AuthStack = () => {
         component={RegisterScreen}
       />
       <Stack.Screen
-        // options={{headerShown: false}}
+        options={{headerShown: false}}
         name={ROUTES.FORGOT_PASSWORD}
         component={ForgotPwdScreen}
       />
