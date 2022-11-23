@@ -6,9 +6,12 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
+  Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import ImagePicker from 'react-native-image-crop-picker';
+
+import {launchImageLibrary} from 'react-native-image-picker';
+
 import mime from 'mime';
 
 import CustomInput from '../../components/molecules/Form/CustomInput';
@@ -32,26 +35,42 @@ const RegisterScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [image, setImage] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [fileName, setFileName] = useState('');
+  const [type, setType] = useState('');
 
   const [emailErrMsg, setEmailErrMsg] = useState('');
   const [nameErrMsg, setNameErrMsg] = useState('');
   const [pwdErrMsg, setPwdErrMsg] = useState('');
   const [imageErrMsg, setImageErrMsg] = useState('');
 
-  const _uploadImage = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-      compressImageQuality: 0.8,
-      includeBase64: true,
-    }).then(img => {
-      console.log('SelectedImage:::', img);
-      setImage(img.path);
-      setFileName(img.filename || `${Date.now()}.jpg`);
-    });
+  const options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    },
+  };
+
+  // const _uploadImage = () => {
+  //   launchImageLibrary({noData: true}, response => {
+  //     if (response.didCancel !== true) {
+  //       if (response) {
+  //         console.log('Response Image:::>', response.assets[0].fileName);
+  //         setAvatar(response.assets[0].uri);
+  //         setFileName(response.assets[0].fileName);
+  //       }
+  //     }
+  //   });
+  // };
+
+  const _uploadImage = async () => {
+    const img = await launchImageLibrary(options);
+    console.log('Image:::>', img.assets[0]);
+    setAvatar(img.assets[0].uri);
+    setFileName(img.assets[0].fileName);
   };
   const customValidator = (data, errMsg) => {
     if (!data) {
@@ -59,8 +78,8 @@ const RegisterScreen = ({navigation}) => {
     }
   };
   const _handleSubmit = async () => {
-    console.log('Image', image);
-    // console.log('FileName', fileName);
+    console.log('Image', avatar);
+    console.log('FileName', fileName);
     Keyboard.dismiss();
     let isValid = true;
     if (!name) {
@@ -93,14 +112,14 @@ const RegisterScreen = ({navigation}) => {
       isValid = false;
     }
 
-    if (image === '' || !image) {
-      customValidator(image, setImageErrMsg('No Image In Request!'));
+    if (avatar === '' || !avatar) {
+      customValidator(avatar, setImageErrMsg('No Image In Request!'));
       isValid = false;
     }
 
     if (isValid) {
       customValidator(
-        [name, email, password, image],
+        [name, email, password, avatar],
         [
           setNameErrMsg(null),
           setEmailErrMsg(null),
@@ -108,24 +127,17 @@ const RegisterScreen = ({navigation}) => {
           setImageErrMsg(null),
         ],
       );
-      // const formData = new FormData();
+      const formData = new FormData();
 
-      // formData.append('image', {
-      //   uri: image,
-      //   name: fileName,
-      // });
-      // formData.append('name', name);
-      // formData.append('email', email);
-      // formData.append('password', password);
+      formData.append('image', {
+        uri: avatar,
+        name: fileName,
+      });
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
 
-      const regData = {
-        name,
-        email,
-        password,
-        image,
-      };
-
-      dispatch(registerUser(regData));
+      dispatch(registerUser(formData));
     }
   };
 
@@ -179,9 +191,9 @@ const RegisterScreen = ({navigation}) => {
                 <Image
                   source={{
                     uri:
-                      image === ''
+                      avatar === ''
                         ? 'https://mern-ecommerce-stores.herokuapp.com/profile.png'
-                        : image,
+                        : avatar,
                   }}
                   style={styles.image}
                 />

@@ -12,7 +12,7 @@ import SearchedProduct from '../../components/organisms/Products/SearchedProduct
 
 const HomeScreen = ({navigation}) => {
   const {isLoading, products} = useSelector(state => state.products);
-  const {wishlists} = useSelector(state => state.wishlists);
+  const {wishlistData} = useSelector(state => state.wishlists);
 
   const [data, setData] = useState();
   const [search, setSearch] = useState('');
@@ -58,7 +58,7 @@ const HomeScreen = ({navigation}) => {
               <ProductList
                 data={products}
                 navigation={navigation}
-                wishlists={wishlists}
+                wishlistData={wishlistData}
               />
             </>
           )}

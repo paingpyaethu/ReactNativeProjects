@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,28 +8,92 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import {useDispatch, useSelector} from 'react-redux';
 import Separator from '../../components/atoms/Separator';
 import {AxiosContext} from '../../contexts/AxiosContext';
+import {addToCart} from '../../stores/slices/carts/cartSlice';
 import {removeWishList} from '../../stores/slices/wishlists/wishListSlice';
 import {COLORS, FONTS, METRICS} from '../../themes';
 
 const WishListScreen = () => {
-  const {wishlists} = useSelector(state => state.wishlists);
+  const {authAxios} = useContext(AxiosContext);
+  const {wishlistData} = useSelector(state => state.wishlists);
+  const {cartData} = useSelector(state => state.carts);
+  const {userData} = useSelector(state => state.users);
+
+  const [itemId, setItemId] = useState([]);
+
+  // const cartId = [];
+
+  // cartData.map(item => {
+  //   cartId.push(item.productId);
+  // });
+
+  console.log('CartItemId:::>>', itemId);
+
+  // cartId.map(i => console.log('mappingCardId', i));
+
+  const dispatch = useDispatch();
+
+  const _addToCartHandler = (
+    productName,
+    productImage,
+    productPrice,
+    userId,
+    productId,
+    Stock,
+  ) => {
+    const addToCartData = {
+      productName: productName,
+      quantity: 1,
+      productImage: productImage,
+      productPrice: productPrice,
+      userId: userId,
+      productId: productId,
+      Stock: Stock,
+    };
+
+    if (Stock === 0 || productId === itemId) {
+      Toast.show({
+        type: 'error',
+        text1:
+          productId === itemId
+            ? `${productName} already have in cart`
+            : `${productName} out of stock`,
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
+    } else {
+      dispatch(addToCart(addToCartData, authAxios));
+    }
+  };
+
+  useEffect(() => {
+    cartData.map(item => {
+      setItemId(item.productId);
+    });
+  }, [cartData]);
+
+  // console.log('CartItemId:::>>', cartId);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={'#fff'} translucent />
       <View style={styles.subContainer}>
-        {/* <Text>{JSON.stringify(wishlists, null, 2)}</Text> */}
+        {/* <Text>{JSON.stringify(wishlistData, null, 2)}</Text> */}
         <Separator height={StatusBar.currentHeight} />
-        {wishlists?.length > 0 ? (
+        {wishlistData?.length > 0 ? (
           <View>
-            {wishlists.map((wishlist, index) => (
+            {wishlistData.map((wishlist, index) => (
               <View style={styles.listContainer} key={index}>
                 <View style={styles.leftContainer}>
+                  {/* <Text>{JSON.stringify(wishlist, null, 2)}</Text> */}
                   <Image
-                    source={{uri: wishlist.productImage}}
+                    source={{
+                      uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+                    }}
                     style={styles.image}
                   />
                   <Text style={styles.productNameTxt}>
@@ -41,10 +105,27 @@ const WishListScreen = () => {
                   <Text style={styles.productPriceTxt}>
                     ${wishlist.productPrice}
                   </Text>
-
-                  <TouchableOpacity style={styles.btn}>
-                    <Text style={styles.btnTxt}>Add to Cart</Text>
-                  </TouchableOpacity>
+                  {wishlist.Stock !== 0 ? (
+                    <TouchableOpacity
+                      style={styles.btn}
+                      disabled={wishlist.isDisabled}
+                      onPress={() =>
+                        _addToCartHandler(
+                          wishlist.productName,
+                          wishlist.productImage,
+                          wishlist.productPrice,
+                          userData._id,
+                          wishlist._id,
+                          wishlist.Stock,
+                        )
+                      }>
+                      <Text style={styles.btnTxt}>Add To Cart</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity style={styles.disableBtn} disabled={true}>
+                      <Text style={styles.btnTxt}>Out of Stock</Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             ))}
@@ -105,15 +186,23 @@ const styles = StyleSheet.create({
   },
 
   rightContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
   },
   productPriceTxt: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
     fontSize: METRICS.height / 50,
+    marginBottom: METRICS.width * 0.02,
   },
   btn: {
     backgroundColor: COLORS.DARK_GREY,
+    paddingHorizontal: METRICS._scale(10),
+    paddingVertical: METRICS._scale(5),
+    marginLeft: METRICS._scale(12),
+
+    borderRadius: METRICS._scale(5),
+  },
+  disableBtn: {
+    backgroundColor: COLORS.DEFAULT_GREY,
     paddingHorizontal: METRICS._scale(10),
     paddingVertical: METRICS._scale(5),
     marginLeft: METRICS._scale(12),

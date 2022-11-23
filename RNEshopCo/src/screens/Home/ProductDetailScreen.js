@@ -1,49 +1,110 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   Text,
   View,
   TextInput,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
+import Separator from '../../components/atoms/Separator';
+import {AxiosContext} from '../../contexts/AxiosContext';
+import {addToCart} from '../../stores/slices/carts/cartSlice';
+
 import {COLORS, FONTS, METRICS} from '../../themes';
 
 const ProductDetailScreen = ({route, navigation}) => {
-  const {item} = route.params;
-
+  const {item, wishlistData} = route.params;
+  const {authAxios} = useContext(AxiosContext);
   const [click, setClick] = useState(false);
+  const [isCart, setIsCart] = useState(false);
+  const [data, setData] = useState('');
 
+  const [quantity, setQuantity] = useState(1);
+
+  const {userData} = useSelector(state => state.users);
+  const {cartData} = useSelector(state => state.carts);
+  const dispatch = useDispatch();
+
+  // console.log('WishLists:::', wishlistData);
+
+  const _decreaseQty = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const _increaseQty = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const _addToCartHandler = () => {
+    const addToCartData = {
+      productName: item.name,
+      quantity: quantity,
+      productImage: item.image,
+      productPrice: item.price,
+      userId: userData._id,
+      productId: item._id,
+      Stock: item.Stock,
+    };
+    dispatch(addToCart(addToCartData, authAxios));
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      if (wishlistData && wishlistData?.length > 0) {
+        wishlistData.map(wishlist => {
+          setData(wishlist);
+          if (wishlist.productId === item._id) {
+            setClick(true);
+          }
+        });
+      }
+      if (cartData && cartData.length > 0) {
+        cartData.map(cart => {
+          if (cart.productId === item._id) {
+            setIsCart(true);
+          }
+        });
+      }
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [cartData, item._id, wishlistData]);
   return (
-    <>
-      <SafeAreaView>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <IonIcons name="arrow-back" size={METRICS._scale(25)} />
+    <SafeAreaView style={{flex: 1}}>
+      <Separator height={StatusBar.currentHeight} />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <IonIcons name="arrow-back" size={METRICS._scale(25)} />
+        </TouchableOpacity>
+        {click ? (
+          <TouchableOpacity disabled>
+            <IonIcons
+              name="heart"
+              size={METRICS._scale(25)}
+              color={COLORS.DEFAULT_RED}
+            />
           </TouchableOpacity>
-          {click ? (
-            <TouchableOpacity onPress={() => setClick(!click)}>
-              <IonIcons
-                name="heart"
-                size={METRICS._scale(25)}
-                color={COLORS.DEFAULT_RED}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => setClick(!click)}>
-              <IonIcons
-                name="heart-outline"
-                size={METRICS._scale(25)}
-                color={COLORS.SECONDARY_COLOR}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-      </SafeAreaView>
+        ) : (
+          <TouchableOpacity disabled>
+            <IonIcons
+              name="heart-outline"
+              size={METRICS._scale(25)}
+              color={COLORS.SECONDARY_COLOR}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
 
       <KeyboardAwareScrollView
         enableOnAndroid={true}
@@ -52,7 +113,7 @@ const ProductDetailScreen = ({route, navigation}) => {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: item.image,
+              uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
             }}
             style={styles.image}
           />
@@ -78,34 +139,101 @@ const ProductDetailScreen = ({route, navigation}) => {
             {item.Stock !== 0 ? (
               <View style={styles.quantityContainer}>
                 <View style={styles.quantity}>
-                  <TouchableOpacity style={styles.quantityBox}>
-                    <IonIcons
-                      name="remove-circle"
-                      size={METRICS.height / 40}
-                      color={COLORS.LIGHT_GREY}
-                    />
-                  </TouchableOpacity>
+                  {quantity === 1 ? (
+                    <TouchableOpacity
+                      style={[
+                        styles.quantityBox,
+                        {backgroundColor: COLORS.DARK_GREY},
+                      ]}
+                      disabled={true}>
+                      <IonIcons
+                        name="remove-circle"
+                        size={METRICS.height / 40}
+                        color={COLORS.LIGHT_GREY}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.quantityBox}
+                      onPress={_decreaseQty}>
+                      <IonIcons
+                        name="remove-circle"
+                        size={METRICS.height / 40}
+                        color={COLORS.LIGHT_GREY}
+                      />
+                    </TouchableOpacity>
+                  )}
 
-                  <Text style={styles.quantityTxt}>1</Text>
+                  <Text style={styles.quantityTxt}>{quantity.toString()}</Text>
 
-                  <TouchableOpacity style={styles.quantityBox}>
-                    <IonIcons
-                      name="add-circle"
-                      size={METRICS.height / 40}
-                      color={COLORS.LIGHT_GREY}
-                    />
-                  </TouchableOpacity>
+                  {item.Stock === quantity ? (
+                    <>
+                      <TouchableOpacity
+                        style={[
+                          styles.quantityBox,
+                          {backgroundColor: COLORS.DARK_GREY},
+                        ]}
+                        disabled={true}>
+                        <IonIcons
+                          name="add-circle"
+                          size={METRICS.height / 40}
+                          color={COLORS.LIGHT_GREY}
+                        />
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+                          fontSize: METRICS.width * 0.034,
+                          color: COLORS.DEFAULT_RED,
+                          marginLeft: METRICS.width * 0.03,
+                        }}>
+                        Out of Stock
+                      </Text>
+                    </>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.quantityBox}
+                      onPress={_increaseQty}>
+                      <IonIcons
+                        name="add-circle"
+                        size={METRICS.height / 40}
+                        color={COLORS.LIGHT_GREY}
+                      />
+                    </TouchableOpacity>
+                  )}
                 </View>
-                <TouchableOpacity style={styles.addToCart}>
-                  <IonIcons
-                    name="cart-outline"
-                    size={METRICS.height / 40}
-                    color={'#fff'}
-                  />
-                  <Text style={styles.addToCartTxt}>Add to Cart</Text>
-                </TouchableOpacity>
+                {item.Stock === quantity || isCart === true ? (
+                  <TouchableOpacity
+                    style={[
+                      styles.addToCart,
+                      {backgroundColor: COLORS.DARK_GREY},
+                    ]}
+                    disabled>
+                    <IonIcons
+                      name="cart-outline"
+                      size={METRICS.height / 40}
+                      color={'#fff'}
+                    />
+                    <Text style={styles.addToCartTxt}>Add to Cart</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.addToCart}
+                    onPress={_addToCartHandler}>
+                    <IonIcons
+                      name="cart-outline"
+                      size={METRICS.height / 40}
+                      color={'#fff'}
+                    />
+                    <Text style={styles.addToCartTxt}>Add to Cart</Text>
+                  </TouchableOpacity>
+                )}
               </View>
-            ) : null}
+            ) : (
+              <View>
+                <Text style={styles.outOfStock}>Out of Stock</Text>
+              </View>
+            )}
 
             <View style={styles.review}>
               <Text style={styles.reviewHeaderTxt}>Reviews</Text>
@@ -172,7 +300,7 @@ const ProductDetailScreen = ({route, navigation}) => {
           </View>
         </View>
       </KeyboardAwareScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -187,7 +315,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#fff',
     padding: METRICS._scale(10),
-    height: METRICS.width >= 768 ? METRICS.height / 10 : METRICS.height / 18,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -295,6 +422,12 @@ const styles = StyleSheet.create({
 
     marginLeft: METRICS._scale(8),
     color: '#fff',
+  },
+  outOfStock: {
+    fontFamily: FONTS.ROBOTOSLAB_SEMI_BOLD,
+    fontSize: METRICS.width * 0.05,
+    color: COLORS.DEFAULT_RED,
+    marginBottom: METRICS.width * 0.03,
   },
 
   review: {

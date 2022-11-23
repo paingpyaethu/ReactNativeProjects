@@ -4,7 +4,7 @@ import Toast from 'react-native-toast-message';
 
 const initialState = {
   isLoading: false,
-  wishlists: [],
+  wishlistData: [],
   error: null,
 };
 
@@ -22,7 +22,7 @@ const wishListSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        wishlists: [...state.wishlists, action.payload],
+        wishlistData: [...state.wishlistData, action.payload],
         error: null,
       };
     },
@@ -40,11 +40,11 @@ const wishListSlice = createSlice({
       };
     },
     get_wishlist_success: (state, action) => {
-      const wishlists = action.payload;
+      const wishlistData = action.payload;
       return {
-        ...state,
+        // ...state,
         isLoading: false,
-        wishlists: wishlists,
+        wishlistData: wishlistData,
         error: null,
       };
     },
@@ -65,7 +65,7 @@ const wishListSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        wishlists: state.wishlists.filter(
+        wishlistData: state.wishlistData.filter(
           wishlist => wishlist._id !== action.payload,
         ),
         error: null,
@@ -128,7 +128,14 @@ const getWishlist = authAxios => {
         }
       })
       .catch(e => {
-        dispatch(get_wishlist_error(e));
+        let errMsg = e.response.data.message;
+        dispatch(get_wishlist_error(errMsg));
+        Toast.show({
+          type: 'error',
+          text1: errMsg,
+          position: 'bottom',
+          visibilityTime: 3000,
+        });
       });
   };
 };

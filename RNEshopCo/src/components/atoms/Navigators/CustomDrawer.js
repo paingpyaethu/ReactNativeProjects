@@ -26,7 +26,7 @@ const CustomDrawer = props => {
 
   const users = useSelector(state => state.users);
   const userData = users.userData;
-  console.log('UserData:::', users);
+  // console.log('UserData:::', users);
 
   const dispatch = useDispatch();
 

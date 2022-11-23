@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -6,12 +8,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AxiosContext} from '../../../contexts/AxiosContext';
 import {
   addToWishList,
+  getWishlist,
   removeWishList,
 } from '../../../stores/slices/wishlists/wishListSlice';
 
 import {METRICS, COLORS, FONTS, ROUTES} from '../../../themes';
 
-const ProductCard = ({product, navigation, wishlists}) => {
+const ProductCard = ({product, navigation, wishlistData}) => {
   const {authAxios} = useContext(AxiosContext);
 
   const {userData} = useSelector(state => state.users);
@@ -21,9 +24,11 @@ const ProductCard = ({product, navigation, wishlists}) => {
   const [touch, setTouch] = useState(false);
   const [data, setData] = useState('');
 
+  console.log('Product Card Wishlists:::>>', wishlistData);
+
   const _wishListHandler = async () => {
     setClick(true);
-    const wishlistData = {
+    const addWishlistData = {
       productName: product.name,
       quantity: 1,
       productImage: product.image,
@@ -32,7 +37,7 @@ const ProductCard = ({product, navigation, wishlists}) => {
       productId: product._id,
       Stock: product.Stock,
     };
-    dispatch(addToWishList(wishlistData, authAxios));
+    dispatch(addToWishList(addWishlistData, authAxios));
   };
 
   const _removeWishListHandler = id => {
@@ -42,34 +47,46 @@ const ProductCard = ({product, navigation, wishlists}) => {
   };
 
   useEffect(() => {
-    let mounted = true;
+    wishlistData &&
+      wishlistData.length > 0 &&
+      wishlistData.map(wishlist => {
+        setData(wishlist);
+        if (wishlist.productId === product._id && touch === false) {
+          setClick(true);
+        }
+      });
+  }, [wishlistData]);
 
-    if (mounted) {
-      if (wishlists && wishlists?.length > 0) {
-        wishlists.map(wishlist => {
-          setData(wishlist);
-          if (wishlist.productId === product._id && touch === false) {
-            setClick(true);
-          }
-        });
-      }
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [product._id, touch, wishlists]);
+  // useEffect(() => {
+  //   console.log('Product Card Wishlists:::>>', wishlists);
+  //   if (wishlists && wishlists.length > 0) {
+  //     wishlists.map(wishlist => {
+  //       setData(wishlist);
+  //       console.log('wishlist data', data);
+  //       if (wishlist.productId === product._id) {
+  //         console.log('WishlistsProductId:::>>', wishlist.productId);
+  //         console.log('ProductId:::>>', product._id);
+
+  //         setClick(true);
+  //       }
+  //     });
+  //   }
+  // }, [data, product._id, wishlists]);
 
   // console.log(data);
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate(ROUTES.PRODUCT_DETAIL, {item: product})
+        navigation.navigate(ROUTES.PRODUCT_DETAIL, {
+          item: product,
+          wishlistData: wishlistData,
+        })
       }>
       {/* <Text>{JSON.stringify(wishlists, null, 2)}</Text> */}
       <View style={styles.container}>
         <Image
           source={{
-            uri: product.image,
+            uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
           }}
           style={styles.image}
         />
@@ -111,17 +128,6 @@ const ProductCard = ({product, navigation, wishlists}) => {
               />
             </TouchableOpacity>
           )}
-
-          {product.Stock !== 0 ? (
-            <TouchableOpacity>
-              <MaterialIcons
-                name="add-shopping-cart"
-                size={METRICS._scale(25)}
-                color={COLORS.SECONDARY_COLOR}
-                style={{marginLeft: METRICS._scale(8)}}
-              />
-            </TouchableOpacity>
-          ) : null}
         </View>
         {product.Stock === 0 ? (
           <View style={styles.outOfStock}>

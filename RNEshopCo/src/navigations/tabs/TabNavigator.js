@@ -16,24 +16,21 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {getWishlist} from '../../stores/slices/wishlists/wishListSlice';
 import {AxiosContext} from '../../contexts/AxiosContext';
+import {getCartData} from '../../stores/slices/carts/cartSlice';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const {authAxios} = useContext(AxiosContext);
 
-  const {wishlists} = useSelector(state => state.wishlists);
+  const {wishlistData} = useSelector(state => state.wishlists);
+  const {cartData} = useSelector(state => state.carts);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      dispatch(getWishlist(authAxios));
-    }
-    return () => {
-      mounted = false;
-    };
+    dispatch(getWishlist(authAxios));
+    dispatch(getCartData(authAxios));
   }, [dispatch, authAxios]);
   return (
     <Tab.Navigator
@@ -73,10 +70,16 @@ const TabNavigator = () => {
         name={ROUTES.WISHLIST_TAB}
         component={WishListStack}
         options={{
-          tabBarBadge: wishlists?.length,
+          tabBarBadge: wishlistData?.length,
         }}
       />
-      <Tab.Screen name={ROUTES.CART_TAB} component={CartStack} />
+      <Tab.Screen
+        name={ROUTES.CART_TAB}
+        component={CartStack}
+        options={{
+          tabBarBadge: cartData?.length,
+        }}
+      />
       <Tab.Screen name={ROUTES.PROFILE_TAB} component={ProfileStack} />
     </Tab.Navigator>
   );

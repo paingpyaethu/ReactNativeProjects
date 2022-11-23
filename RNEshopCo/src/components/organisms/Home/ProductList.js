@@ -5,9 +5,13 @@ import {StyleSheet, View, Text, FlatList} from 'react-native';
 import {METRICS, COLORS, FONTS} from '../../../themes';
 import ProductCard from '../../molecules/Home/ProductCard';
 
-const ProductList = ({data, navigation, wishlists}) => {
+const ProductList = ({data, navigation, wishlistData}) => {
   const _renderComponent = ({item}) => (
-    <ProductCard product={item} navigation={navigation} wishlists={wishlists} />
+    <ProductCard
+      product={item}
+      navigation={navigation}
+      wishlistData={wishlistData}
+    />
   );
   const _listHeaderComponent = () => {
     return (
