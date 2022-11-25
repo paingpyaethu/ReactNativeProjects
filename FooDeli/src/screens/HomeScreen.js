@@ -1,29 +1,68 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {StyleSheet, SafeAreaView, Text, View, Image} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  StatusBar,
+  TextInput,
+  Text,
+  View,
+  Image,
+} from 'react-native';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import sanityClient from '../../sanity';
+import CustomSearch from '../components/molecules/Home/CustomSearch';
+import HeaderMenu from '../components/molecules/Home/HeaderMenu';
+import Categories from '../components/organisms/Home/Categories';
+import FeaturedRow from '../components/organisms/Home/FeaturedRow';
+
 import {COLORS, FONTS, METRICS} from '../themes';
 
 const HomeScreen = () => {
-  // const navigation = useNavigation();
+  const [featuredCategories, setFeaturedCategories] = useState([]);
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerShown: false,
-  //   });
-  // }, []);
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+        *[_type == "featured"] {
+          ...,
+          restaurants[]-> {
+            ...,
+            dishes[]->,
+          },
+        }
+    `,
+      )
+      .then(data => {
+        setFeaturedCategories(data);
+      });
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={require('../assets/images/logo/deli_logo.png')}
-          style={styles.image}
-        />
+      {/* Header */}
+      <HeaderMenu />
+      {/* Search */}
+      <CustomSearch />
 
-        <View>
-          <Text style={styles.deliverNow}>Deliver Now!</Text>
-          <Text style={styles.currentLocation}>Current Location</Text>
-        </View>
-      </View>
+      {/* Body */}
+      <ScrollView contentContainerStyle={styles.bodyContainer}>
+        {/* Categories */}
+        <Categories />
+
+        {/* Featured */}
+        {featuredCategories?.map(category => (
+          <FeaturedRow
+            key={category._id}
+            id={category._id}
+            title={category.name}
+            description={category.short_description}
+          />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -32,28 +71,12 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: StatusBar.currentHeight,
+  },
+  bodyContainer: {
     backgroundColor: COLORS.NATURAL_LIGHT,
-  },
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  image: {
-    width: METRICS.width * 0.1,
-    height: METRICS.width * 0.1,
-    borderRadius: METRICS.width * 0.2,
-  },
-  deliverNow: {
-    fontFamily: FONTS.POPPINS_MEDIUM,
-    fontSize: METRICS.width * 0.03,
-    color: COLORS.NATURAL_DARK_GREY,
-  },
-  currentLocation: {
-    fontFamily: FONTS.POPPINS_MEDIUM,
-    fontSize: METRICS.width * 0.045,
-    color: COLORS.NATURAL_DEFAULT,
+    paddingBottom:
+      Platform.OS === 'android' ? METRICS.width * 0.3 : METRICS.width * 0.2,
   },
 });
