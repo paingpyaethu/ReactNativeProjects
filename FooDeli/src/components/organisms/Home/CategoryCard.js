@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import {FONTS, METRICS} from '../../../themes';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {COLORS, FONTS, METRICS} from '../../../themes';
 
 const CategoryCard = ({imgUrl, title}) => {
   return (
@@ -11,7 +11,9 @@ const CategoryCard = ({imgUrl, title}) => {
         }}
         style={styles.image}
       />
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.title}>
+        <Text style={styles.titleTxt}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -27,16 +29,21 @@ const styles = StyleSheet.create({
     width: METRICS.width * 0.17,
     height: METRICS.width * 0.17,
     borderRadius: METRICS.width * 0.02,
-    backgroundColor: 'red',
   },
+
   title: {
     position: 'absolute',
-    color: '#fff',
+    bottom: METRICS.width * 0.008,
+    left: METRICS.width * 0.008,
+    backgroundColor: COLORS.SEMANTIC_LIGHT,
+    borderRadius: METRICS.width * 0.02,
+    paddingHorizontal: METRICS.width * 0.02,
+  },
 
+  titleTxt: {
+    color: '#fff',
     fontFamily: FONTS.POPPINS_MEDIUM,
     fontSize: METRICS.width * 0.03,
-    alignItems: 'center',
-    bottom: METRICS.width * 0.01,
-    left: METRICS.width * 0.01,
+    lineHeight: METRICS.width * 0.06,
   },
 });

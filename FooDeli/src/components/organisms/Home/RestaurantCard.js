@@ -1,8 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {urlFor} from '../../../../sanity';
-import {COLORS, FONTS, METRICS} from '../../../themes';
+import {COLORS, FONTS, METRICS, ROUTES} from '../../../themes';
 
 const RestaurantCard = ({
   id,
@@ -16,8 +17,24 @@ const RestaurantCard = ({
   long,
   lat,
 }) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate(ROUTES.RESTAURANT, {
+          id,
+          imgUrl,
+          title,
+          rating,
+          genre,
+          address,
+          short_description,
+          dishes,
+          long,
+          lat,
+        });
+      }}
+      style={styles.container}>
       <Image source={{uri: urlFor(imgUrl).url()}} style={styles.image} />
       <View style={styles.subContainer}>
         <Text style={styles.titleTxt}>{title}</Text>

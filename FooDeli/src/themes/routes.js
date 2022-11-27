@@ -1,3 +1,7 @@
 export default {
-  HOME: 'Home',
+  HOME: 'HomeScreen',
+  RESTAURANT: 'RestaurantScreen',
+  CART: 'CartScreen',
+  PREPARING_ORDER: 'PreparingOrderScreen',
+  DELIVERY: 'DeliveryScreen',
 };
