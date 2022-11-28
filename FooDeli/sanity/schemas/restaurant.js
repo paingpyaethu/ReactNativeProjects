@@ -46,12 +46,20 @@ export default {
           .max(5)
           .error('Please enter a value between 1 and 5'),
     },
+    // {
+    //   name: 'type',
+    //   type: 'reference',
+    //   title: 'Category',
+    //   validation: Rule => Rule.required(),
+    //   to: [{type: 'category'}],
+    // },
     {
-      name: 'type',
-      type: 'reference',
+      name: 'category',
+      type: 'array',
       title: 'Category',
       validation: Rule => Rule.required(),
-      to: [{type: 'category'}],
+      // to: [{type: 'category'}],
+      of: [{type: 'reference', to: [{type: 'category'}]}],
     },
     {
       name: 'dishes',

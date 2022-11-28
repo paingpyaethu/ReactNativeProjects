@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import sanityClient, {urlFor} from '../../../../sanity';
-import {METRICS} from '../../../themes';
+import {COLORS, FONTS, METRICS} from '../../../themes';
 import CategoryCard from './CategoryCard';
 
 const Categories = () => {
@@ -27,6 +34,15 @@ const Categories = () => {
       }}
       horizontal
       showsHorizontalScrollIndicator={false}>
+      <TouchableOpacity style={styles.container}>
+        <Image
+          source={require('../../../assets/images/logo/foodeli-logo.png')}
+          style={styles.image}
+        />
+        <View style={styles.title}>
+          <Text style={styles.titleTxt}>{'All'}</Text>
+        </View>
+      </TouchableOpacity>
       {/* CategoryCard */}
       {categories?.map(category => (
         <CategoryCard
@@ -41,4 +57,30 @@ const Categories = () => {
 
 export default Categories;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginRight: METRICS.width * 0.03,
+    position: 'relative',
+  },
+  image: {
+    width: METRICS.width * 0.17,
+    height: METRICS.width * 0.17,
+    borderRadius: METRICS.width * 0.02,
+  },
+
+  title: {
+    position: 'absolute',
+    bottom: METRICS.width * 0.008,
+    left: METRICS.width * 0.008,
+    backgroundColor: COLORS.SEMANTIC_LIGHT,
+    borderRadius: METRICS.width * 0.02,
+    paddingHorizontal: METRICS.width * 0.02,
+  },
+
+  titleTxt: {
+    color: '#fff',
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    fontSize: METRICS.width * 0.03,
+    lineHeight: METRICS.width * 0.06,
+  },
+});

@@ -34,6 +34,8 @@ const CartScreen = () => {
     setGroupedItemsInCart(groupedItems);
   }, [items]);
 
+  const deliFee = 4.99;
+
   // console.log(groupedItemsInCart);
   return (
     <SafeAreaView style={styles.container}>
@@ -98,18 +100,26 @@ const CartScreen = () => {
 
           <View style={styles.row}>
             <Text style={styles.subTotalTxt}>Delivery Fee</Text>
-            <Text style={styles.subTotalTxt}>${'5.99'}</Text>
+            <Text style={styles.subTotalTxt}>
+              {cartTotal === 0 ? '$0.00' : deliFee}
+            </Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.orderTotalTxt}>Order Total</Text>
             <Text style={styles.orderTotalTxt}>
-              ${(cartTotal + 5.99).toFixed(2)}
+              {cartTotal === 0
+                ? '$0.00'
+                : '$' + `${(cartTotal + deliFee).toFixed(2)}`}
             </Text>
           </View>
 
           <TouchableOpacity
-            style={styles.placeOrder}
+            style={[
+              styles.placeOrder,
+              cartTotal === 0 && {backgroundColor: COLORS.NATURAL_GREY},
+            ]}
+            disabled={cartTotal === 0}
             onPress={() => navigation.navigate(ROUTES.PREPARING_ORDER)}>
             <Text style={styles.placeOrderTxt}>Place Order</Text>
           </TouchableOpacity>

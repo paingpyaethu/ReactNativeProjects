@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import MapView, {Marker} from 'react-native-maps';
 
 import * as Progress from 'react-native-progress';
 
@@ -21,7 +22,7 @@ const DeliveryScreen = () => {
   const {restaurantData} = useSelector(state => state.restaurants);
   return (
     <View style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={{zIndex: 50}}>
         <View style={styles.orderHelpContainer}>
           <TouchableOpacity onPress={() => navigation.navigate(ROUTES.HOME)}>
             <IonIcons
@@ -58,6 +59,39 @@ const DeliveryScreen = () => {
           </Text>
         </View>
       </SafeAreaView>
+
+      <MapView
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        style={{flex: 1, zIndex: 0, marginTop: -METRICS.width * 0.05}}
+        mapType={'mutedStandard'}>
+        <Marker
+          coordinate={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+          }}
+          title={restaurantData.title}
+          description={restaurantData.short_description}
+          identifier="origin"
+          pinColor={COLORS.SEMANTIC_YELLOW}
+        />
+      </MapView>
+
+      <SafeAreaView style={styles.footer}>
+        <Image
+          source={require('../assets/images/logo/deli_logo.png')}
+          style={styles.logoImage}
+        />
+        <View style={{flex: 1}}>
+          <Text style={styles.deliBoyTxt}>Deli Boy</Text>
+          <Text style={styles.yourRiderTxt}>Your Rider</Text>
+        </View>
+        <Text style={styles.callTxt}>Call</Text>
+      </SafeAreaView>
     </View>
   );
 };
@@ -86,6 +120,7 @@ const styles = StyleSheet.create({
     marginVertical: METRICS.width * 0.02,
     padding: METRICS.width * 0.044,
     borderRadius: METRICS.width * 0.02,
+    zIndex: 50,
 
     shadowColor: '#000',
     shadowOffset: {
@@ -116,5 +151,36 @@ const styles = StyleSheet.create({
     color: COLORS.PRIMARY,
     fontFamily: FONTS.POPPINS_MEDIUM,
     fontSize: METRICS.width * 0.03,
+  },
+  footer: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: METRICS.width * 0.3,
+    paddingHorizontal: METRICS.width * 0.03,
+  },
+  logoImage: {
+    width: METRICS.width * 0.1,
+    height: METRICS.width * 0.1,
+    borderRadius: METRICS.width * 0.1,
+    borderWidth: METRICS.width * 0.003,
+    borderColor: COLORS.NATURAL_GREY,
+    marginHorizontal: METRICS.width * 0.04,
+  },
+  deliBoyTxt: {
+    color: COLORS.NATURAL_DEFAULT,
+    fontFamily: FONTS.POPPINS_SEMI_BOLD,
+    fontSize: METRICS.width * 0.04,
+  },
+  yourRiderTxt: {
+    color: COLORS.NATURAL_DARK_GREY,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    fontSize: METRICS.width * 0.03,
+  },
+  callTxt: {
+    color: COLORS.PRIMARY,
+    fontFamily: FONTS.POPPINS_MEDIUM,
+    fontSize: METRICS.width * 0.04,
+    marginRight: METRICS.width * 0.03,
   },
 });

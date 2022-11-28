@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import sanityClient from '../../../../sanity';
 import {COLORS, FONTS, METRICS} from '../../../themes';
+import Categories from './Categories';
 import RestaurantCard from './RestaurantCard';
 
 const FeaturedRow = ({id, title, description}) => {
@@ -18,6 +19,7 @@ const FeaturedRow = ({id, title, description}) => {
         restaurants[]-> {
           ...,
           dishes[]->,
+          category[]->,
           type->{
             name
           }
@@ -35,13 +37,9 @@ const FeaturedRow = ({id, title, description}) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleTxt}>{title}</Text>
-        <IonIcons
-          name="arrow-forward-circle-outline"
-          size={METRICS.width * 0.07}
-          color={COLORS.PRIMARY}
-        />
       </View>
       <Text style={styles.descriptionTxt}>{description}</Text>
+      {/* <Text>{JSON.stringify(restaurants, null, 2)}</Text> */}
 
       <ScrollView
         horizontal

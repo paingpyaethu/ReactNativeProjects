@@ -4,7 +4,7 @@ import {StyleSheet, View, TextInput} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {COLORS, METRICS} from '../../../themes';
 
-const CustomSearch = () => {
+const CustomSearch = props => {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -16,6 +16,8 @@ const CustomSearch = () => {
         <TextInput
           placeholder="Restaurants and cuisines"
           placeholderTextColor={COLORS.NATURAL_DARK_GREY}
+          onFocus={props.onFocus}
+          onChangeText={props.onChangeText}
           keyboardType="default"
           style={styles.input}
         />
