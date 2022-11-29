@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, SafeAreaView} from 'react-native';
 import {useSelector} from 'react-redux';
 import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
@@ -7,6 +7,7 @@ import SearchedProduct from '../../components/organisms/Products/SearchedProduct
 
 const ProductScreen = ({navigation}) => {
   const {products} = useSelector(state => state.products);
+
   const [data, setData] = useState();
   const [search, setSearch] = useState('');
 

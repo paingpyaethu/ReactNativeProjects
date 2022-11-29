@@ -24,8 +24,6 @@ const ProductCard = ({product, navigation, wishlistData}) => {
   const [touch, setTouch] = useState(false);
   const [data, setData] = useState('');
 
-  console.log('Product Card Wishlists:::>>', wishlistData);
-
   const _wishListHandler = async () => {
     setClick(true);
     const addWishlistData = {
@@ -57,23 +55,6 @@ const ProductCard = ({product, navigation, wishlistData}) => {
       });
   }, [wishlistData]);
 
-  // useEffect(() => {
-  //   console.log('Product Card Wishlists:::>>', wishlists);
-  //   if (wishlists && wishlists.length > 0) {
-  //     wishlists.map(wishlist => {
-  //       setData(wishlist);
-  //       console.log('wishlist data', data);
-  //       if (wishlist.productId === product._id) {
-  //         console.log('WishlistsProductId:::>>', wishlist.productId);
-  //         console.log('ProductId:::>>', product._id);
-
-  //         setClick(true);
-  //       }
-  //     });
-  //   }
-  // }, [data, product._id, wishlists]);
-
-  // console.log(data);
   return (
     <TouchableOpacity
       onPress={() =>

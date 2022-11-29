@@ -23,15 +23,12 @@ const ProductDetailScreen = ({route, navigation}) => {
   const {authAxios} = useContext(AxiosContext);
   const [click, setClick] = useState(false);
   const [isCart, setIsCart] = useState(false);
-  const [data, setData] = useState('');
 
   const [quantity, setQuantity] = useState(1);
 
   const {userData} = useSelector(state => state.users);
-  const {cartData} = useSelector(state => state.carts);
+  const cartData = useSelector(state => state.carts.cartData);
   const dispatch = useDispatch();
-
-  // console.log('WishLists:::', wishlistData);
 
   const _decreaseQty = () => {
     if (quantity > 1) {
@@ -57,28 +54,20 @@ const ProductDetailScreen = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      if (wishlistData && wishlistData?.length > 0) {
-        wishlistData.map(wishlist => {
-          setData(wishlist);
-          if (wishlist.productId === item._id) {
-            setClick(true);
-          }
-        });
-      }
-      if (cartData && cartData.length > 0) {
-        cartData.map(cart => {
-          if (cart.productId === item._id) {
-            setIsCart(true);
-          }
-        });
-      }
+    if (wishlistData && wishlistData?.length > 0) {
+      wishlistData.map(wishlist => {
+        if (wishlist.productId === item._id) {
+          setClick(true);
+        }
+      });
     }
-    return () => {
-      mounted = false;
-    };
+    if (cartData && cartData.length > 0) {
+      cartData.map(cart => {
+        if (cart.productId === item._id) {
+          setIsCart(true);
+        }
+      });
+    }
   }, [cartData, item._id, wishlistData]);
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -119,6 +108,8 @@ const ProductDetailScreen = ({route, navigation}) => {
           />
         </View>
         <View style={styles.bodyContainer}>
+          {/* <Text>{JSON.stringify(item, null, 2)}</Text> */}
+          {/* <Text>{JSON.stringify(cartData, null, 2)}</Text> */}
           <View style={styles.bodyHeader}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.offerPrice}>

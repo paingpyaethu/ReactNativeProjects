@@ -15,6 +15,7 @@ import ProductCard from '../../molecules/Home/ProductCard';
 
 const FilterProducts = ({navigation}) => {
   const products = useSelector(state => state.products.products);
+  const {wishlistData} = useSelector(state => state.wishlists);
   const [active, setActive] = useState('All');
   const [data, setData] = useState(products);
 
@@ -28,7 +29,11 @@ const FilterProducts = ({navigation}) => {
   };
 
   const _renderComponent = ({item}) => (
-    <ProductCard product={item} navigation={navigation} />
+    <ProductCard
+      product={item}
+      navigation={navigation}
+      wishlistData={wishlistData}
+    />
   );
   const _listEmptyComponent = () => {
     return (

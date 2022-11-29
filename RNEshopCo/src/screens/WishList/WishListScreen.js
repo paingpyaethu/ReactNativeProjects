@@ -7,13 +7,18 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  ScrollView,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import {useDispatch, useSelector} from 'react-redux';
 import Separator from '../../components/atoms/Separator';
 import {AxiosContext} from '../../contexts/AxiosContext';
-import {addToCart} from '../../stores/slices/carts/cartSlice';
+import {
+  addToCart,
+  increaseQty,
+  updateCart,
+} from '../../stores/slices/carts/cartSlice';
 import {removeWishList} from '../../stores/slices/wishlists/wishListSlice';
 import {COLORS, FONTS, METRICS} from '../../themes';
 
@@ -23,6 +28,8 @@ const WishListScreen = () => {
   const {cartData} = useSelector(state => state.carts);
   const {userData} = useSelector(state => state.users);
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const [itemId, setItemId] = useState([]);
 
   // const cartId = [];
@@ -31,7 +38,7 @@ const WishListScreen = () => {
   //   cartId.push(item.productId);
   // });
 
-  console.log('CartItemId:::>>', itemId);
+  // console.log('CartItemId:::>>', itemId);
 
   // cartId.map(i => console.log('mappingCardId', i));
 
@@ -55,34 +62,30 @@ const WishListScreen = () => {
       Stock: Stock,
     };
 
-    if (Stock === 0 || productId === itemId) {
-      Toast.show({
-        type: 'error',
-        text1:
-          productId === itemId
-            ? `${productName} already have in cart`
-            : `${productName} out of stock`,
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
+    let existingProduct = cartData.find(
+      curElem => curElem.productId === productId,
+    );
+
+    if (existingProduct) {
+      let updQty = {
+        quantity:
+          existingProduct.Stock === existingProduct.quantity
+            ? existingProduct.Stock
+            : existingProduct.quantity + 1,
+      };
+      dispatch(increaseQty(existingProduct._id));
+      dispatch(updateCart(existingProduct._id, updQty, authAxios));
     } else {
       dispatch(addToCart(addToCartData, authAxios));
     }
   };
 
-  useEffect(() => {
-    cartData.map(item => {
-      setItemId(item.productId);
-    });
-  }, [cartData]);
-
-  // console.log('CartItemId:::>>', cartId);
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={'#fff'} translucent />
-      <View style={styles.subContainer}>
+      <ScrollView style={styles.subContainer}>
         {/* <Text>{JSON.stringify(wishlistData, null, 2)}</Text> */}
+        {/* <Text>{JSON.stringify(cartData, null, 2)}</Text> */}
         <Separator height={StatusBar.currentHeight} />
         {wishlistData?.length > 0 ? (
           <View>
@@ -107,15 +110,20 @@ const WishListScreen = () => {
                   </Text>
                   {wishlist.Stock !== 0 ? (
                     <TouchableOpacity
-                      style={styles.btn}
-                      disabled={wishlist.isDisabled}
+                      style={[
+                        styles.btn,
+                        isDisabled === true && {
+                          backgroundColor: COLORS.DEFAULT_GREY,
+                        },
+                      ]}
+                      disabled={isDisabled}
                       onPress={() =>
                         _addToCartHandler(
                           wishlist.productName,
                           wishlist.productImage,
                           wishlist.productPrice,
                           userData._id,
-                          wishlist._id,
+                          wishlist.productId,
                           wishlist.Stock,
                         )
                       }>
@@ -137,7 +145,7 @@ const WishListScreen = () => {
             </Text>
           </View>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -9,80 +9,25 @@ import {
   View,
   Alert,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import {useEffect} from 'react';
-import {
-  getCartData,
-  removeSingleCartData,
-  updateCart,
-} from '../../stores/slices/carts/cartSlice';
-import {AxiosContext} from '../../contexts/AxiosContext';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import {COLORS, FONTS, METRICS} from '../../themes';
+import CartItem from '../../components/organisms/Cart/CartItem';
 
 var height = Dimensions.get('window').height;
 var width = Dimensions.get('window').width;
 
 export default function Cart({navigation}) {
-  const {authAxios} = useContext(AxiosContext);
-  const {cartData} = useSelector(state => state.carts);
-  const dispatch = useDispatch();
+  const cartData = useSelector(state => state.carts.cartData);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
 
-  // decrease quantity
-  const _decreaseQty = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      // dispatch(updateCart(id, quantity - 1));
-    }
-  };
-
-  // // increase quantity
-  const _increaseQty = id => {
-    let qtyData = {
-      quantity: quantity + 1,
-    };
-    setQuantity(quantity + 1);
-    dispatch(updateCart(id, qtyData, authAxios));
-    // dispatch(updateCart(id, quantity + 1));
-  };
-
-  // remove item from cart
-  const _deleteSingleCartHandler = id => {
-    Alert.alert('Warning!', 'Are you sure to delete this item?', [
-      {
-        text: 'Cancel',
-        onPress: () => {},
-        style: 'cancel',
-      },
-      {
-        text: 'Delete',
-        onPress: () => dispatch(removeSingleCartData(id, authAxios)),
-      },
-    ]);
-  };
-
-  // useEffect(() => {
-  //   // setTotalPrice(
-  //   //   cartData.reduce(
-  //   //     (total, item) => total + item.productPrice * item.quantity,
-  //   //     0,
-  //   //   ),
-  //   // );
-  //   if (cartData.length > 0) {
-  //     cartData.map(item => {
-  //       setQuantity(item.quantity);
-  //     });
-  //   }
-  // }, [cartData]);
   useEffect(() => {
-    if (cartData.length > 0) {
-      cartData.map(item => {
-        setQuantity(item.quantity);
-      });
-    }
+    setTotalPrice(
+      cartData.reduce(
+        (total, item) => total + item.productPrice * item.quantity,
+        0,
+      ),
+    );
   }, [cartData]);
 
   return (
@@ -93,73 +38,10 @@ export default function Cart({navigation}) {
           style={{
             marginVertical: METRICS._scale(17),
           }}>
+          {/* <Text>{JSON.stringify(cartData, null, 2)}</Text> */}
           {cartData &&
-            cartData.map((items, index) => (
-              <View style={styles.cartList} key={index}>
-                {/* <Text>{JSON.stringify(items, null, 2)}</Text> */}
-                <Image
-                  source={{
-                    uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
-                  }}
-                  style={styles.image}
-                />
-                <View style={styles.itemCard}>
-                  <View style={styles.productNameContainer}>
-                    <Text style={styles.productName}>{items.productName}</Text>
-                    <TouchableOpacity
-                      style={styles.deleteBtn}
-                      onPress={() => _deleteSingleCartHandler(items._id)}>
-                      <IonIcons
-                        name="trash-outline"
-                        size={
-                          METRICS.width >= 768
-                            ? METRICS.width * 0.04
-                            : METRICS.width * 0.05
-                        }
-                        color={'#fff'}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <Text style={styles.logoTxt}>{'RN-Eshop'}</Text>
+            cartData.map(item => <CartItem key={item.productId} {...item} />)}
 
-                  {/* Price */}
-                  <View style={styles.productPriceContainer}>
-                    <Text style={styles.productPrice}>
-                      ${items.productPrice * quantity}
-                    </Text>
-
-                    {/* quantity */}
-                    <View style={styles.quantityBox}>
-                      <TouchableOpacity onPress={() => _decreaseQty(items._id)}>
-                        <IonIcons
-                          name="remove-circle"
-                          size={
-                            METRICS.width >= 768
-                              ? METRICS.width * 0.04
-                              : METRICS.width * 0.05
-                          }
-                          color={COLORS.DEFAULT_GREY}
-                        />
-                      </TouchableOpacity>
-                      <Text style={styles.quantityTxt}>
-                        {quantity.toString()}
-                      </Text>
-                      <TouchableOpacity onPress={() => _increaseQty(items._id)}>
-                        <IonIcons
-                          name="add-circle"
-                          size={
-                            METRICS.width >= 768
-                              ? METRICS.width * 0.04
-                              : METRICS.width * 0.05
-                          }
-                          color={COLORS.DEFAULT_GREY}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            ))}
           <View style={styles.footerContainer}>
             <View style={styles.totalPriceContainer}>
               <Text style={styles.totalPricelabel}>Total Price:</Text>

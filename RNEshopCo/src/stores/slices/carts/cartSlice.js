@@ -2,15 +2,15 @@ import {createSlice} from '@reduxjs/toolkit';
 import Toast from 'react-native-toast-message';
 import {METRICS} from '../../../themes';
 
-// const initialState = {
-//   isLoading: false,
-//   cartData: [],
-//   error: null,
-// };
+const initialState = {
+  isLoading: false,
+  cartData: [],
+  error: null,
+};
 
 const cartSlice = createSlice({
   name: 'cartSlice',
-  initialState: [],
+  initialState,
   reducers: {
     add_cart_request: state => {
       return {
@@ -19,10 +19,30 @@ const cartSlice = createSlice({
       };
     },
     add_cart_success: (state, action) => {
+      const {
+        _id,
+        productName,
+        productImage,
+        productPrice,
+        userId,
+        productId,
+        Stock,
+      } = action.payload;
+
+      let cartProduct = {
+        _id: _id,
+        productId: productId,
+        productName: productName,
+        quantity: 1,
+        productImage: productImage,
+        productPrice: productPrice,
+        userId: userId,
+        Stock: Stock,
+      };
       return {
         ...state,
         isLoading: false,
-        cartData: [...state.cartData, action.payload],
+        cartData: [...state.cartData, cartProduct],
       };
     },
     add_cart_error: (state, action) => {
@@ -32,6 +52,50 @@ const cartSlice = createSlice({
         error: action.payload,
       };
     },
+    decrease_qty: (state, action) => {
+      let updatedProduct = state.cartData.map(curElem => {
+        if (curElem._id === action.payload) {
+          let decQty = curElem.quantity - 1;
+
+          if (decQty <= 1) {
+            decQty = 1;
+          }
+
+          return {
+            ...curElem,
+            quantity: decQty,
+          };
+        } else {
+          return curElem;
+        }
+      });
+      return {
+        ...state,
+        cartData: updatedProduct,
+      };
+    },
+    increase_qty: (state, action) => {
+      let updatedProduct = state.cartData.map(curElem => {
+        if (curElem._id === action.payload) {
+          let incQty = curElem.quantity + 1;
+
+          if (incQty >= curElem.Stock) {
+            incQty = curElem.Stock;
+          }
+
+          return {
+            ...curElem,
+            quantity: incQty,
+          };
+        } else {
+          return curElem;
+        }
+      });
+      return {
+        ...state,
+        cartData: updatedProduct,
+      };
+    },
     update_cart_request: state => {
       return {
         ...state,
@@ -39,10 +103,19 @@ const cartSlice = createSlice({
       };
     },
     update_cart_success: (state, action) => {
+      let updatedProduct = state.cartData.map(cart => {
+        if (cart._id === action.payload) {
+          return {
+            ...cart,
+            quantity: cart.quantity,
+          };
+        } else {
+          return cart;
+        }
+      });
       return {
         ...state,
-        isLoading: false,
-        cartData: action.payload,
+        cartData: updatedProduct,
       };
     },
     update_cart_error: (state, action) => {
@@ -106,6 +179,8 @@ const {
   add_cart_request,
   add_cart_success,
   add_cart_error,
+  increase_qty,
+  decrease_qty,
   update_cart_request,
   update_cart_success,
   update_cart_error,
@@ -117,6 +192,18 @@ const {
   remove_all_cart_success,
   remove_cart_error,
 } = cartSlice.actions;
+
+const increaseQty = id => {
+  return dispatch => {
+    dispatch(increase_qty(id));
+  };
+};
+
+const decreaseQty = id => {
+  return dispatch => {
+    dispatch(decrease_qty(id));
+  };
+};
 
 const addToCart = (data, authAxios) => {
   return dispatch => {
@@ -157,14 +244,20 @@ const updateCart = (id, quantity, authAxios) => {
       .then(res => {
         if (res.status === 200) {
           dispatch(update_cart_success(res.data.data));
+          Toast.show({
+            topOffset: METRICS._scale(60),
+            type: 'success',
+            text1: 'Successfully.',
+            visibilityTime: 3000,
+          });
         }
       })
       .catch(e => {
         let errMsg = e.response.data.message;
-        dispatch(update_cart_error(e));
+        dispatch(update_cart_error(errMsg));
         Toast.show({
           type: 'error',
-          text1: e,
+          text1: errMsg,
           position: 'bottom',
           visibilityTime: 3000,
         });
@@ -232,4 +325,6 @@ export {
   getCartData,
   removeSingleCartData,
   removeAllCartData,
+  increaseQty,
+  decreaseQty,
 };
