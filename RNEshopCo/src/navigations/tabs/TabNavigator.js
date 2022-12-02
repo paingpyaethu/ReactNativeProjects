@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -39,7 +38,6 @@ const TabNavigator = () => {
         tabBarActiveTintColor: COLORS.PRIMARY_COLOR,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: styles.tabBarStyle,
         tabBarIcon: ({color, focused}) => {
           let iconName;
 
@@ -84,10 +82,5 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-export default TabNavigator;
 
-const styles = StyleSheet.create({
-  tabBarStyle: {
-    height: METRICS.height * 0.1,
-  },
-});
+export default TabNavigator;

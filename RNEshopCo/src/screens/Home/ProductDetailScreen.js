@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  ScrollView,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -300,7 +301,6 @@ export default ProductDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: METRICS.height,
     backgroundColor: '#fff',
   },
   header: {

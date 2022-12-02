@@ -32,16 +32,6 @@ const WishListScreen = () => {
 
   const [itemId, setItemId] = useState([]);
 
-  // const cartId = [];
-
-  // cartData.map(item => {
-  //   cartId.push(item.productId);
-  // });
-
-  // console.log('CartItemId:::>>', itemId);
-
-  // cartId.map(i => console.log('mappingCardId', i));
-
   const dispatch = useDispatch();
 
   const _addToCartHandler = (
@@ -162,9 +152,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.LIGHT_GREY,
   },
   emptyWishlist: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    height: METRICS.height / 1.2,
   },
   emptyWishlistTxt: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,

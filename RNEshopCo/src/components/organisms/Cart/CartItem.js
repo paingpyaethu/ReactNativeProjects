@@ -27,7 +27,6 @@ const CartItem = ({
   Stock,
 }) => {
   const {authAxios} = useContext(AxiosContext);
-  const cartData = useSelector(state => state.carts.cartData);
 
   const dispatch = useDispatch();
 

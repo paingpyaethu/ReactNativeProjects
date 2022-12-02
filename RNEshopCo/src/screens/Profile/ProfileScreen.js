@@ -1,20 +1,17 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, ScrollView, View} from 'react-native';
+import Profile from '../../components/organisms/Profile/Profile';
+import HeaderMenu from '../../components/molecules/Home/HeaderMenu';
 
 const ProfileScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text onPress={() => navigation.goBack()}>ProfileScreen</Text>
+      <HeaderMenu navigation={navigation} />
+      <Profile navigation={navigation} />
     </View>
   );
 };
 
 export default ProfileScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const styles = StyleSheet.create({});

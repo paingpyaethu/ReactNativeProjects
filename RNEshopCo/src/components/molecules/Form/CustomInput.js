@@ -56,7 +56,7 @@ const CustomInput = ({
         {password && (
           <IonIcons
             onPress={() => setHidePassword(!hidePassword)}
-            name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+            name={hidePassword ? 'eye-off-outline' : 'eye-outline'}
             size={METRICS._scale(20)}
             color={COLORS.SECONDARY_COLOR}
           />
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: METRICS._scale(5),
     fontSize: METRICS._scale(14),
     fontFamily: FONTS.ROBOTOSLAB_REGULAR,
+    color: COLORS.SECONDARY_COLOR,
   },
   inputContainer: {
     height: METRICS._scale(50),

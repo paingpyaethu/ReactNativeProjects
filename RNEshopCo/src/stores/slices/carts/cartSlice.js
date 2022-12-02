@@ -21,6 +21,7 @@ const cartSlice = createSlice({
     add_cart_success: (state, action) => {
       const {
         _id,
+        quantity,
         productName,
         productImage,
         productPrice,
@@ -33,7 +34,7 @@ const cartSlice = createSlice({
         _id: _id,
         productId: productId,
         productName: productName,
-        quantity: 1,
+        quantity: quantity,
         productImage: productImage,
         productPrice: productPrice,
         userId: userId,

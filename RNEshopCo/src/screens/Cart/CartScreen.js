@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Dimensions,
   Image,
@@ -11,7 +12,7 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {COLORS, FONTS, METRICS} from '../../themes';
+import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 import CartItem from '../../components/organisms/Cart/CartItem';
 
 var height = Dimensions.get('window').height;
@@ -50,7 +51,7 @@ export default function Cart({navigation}) {
             <View>
               <TouchableOpacity
                 style={styles.checkoutBtn}
-                onPress={() => navigation.navigate('OrderScreen')}>
+                onPress={() => navigation.navigate(ROUTES.CHECK_OUT)}>
                 <Text style={styles.checkoutTxt}>Go to Checkout</Text>
               </TouchableOpacity>
             </View>
@@ -59,11 +60,17 @@ export default function Cart({navigation}) {
       ) : (
         <View
           style={{
-            height: height * 1,
+            height: METRICS.height / 1.2,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: '#333', fontSize: 20, textAlign: 'center'}}>
+          <Text
+            style={{
+              color: COLORS.DEFAULT_RED,
+              fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+              fontSize: METRICS.width * 0.05,
+              textAlign: 'center',
+            }}>
             Your Cart is empty 😢
           </Text>
         </View>
