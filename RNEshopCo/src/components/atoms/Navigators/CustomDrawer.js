@@ -26,23 +26,16 @@ const CustomDrawer = props => {
 
   const users = useSelector(state => state.users);
   const userData = users.userData;
-  // console.log('UserData:::', users);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      dispatch(getUserData(authAxios));
-      if (users.error) {
-        dispatch(logout());
-      }
-    }
-    return () => {
-      mounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(getUserData(authAxios));
+    // if (users.error) {
+    //   setTimeout(() => {
+    //     dispatch(logout());
+    //   }, 1000);
+    // }
   }, [authAxios, dispatch]);
 
   const _onLogout = () => {
