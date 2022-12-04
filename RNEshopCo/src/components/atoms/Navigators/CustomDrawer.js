@@ -31,11 +31,6 @@ const CustomDrawer = props => {
 
   useEffect(() => {
     dispatch(getUserData(authAxios));
-    // if (users.error) {
-    //   setTimeout(() => {
-    //     dispatch(logout());
-    //   }, 1000);
-    // }
   }, [authAxios, dispatch]);
 
   const _onLogout = () => {
@@ -75,11 +70,7 @@ const CustomDrawer = props => {
         <Text style={styles.userText}>{userData && userData.name}</Text>
       </View>
       <DrawerContentScrollView {...props}>
-        <View
-          style={{
-            marginTop:
-              METRICS.width >= 768 ? METRICS._scale(0) : METRICS._scale(-30),
-          }}>
+        <View>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
