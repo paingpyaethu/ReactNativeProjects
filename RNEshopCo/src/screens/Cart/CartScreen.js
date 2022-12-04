@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
 import {
   Dimensions,
-  Image,
   StyleSheet,
   Text,
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
   View,
-  Alert,
+  StatusBar,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 import CartItem from '../../components/organisms/Cart/CartItem';
@@ -32,7 +32,19 @@ export default function Cart({navigation}) {
   }, [cartData]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.myOrderContainer}>
+        {/* My Wishlist Header */}
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.HOME)}>
+          <IonIcons
+            name="arrow-back-circle-outline"
+            size={METRICS.width * 0.08}
+            color={COLORS.FOCUS_COLOR}
+          />
+        </TouchableOpacity>
+        <Text style={styles.myOrderTxt}>My Cart</Text>
+        <View />
+      </View>
       {cartData && cartData.length > 0 ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -60,7 +72,7 @@ export default function Cart({navigation}) {
       ) : (
         <View
           style={{
-            height: METRICS.height / 1.2,
+            height: METRICS.height / 1.3,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -68,7 +80,7 @@ export default function Cart({navigation}) {
             style={{
               color: COLORS.DEFAULT_RED,
               fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
-              fontSize: METRICS.width * 0.05,
+              fontSize: METRICS.width * 0.04,
               textAlign: 'center',
             }}>
             Your Cart is empty 😢
@@ -80,6 +92,21 @@ export default function Cart({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: StatusBar.currentHeight,
+  },
+  myOrderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: METRICS.width * 0.03,
+    marginVertical: METRICS.width * 0.05,
+  },
+  myOrderTxt: {
+    color: COLORS.SECONDARY_COLOR,
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS.width * 0.04,
+  },
   cartList: {
     width: width * 1,
     flexDirection: 'row',

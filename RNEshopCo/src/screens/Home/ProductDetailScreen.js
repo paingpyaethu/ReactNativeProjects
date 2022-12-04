@@ -103,7 +103,7 @@ const ProductDetailScreen = ({route, navigation}) => {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+              uri: item.image,
             }}
             style={styles.image}
           />

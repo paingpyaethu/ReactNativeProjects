@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import Toast from 'react-native-toast-message';
+import {METRICS} from '../../../themes';
 import {BASE_URL} from '../../api_endpoint';
 
 BASE_URL;
@@ -77,6 +78,12 @@ const saveOrders = (data, authAxios) => {
       .then(res => {
         if (res.status === 201) {
           dispatch(add_orders_success(res.data.data));
+          Toast.show({
+            topOffset: METRICS._scale(60),
+            type: 'success',
+            text1: res.data.message,
+            visibilityTime: 3000,
+          });
         }
       })
       .catch(e => {

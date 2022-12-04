@@ -21,6 +21,7 @@ import {COLORS, FONTS, METRICS} from '../../../themes';
 const CartItem = ({
   _id,
   productId,
+  productImage,
   productName,
   productPrice,
   quantity,
@@ -70,7 +71,7 @@ const CartItem = ({
       {/* <Text>{productId}</Text> */}
       <Image
         source={{
-          uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+          uri: productImage,
         }}
         style={styles.image}
       />

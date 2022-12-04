@@ -66,9 +66,9 @@ const CustomDrawer = props => {
         <Image
           source={{
             uri:
-              userData && userData.image
-                ? userData.image
-                : 'https://mern-ecommerce-stores.herokuapp.com/profile.png',
+              userData && userData.avatar
+                ? userData.avatar.url
+                : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC0HxKNuPMWQO_ganSq2rUWUshvqW3mLXoKNo-S_jJ&s',
           }}
           style={styles.userImg}
         />

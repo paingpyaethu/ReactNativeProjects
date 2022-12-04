@@ -6,23 +6,16 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
-  Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {launchImageLibrary} from 'react-native-image-picker';
-
-import mime from 'mime';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import CustomInput from '../../components/molecules/Form/CustomInput';
 
 import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../../stores/slices/auth/authSlice';
-import {BASE_URL} from '../../stores/api_endpoint';
-
-import Toast from 'react-native-toast-message';
-import axios from 'axios';
 
 const RegisterScreen = ({navigation}) => {
   const auth = useSelector(state => state.auth);
@@ -36,41 +29,23 @@ const RegisterScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [fileName, setFileName] = useState('');
-  const [type, setType] = useState('');
 
   const [emailErrMsg, setEmailErrMsg] = useState('');
   const [nameErrMsg, setNameErrMsg] = useState('');
   const [pwdErrMsg, setPwdErrMsg] = useState('');
   const [imageErrMsg, setImageErrMsg] = useState('');
 
-  const options = {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: false,
-    },
-  };
-
-  // const _uploadImage = () => {
-  //   launchImageLibrary({noData: true}, response => {
-  //     if (response.didCancel !== true) {
-  //       if (response) {
-  //         console.log('Response Image:::>', response.assets[0].fileName);
-  //         setAvatar(response.assets[0].uri);
-  //         setFileName(response.assets[0].fileName);
-  //       }
-  //     }
-  //   });
-  // };
-
-  const _uploadImage = async () => {
-    const img = await launchImageLibrary(options);
-    console.log('Image:::>', img.assets[0]);
-    setAvatar(img.assets[0].uri);
-    setFileName(img.assets[0].fileName);
+  const _uploadImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.8,
+      includeBase64: true,
+    }).then(image => {
+      console.log('Image:::>>', image);
+      setAvatar('data:image/jpeg;base64,' + image.data);
+    });
   };
   const customValidator = (data, errMsg) => {
     if (!data) {
@@ -78,8 +53,6 @@ const RegisterScreen = ({navigation}) => {
     }
   };
   const _handleSubmit = async () => {
-    console.log('Image', avatar);
-    console.log('FileName', fileName);
     Keyboard.dismiss();
     let isValid = true;
     if (!name) {
@@ -127,17 +100,15 @@ const RegisterScreen = ({navigation}) => {
           setImageErrMsg(null),
         ],
       );
-      const formData = new FormData();
 
-      formData.append('image', {
-        uri: avatar,
-        name: fileName,
-      });
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('password', password);
+      const userData = {
+        name,
+        email,
+        password,
+        avatar,
+      };
 
-      dispatch(registerUser(formData));
+      dispatch(registerUser(userData));
     }
   };
 

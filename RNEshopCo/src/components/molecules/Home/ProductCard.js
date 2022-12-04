@@ -67,7 +67,7 @@ const ProductCard = ({product, navigation, wishlistData}) => {
       <View style={styles.container}>
         <Image
           source={{
-            uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+            uri: product.image,
           }}
           style={styles.image}
         />

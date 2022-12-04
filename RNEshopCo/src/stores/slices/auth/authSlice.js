@@ -131,7 +131,7 @@ export const loadJWT = () => {
       }
       const jwt = JSON.parse(credentials.password);
 
-      console.log('Keychain Password::: ', jwt);
+      // console.log('Keychain Password::: ', jwt);
 
       dispatch(fetch_auth_success(jwt));
     } catch (e) {
@@ -147,7 +147,7 @@ const registerUser = data => {
     axios
       .post(`${BASE_URL}/registration`, data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       })
       .then(res => {

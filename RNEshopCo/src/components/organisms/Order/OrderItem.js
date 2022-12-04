@@ -41,7 +41,7 @@ const OrderItem = ({navigation, orderData}) => {
                 <View style={styles.orderList} key={item._id}>
                   <Image
                     source={{
-                      uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+                      uri: item.productImage,
                     }}
                     style={styles.image}
                   />

@@ -33,10 +33,9 @@ const Profile = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../../../assets/images/logo/logo.png')}
-        style={styles.image}
-      />
+      <View style={styles.imgContainer}>
+        <Image source={{uri: userData.avatar.url}} style={styles.image} />
+      </View>
       <View style={styles.subContainer}>
         <View style={styles.profileDetail}>
           <Text style={styles.name}>{userData.name.toUpperCase()}</Text>
@@ -117,9 +116,13 @@ const styles = StyleSheet.create({
     marginTop: METRICS.width * 0.03,
   },
 
+  imgContainer: {
+    alignItems: 'center',
+  },
   image: {
-    width: METRICS.width,
+    width: METRICS.width * 0.45,
     height: METRICS.width * 0.45,
+    borderRadius: METRICS.width * 0.45,
   },
 
   subContainer: {

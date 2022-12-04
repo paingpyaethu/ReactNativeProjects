@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/native';
 import React, {useContext, useState, useEffect} from 'react';
 import {
   StyleSheet,
@@ -9,7 +11,7 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
-import Toast from 'react-native-toast-message';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 import {useDispatch, useSelector} from 'react-redux';
 import Separator from '../../components/atoms/Separator';
@@ -20,9 +22,10 @@ import {
   updateCart,
 } from '../../stores/slices/carts/cartSlice';
 import {removeWishList} from '../../stores/slices/wishlists/wishListSlice';
-import {COLORS, FONTS, METRICS} from '../../themes';
+import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 
 const WishListScreen = () => {
+  const navigation = useNavigation();
   const {authAxios} = useContext(AxiosContext);
   const {wishlistData} = useSelector(state => state.wishlists);
   const {cartData} = useSelector(state => state.carts);
@@ -73,6 +76,18 @@ const WishListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={'#fff'} translucent />
+      <View style={styles.myOrderContainer}>
+        {/* My Wishlist Header */}
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.HOME)}>
+          <IonIcons
+            name="arrow-back-circle-outline"
+            size={METRICS.width * 0.08}
+            color={COLORS.FOCUS_COLOR}
+          />
+        </TouchableOpacity>
+        <Text style={styles.myOrderTxt}>My WishList</Text>
+        <View />
+      </View>
       <ScrollView style={styles.subContainer}>
         {/* <Text>{JSON.stringify(wishlistData, null, 2)}</Text> */}
         {/* <Text>{JSON.stringify(cartData, null, 2)}</Text> */}
@@ -85,7 +100,7 @@ const WishListScreen = () => {
                   {/* <Text>{JSON.stringify(wishlist, null, 2)}</Text> */}
                   <Image
                     source={{
-                      uri: 'https://rn-eshopcor.herokuapp.com/public/uploads/1667143362058.png',
+                      uri: wishlist.productImage,
                     }}
                     style={styles.image}
                   />
@@ -131,7 +146,7 @@ const WishListScreen = () => {
         ) : (
           <View style={styles.emptyWishlist}>
             <Text style={styles.emptyWishlistTxt}>
-              Your wishList is empty 😢
+              Your WishList is empty 😢
             </Text>
           </View>
         )}
@@ -145,21 +160,35 @@ export default WishListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    marginTop: StatusBar.currentHeight,
+    // backgroundColor: '#fff',
+  },
+  myOrderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: METRICS.width * 0.03,
+    marginVertical: METRICS.width * 0.05,
+  },
+  myOrderTxt: {
+    color: COLORS.SECONDARY_COLOR,
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS.width * 0.04,
   },
   subContainer: {
     flex: 1,
     backgroundColor: COLORS.LIGHT_GREY,
   },
   emptyWishlist: {
-    alignItems: 'center',
+    height: METRICS.height / 1.3,
     justifyContent: 'center',
-    height: METRICS.height / 1.2,
+    alignItems: 'center',
   },
   emptyWishlistTxt: {
-    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
-    fontSize: METRICS.height / 60,
     color: COLORS.DEFAULT_RED,
+    fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
+    fontSize: METRICS.width * 0.05,
+    textAlign: 'center',
   },
 
   listContainer: {

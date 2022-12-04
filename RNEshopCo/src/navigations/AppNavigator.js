@@ -8,7 +8,6 @@ import SplashScreen from '../components/atoms/SplashScreen';
 
 const AppNavigator = () => {
   const auth = useSelector(state => state.auth);
-  console.log('Auth::: ', auth);
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
