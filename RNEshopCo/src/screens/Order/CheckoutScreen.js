@@ -1,4 +1,4 @@
-import {StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import {StyleSheet, View, SafeAreaView, StatusBar} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import CheckOutItem from '../../components/organisms/Order/Checkout/CheckOutItem';

@@ -120,16 +120,14 @@ const PaymentInfo = ({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.termConditions}>
-          <Text style={styles.termConditionsTxt}>
-            By placing your order you agree to our{' '}
-            <Text style={{color: COLORS.PRIMARY_COLOR}}>
-              terms and conditions, privacy and returns policies
-            </Text>{' '}
-            and consent to some of your data being stored by Ebuy which may be
-            used to make future shopping experiences better for you.
-          </Text>
-        </View>
+        <Text style={styles.termConditionsTxt}>
+          By placing your order you agree to our{' '}
+          <Text style={{color: COLORS.PRIMARY_COLOR}}>
+            terms and conditions, privacy and returns policies
+          </Text>{' '}
+          and consent to some of your data being stored by Ebuy which may be
+          used to make future shopping experiences better for you.
+        </Text>
       </View>
     </ScrollView>
   );
@@ -273,13 +271,13 @@ const styles = StyleSheet.create({
     lineHeight: METRICS.width * 0.11,
     textAlign: 'center',
   },
-  termConditions: {
-    paddingHorizontal: METRICS.width * 0.03,
-    marginBottom: METRICS.width * 0.1,
-  },
   termConditionsTxt: {
     color: COLORS.DEFAULT_GREY,
     fontFamily: FONTS.ROBOTOSLAB_REGULAR,
     fontSize: METRICS.width * 0.034,
+
+    height: METRICS.width * 0.3,
+    padding: METRICS.width * 0.03,
+    marginBottom: METRICS.width * 0.02,
   },
 });

@@ -131,16 +131,18 @@ const CheckOutItem = ({navigation}) => {
               confirmOrderHandler={_confirmOrderHandler}
             />
           ) : active === 3 ? (
-            <PaymentInfo
-              cartData={cartData}
-              userData={userData}
-              phoneNumber={phoneNumber}
-              address={address}
-              countryName={countryName}
-              cityName={cityName}
-              placeOrderHandler={_placeOrderHandler}
-              isLoading={isLoading}
-            />
+            <View style={{flex: 1}}>
+              <PaymentInfo
+                cartData={cartData}
+                userData={userData}
+                phoneNumber={phoneNumber}
+                address={address}
+                countryName={countryName}
+                cityName={cityName}
+                placeOrderHandler={_placeOrderHandler}
+                isLoading={isLoading}
+              />
+            </View>
           ) : null}
         </>
       )}

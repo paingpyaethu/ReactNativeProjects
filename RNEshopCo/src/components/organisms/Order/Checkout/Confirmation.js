@@ -24,7 +24,7 @@ const Confirmation = ({
       style={{
         paddingTop: METRICS.width * 0.05,
       }}>
-      <View>
+      <View style={{paddingBottom: METRICS.width * 0.1}}>
         <Text style={styles.shippingAddressTxt}>Your Shipping Address</Text>
         <View style={styles.shippingInfo}>
           <View style={styles.postalAddress}>
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.DEFAULT_GREEN,
     borderRadius: METRICS.width * 0.02,
     height: METRICS.width * 0.11,
-    marginVertical: METRICS.width * 0.1,
+    marginTop: METRICS.width * 0.1,
     marginHorizontal: METRICS.width * 0.2,
 
     shadowColor: '#000',
