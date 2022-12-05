@@ -44,6 +44,7 @@ const ShippingInfo = ({
           label={'Phone Number'}
           name={'phoneNumber'}
           value={phoneNumber}
+          keyboardType="numeric"
           placeholder={'Enter your phone number'}
           onChangeText={text => setPhoneNumber(text)}
           error={error}
@@ -80,10 +81,11 @@ export default ShippingInfo;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: METRICS.width * 0.04,
+    flex: 1,
   },
   shippingInfo: {
     paddingHorizontal: METRICS.width * 0.05,
+    paddingVertical: METRICS.width * 0.04,
   },
   shippingInfoTxt: {
     color: COLORS.FOCUS_COLOR,

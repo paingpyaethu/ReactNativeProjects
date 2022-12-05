@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Keyboard,
 } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import ImagePicker from 'react-native-image-crop-picker';
+
 import Toast from 'react-native-toast-message';
 
 import UpdatePassword from '../../components/organisms/Profile/UpdatePassword';
@@ -16,12 +19,14 @@ import UpdateProfile from '../../components/organisms/Profile/UpdateProfile';
 import {AxiosContext} from '../../contexts/AxiosContext';
 import {BASE_URL} from '../../stores/api_endpoint';
 import {COLORS, METRICS, ROUTES} from '../../themes';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../stores/slices/auth/authSlice';
+import {updateUserData} from '../../stores/slices/users/userSlice';
 
 const UpdateAccountScreen = ({route}) => {
   const navigation = useNavigation();
   const {authAxios} = useContext(AxiosContext);
+  const {userData, isLoading} = useSelector(state => state.users);
   const dispatch = useDispatch();
 
   const [oldPassword, setOldPassword] = useState('');
@@ -32,6 +37,10 @@ const UpdateAccountScreen = ({route}) => {
   const [oldPwdErrMsg, setOldPwdErrMsg] = useState('');
   const [newPwdErrMsg, setNewPwdErrMsg] = useState('');
   const [confirmPwdErrMsg, setConfirmPwdErrMsg] = useState('');
+
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [nameErrMsg, setNameErrMsg] = useState('');
 
   const customValidator = (data, errMsg) => {
     if (!data) {
@@ -118,6 +127,44 @@ const UpdateAccountScreen = ({route}) => {
     }
   };
 
+  const _uploadImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.8,
+      includeBase64: true,
+    }).then(image => {
+      console.log('Image:::>>', image);
+      setAvatar('data:image/jpeg;base64,' + image.data);
+    });
+  };
+
+  const _updateProfileHandler = () => {
+    Keyboard.dismiss();
+    let isValid = true;
+    if (!name) {
+      customValidator(name, setNameErrMsg('Name required.'));
+      isValid = false;
+    } else if (name.length < 3) {
+      customValidator(
+        name,
+        setNameErrMsg('Please enter a name at least 3 characters'),
+      );
+      isValid = false;
+    }
+
+    if (isValid) {
+      customValidator(name, setNameErrMsg(null));
+
+      const userDataUpdate = {
+        name,
+        avatar,
+      };
+      dispatch(updateUserData(userDataUpdate, navigation, authAxios));
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -144,7 +191,16 @@ const UpdateAccountScreen = ({route}) => {
           confirmPwdErrMsg={confirmPwdErrMsg}
         />
       ) : (
-        <UpdateProfile />
+        <UpdateProfile
+          userData={userData}
+          name={name}
+          setName={setName}
+          nameErrMsg={nameErrMsg}
+          avatar={avatar}
+          isLoading={isLoading}
+          uploadImage={_uploadImage}
+          updateProfileHandler={_updateProfileHandler}
+        />
       )}
     </SafeAreaView>
   );
@@ -154,6 +210,7 @@ export default UpdateAccountScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: StatusBar.currentHeight,
   },
   header: {

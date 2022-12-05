@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.LIGHT_GREY,
   },
   loader: {
-    width: METRICS._scale(200),
+    width: METRICS.width * 0.4,
     position: 'absolute',
-    bottom: 50,
+    bottom: METRICS.width * 0.13,
   },
 });

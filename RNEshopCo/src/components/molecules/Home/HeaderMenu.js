@@ -21,45 +21,43 @@ import SearchedProduct from '../../organisms/Products/SearchedProduct';
 
 const HeaderMenu = ({navigation, value, onChangeText}) => {
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={COLORS.LIGHT_GREY}
-          translucent
-        />
-        <Separator height={StatusBar.currentHeight} />
+    <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={COLORS.LIGHT_GREY}
+        translucent
+      />
+      <Separator height={StatusBar.currentHeight} />
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Feather
-              name="align-left"
-              size={
-                METRICS.width >= 768 ? METRICS.height / 20 : METRICS.height / 30
-              }
-            />
-          </TouchableOpacity>
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={COLORS.NORMAL_GREY}
-            value={value}
-            onChangeText={onChangeText}
-            style={styles.searchInput}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Feather
+            name="align-left"
+            size={
+              METRICS.width >= 768 ? METRICS.height / 20 : METRICS.height / 30
+            }
           />
-          <TouchableOpacity>
-            <Feather
-              name="search"
-              size={
-                METRICS.width >= 768 ? METRICS.height / 30 : METRICS.height / 40
-              }
-              color={COLORS.NORMAL_GREY}
-              style={styles.searchIcon}
-            />
-          </TouchableOpacity>
-        </View>
-        {/* <Text>{JSON.stringify(products, null, 2)}</Text> */}
-      </SafeAreaView>
-    </>
+        </TouchableOpacity>
+        <TextInput
+          placeholder="Search"
+          placeholderTextColor={COLORS.NORMAL_GREY}
+          value={value}
+          onChangeText={onChangeText}
+          style={styles.searchInput}
+        />
+        <TouchableOpacity>
+          <Feather
+            name="search"
+            size={
+              METRICS.width >= 768 ? METRICS.height / 30 : METRICS.height / 40
+            }
+            color={COLORS.NORMAL_GREY}
+            style={styles.searchIcon}
+          />
+        </TouchableOpacity>
+      </View>
+      {/* <Text>{JSON.stringify(products, null, 2)}</Text> */}
+    </SafeAreaView>
   );
 };
 

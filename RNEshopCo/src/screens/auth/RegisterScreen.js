@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import LottieView from 'lottie-react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -163,7 +164,7 @@ const RegisterScreen = ({navigation}) => {
                   source={{
                     uri:
                       avatar === ''
-                        ? 'https://mern-ecommerce-stores.herokuapp.com/profile.png'
+                        ? 'https://res.cloudinary.com/dg4lqjtvg/image/upload/v1670220931/avatars/default-user_dsmx5s.png'
                         : avatar,
                   }}
                   style={styles.image}
@@ -181,7 +182,15 @@ const RegisterScreen = ({navigation}) => {
               onPress={_handleSubmit}
               activeOpacity={0.7}
               style={styles.signUpBtnWrapper}>
-              <Text style={styles.signUpText}>Sign Up</Text>
+              {auth.isLoading === true ? (
+                <LottieView
+                  source={require('../../assets/images/reg-login-loading.json')}
+                  autoPlay
+                  loop
+                />
+              ) : (
+                <Text style={styles.signUpText}>Sign Up</Text>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -213,8 +222,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: METRICS._scale(150),
-    height: METRICS._scale(100),
+    width: METRICS.width * 0.4,
+    height: METRICS.width * 0.4,
   },
   signUpContinueTxt: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,
@@ -253,11 +262,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: METRICS._scale(40),
-    height: METRICS._scale(40),
-    borderRadius: METRICS._scale(20),
+    width: METRICS.width * 0.1,
+    height: METRICS.width * 0.1,
+    borderRadius: METRICS.width * 0.1,
 
-    borderWidth: METRICS._scale(1.5),
+    borderWidth: METRICS._scale(3),
     borderColor: COLORS.DEFAULT_GREY,
   },
   uploadPhotoTxtContainer: {

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Linking,
+  ScrollView,
 } from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -32,7 +33,7 @@ const Profile = ({navigation}) => {
     ]);
   };
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imgContainer}>
         <Image source={{uri: userData.avatar.url}} style={styles.image} />
       </View>
@@ -104,7 +105,7 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

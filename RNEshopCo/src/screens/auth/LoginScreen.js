@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import LottieView from 'lottie-react-native';
 
-import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 import CustomInput from '../../components/molecules/Form/CustomInput';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from '../../stores/slices/auth/authSlice';
+import {COLORS, FONTS, METRICS, ROUTES} from '../../themes';
 
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -62,7 +63,15 @@ const LoginScreen = ({navigation}) => {
               onPress={_handleSubmit}
               activeOpacity={0.7}
               style={styles.loginBtnWrapper}>
-              <Text style={styles.loginText}>Log In</Text>
+              {auth.isLoading === true ? (
+                <LottieView
+                  source={require('../../assets/images/reg-login-loading.json')}
+                  autoPlay
+                  loop
+                />
+              ) : (
+                <Text style={styles.loginText}>Log In</Text>
+              )}
             </TouchableOpacity>
 
             {/***************** FORGOT PASSWORD BUTTON *****************/}
@@ -101,8 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: METRICS._scale(150),
-    height: METRICS._scale(100),
+    width: METRICS.width * 0.4,
+    height: METRICS.width * 0.4,
   },
   loginContinueTxt: {
     fontFamily: FONTS.ROBOTOSLAB_MEDIUM,

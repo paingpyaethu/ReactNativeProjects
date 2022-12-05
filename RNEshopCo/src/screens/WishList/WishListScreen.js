@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     fontSize: METRICS.width * 0.04,
   },
   subContainer: {
-    flex: 1,
     backgroundColor: COLORS.LIGHT_GREY,
   },
   emptyWishlist: {

@@ -145,11 +145,7 @@ const registerUser = data => {
     dispatch(fetch_auth_register_request());
 
     axios
-      .post(`${BASE_URL}/registration`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      .post(`${BASE_URL}/registration`, data)
       .then(res => {
         if (res.status === 200 || res.status === 201) {
           const userData = res.data.data;

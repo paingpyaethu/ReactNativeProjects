@@ -8,11 +8,14 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import LottieView from 'lottie-react-native';
 import {COLORS, FONTS, METRICS} from '../../../../themes';
 
 const PaymentInfo = ({
   cartData,
   userData,
+  isLoading,
   phoneNumber,
   address,
   countryName,
@@ -98,14 +101,22 @@ const PaymentInfo = ({
           />
           <View style={styles.row}>
             <Text style={styles.totalPayTxt}>Total Pay</Text>
-            <Text style={styles.totalPayPriceTxt}>${totalPay}</Text>
+            <Text style={styles.totalPayPriceTxt}>${totalPay.toFixed(2)}</Text>
           </View>
 
           <TouchableOpacity
             onPress={placeOrderHandler}
             activeOpacity={0.7}
             style={styles.BtnWrapper}>
-            <Text style={styles.BtnText}>Place Order</Text>
+            {isLoading === true ? (
+              <LottieView
+                source={require('../../../../assets/images/reg-login-loading.json')}
+                autoPlay
+                loop
+              />
+            ) : (
+              <Text style={styles.BtnText}>Place Order</Text>
+            )}
           </TouchableOpacity>
         </View>
 

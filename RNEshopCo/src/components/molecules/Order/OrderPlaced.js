@@ -7,7 +7,7 @@ const OrderPlaced = ({navigation}) => {
     <View style={styles.container}>
       <View>
         <Image
-          source={require('../../../assets/images/order-placed-1.png')}
+          source={require('../../../assets/images/order-placed.png')}
           resizeMode={'contain'}
           style={styles.image}
         />
@@ -44,8 +44,7 @@ export default OrderPlaced;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: 'red',
-    height: METRICS.height,
+    flex: 1,
     justifyContent: 'space-between',
   },
   image: {

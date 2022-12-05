@@ -4,6 +4,7 @@ import Toast from 'react-native-toast-message';
 import axios from 'axios';
 
 import {BASE_URL} from '../../api_endpoint';
+import {METRICS} from '../../../themes';
 
 const initialState = {
   isLoading: false,
@@ -37,11 +38,39 @@ const userSlice = createSlice({
         error: action.payload,
       };
     },
+    update_users_request: state => {
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    },
+    update_users_success: (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        userData: action.payload.data,
+        error: null,
+      };
+    },
+    update_users_error: (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    },
   },
 });
 
-const {fetch_users_request, fetch_users_success, fetch_users_error} =
-  userSlice.actions;
+const {
+  fetch_users_request,
+  fetch_users_success,
+  fetch_users_error,
+  update_users_request,
+  update_users_success,
+  update_users_error,
+} = userSlice.actions;
 
 const getUserData = authAxios => {
   return dispatch => {
@@ -67,4 +96,35 @@ const getUserData = authAxios => {
   };
 };
 
-export {userSlice, getUserData};
+const updateUserData = (data, navigation, authAxios) => {
+  return dispatch => {
+    dispatch(update_users_request());
+
+    authAxios
+      .put(`${BASE_URL}/user/update/info`, data)
+      .then(res => {
+        if (res.status === 200) {
+          dispatch(update_users_success(res.data));
+          Toast.show({
+            topOffset: METRICS._scale(60),
+            type: 'success',
+            text1: res.data.message,
+            visibilityTime: 3000,
+          });
+          navigation.goBack();
+        }
+      })
+      .catch(e => {
+        let errMsg = e.response.data.message;
+        dispatch(update_users_error(e));
+        Toast.show({
+          type: 'error',
+          text1: e,
+          position: 'bottom',
+          visibilityTime: 3000,
+        });
+      });
+  };
+};
+
+export {userSlice, getUserData, updateUserData};

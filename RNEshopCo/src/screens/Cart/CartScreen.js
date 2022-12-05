@@ -46,11 +46,7 @@ export default function Cart({navigation}) {
         <View />
       </View>
       {cartData && cartData.length > 0 ? (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            marginVertical: METRICS._scale(17),
-          }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* <Text>{JSON.stringify(cartData, null, 2)}</Text> */}
           {cartData &&
             cartData.map(item => <CartItem key={item.productId} {...item} />)}
@@ -93,6 +89,7 @@ export default function Cart({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: StatusBar.currentHeight,
   },
   myOrderContainer: {
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: METRICS.width * 0.03,
-    marginVertical: METRICS.width * 0.05,
+    marginVertical: METRICS.width * 0.04,
   },
   myOrderTxt: {
     color: COLORS.SECONDARY_COLOR,

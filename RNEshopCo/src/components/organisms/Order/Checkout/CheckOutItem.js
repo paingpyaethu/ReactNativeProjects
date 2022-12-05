@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +16,7 @@ const CheckOutItem = ({navigation}) => {
   const {authAxios} = useContext(AxiosContext);
   const {userData} = useSelector(state => state.users);
   const {cartData} = useSelector(state => state.carts);
+  const {isLoading} = useSelector(state => state.orders);
   const dispatch = useDispatch();
 
   const [active, setActive] = useState(1);
@@ -83,7 +84,10 @@ const CheckOutItem = ({navigation}) => {
 
   const _placeOrderHandler = () => {
     dispatch(saveOrders(order, authAxios));
-    setSuccess(true);
+
+    setTimeout(() => {
+      setSuccess(true);
+    }, 1500);
   };
   return (
     <View style={styles.container}>
@@ -117,29 +121,26 @@ const CheckOutItem = ({navigation}) => {
               error={errMsg}
             />
           ) : active === 2 ? (
-            <View style={{marginBottom: METRICS.width * 0.5}}>
-              <Confirmation
-                cartData={cartData}
-                userData={userData}
-                phoneNumber={phoneNumber}
-                address={address}
-                countryName={countryName}
-                cityName={cityName}
-                confirmOrderHandler={_confirmOrderHandler}
-              />
-            </View>
+            <Confirmation
+              cartData={cartData}
+              userData={userData}
+              phoneNumber={phoneNumber}
+              address={address}
+              countryName={countryName}
+              cityName={cityName}
+              confirmOrderHandler={_confirmOrderHandler}
+            />
           ) : active === 3 ? (
-            <View style={{marginBottom: METRICS.width * 0.53}}>
-              <PaymentInfo
-                cartData={cartData}
-                userData={userData}
-                phoneNumber={phoneNumber}
-                address={address}
-                countryName={countryName}
-                cityName={cityName}
-                placeOrderHandler={_placeOrderHandler}
-              />
-            </View>
+            <PaymentInfo
+              cartData={cartData}
+              userData={userData}
+              phoneNumber={phoneNumber}
+              address={address}
+              countryName={countryName}
+              cityName={cityName}
+              placeOrderHandler={_placeOrderHandler}
+              isLoading={isLoading}
+            />
           ) : null}
         </>
       )}
@@ -151,7 +152,7 @@ export default CheckOutItem;
 
 const styles = StyleSheet.create({
   container: {
-    height: METRICS.height,
+    flex: 1,
   },
   checkoutContainer: {
     flexDirection: 'row',

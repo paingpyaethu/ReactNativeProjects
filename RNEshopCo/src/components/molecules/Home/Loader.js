@@ -27,8 +27,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.LIGHT_GREY,
   },
   loader: {
-    width: METRICS._scale(200),
-    position: 'absolute',
-    bottom: 50,
+    width: METRICS.width * 0.4,
   },
 });
