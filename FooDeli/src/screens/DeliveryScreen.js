@@ -68,7 +68,7 @@ const DeliveryScreen = () => {
           longitudeDelta: 0.0421,
         }}
         style={{flex: 1, zIndex: 0, marginTop: -METRICS.width * 0.05}}
-        mapType={'mutedStandard'}>
+        mapType={'standard'}>
         <Marker
           coordinate={{
             latitude: 37.78825,
