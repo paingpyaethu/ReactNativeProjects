@@ -2,7 +2,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import CustomButton from '../components/molecules/CustomButton';
+import CustomButton from '../components/atoms/CustomButton';
 
 import {COLORS, METRICS} from '../themes';
 
