@@ -180,6 +180,7 @@ const registerUser = data => {
       });
   };
 };
+
 const loginUser = data => {
   return dispatch => {
     dispatch(fetch_auth_login_request());

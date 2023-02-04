@@ -23,7 +23,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: METRICS.width * 0.04,
+    flex: 1,
     paddingVertical:
       Platform.OS === 'ios' ? METRICS.width * 0.13 : StatusBar.currentHeight,
   },

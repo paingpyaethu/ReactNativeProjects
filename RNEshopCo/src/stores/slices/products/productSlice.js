@@ -56,3 +56,4 @@ const getAllProducts = () => {
 };
 
 export {productsSlice, getAllProducts};
+
