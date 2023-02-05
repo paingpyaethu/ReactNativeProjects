@@ -1,6 +1,0 @@
-export default {
-  PRIMARY_COLOR: '#4048BF',
-  SECONDARY_COLOR: '#514BC3',
-  DEFAULT_BLACK: '#090B0A',
-  DEFAULT_WHITE: '#FFFFFF',
-};
