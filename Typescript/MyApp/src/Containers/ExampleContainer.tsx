@@ -95,6 +95,8 @@ const ExampleContainer = () => {
       >
         <Text style={Fonts.textRegular}>Light</Text>
       </TouchableOpacity>
+
+      <Text> hi </Text>
     </ScrollView>
   )
 }
