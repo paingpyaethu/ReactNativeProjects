@@ -9,7 +9,7 @@ const MainNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
+        name="Example"
         component={ExampleContainer}
         options={{
           tabBarIconStyle: { display: 'none' },
