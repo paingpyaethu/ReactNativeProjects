@@ -1,10 +1,17 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
+    <View
+      style={{
+        backgroundColor: '#a6acec',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Text style={{fontSize: 20, marginBottom: 20}}>E-WalletApp</Text>
+      <Button title="Da Da" />
     </View>
   );
 };
