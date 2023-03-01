@@ -8,7 +8,7 @@ const App = () => {
   const appInfo = {
     appId: 'com.ewallet.app',
     appName: 'E-Wallet App',
-    appVersion: '1.0.1',
+    appVersion: '1.0.0',
     platform: 'android',
     environment: 'production',
   };
