@@ -1,4 +1,4 @@
-package com.ewalletappui;
+package com.ewallet.app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

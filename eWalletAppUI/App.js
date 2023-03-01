@@ -1,8 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Button} from 'react-native';
+import {appUpgradeVersionCheck} from 'app-upgrade-react-native-sdk';
 
 const App = () => {
+  const xApiKey = 'MWQzZjg1YzQtZmIyNS00ZDljLWIyYzUtNWQ3ZjdmMjk1YmNh'; // Your project key
+  const appInfo = {
+    appId: 'com.ewallet.app',
+    appName: 'E-Wallet App',
+    appVersion: '1.0.1',
+    platform: 'android',
+    environment: 'production',
+  };
+
+  const alertConfig = {
+    title: 'Please Update',
+    updateButtonTitle: 'Update Now',
+  };
+
+  appUpgradeVersionCheck(appInfo, xApiKey, alertConfig);
   return (
     <View
       style={{
