@@ -1,9 +1,11 @@
 {
-  "name": "ewalletappui",
-  "version": "0.0.1",
+  "name": "ewallet-app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:aab": "cd android && ./gradlew bundleRelease",
+    "android:apk": "cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
@@ -12,6 +14,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@reduxjs/toolkit": "^1.9.2",
+    "app-upgrade-react-native-sdk": "^1.0.11",
     "react": "18.2.0",
     "react-native": "0.71.2",
     "react-redux": "^8.0.5",
