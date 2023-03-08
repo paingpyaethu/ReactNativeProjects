@@ -8,7 +8,7 @@ const App = () => {
   const appInfo = {
     appId: 'com.ewallet.app',
     appName: 'E-Wallet App',
-    appVersion: '1.0.0',
+    appVersion: '1.0.1',
     platform: 'android',
     environment: 'production',
   };
@@ -29,6 +29,9 @@ const App = () => {
       }}>
       <Text style={{fontSize: 20, marginBottom: 20}}>E-WalletApp</Text>
       <Button title="Da Da" />
+      <Text style={{marginVertical: 20, fontSize: 20, fontWeight: 'bold'}}>
+        New Version Releasing
+      </Text>
     </View>
   );
 };
